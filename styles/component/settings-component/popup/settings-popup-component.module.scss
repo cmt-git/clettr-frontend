@@ -1,0 +1,82 @@
+@import '../../../globals/globals-compiler.scss';
+
+.settings_popup_root{
+
+    width: 100%;
+    padding: 15px;
+
+    .settings_popup_header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        background-color: $LightGreyColor;
+        border: $LightGreyColorOutline $BorderSize solid;
+        border-radius: $BorderRadius;
+        box-shadow: $BoxShadow;
+        padding: 15px;
+    }
+    .input_container{
+        .input_info{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input_box{
+            margin-top: 5px;
+            border-color: $LightBlackColorOutline;
+            background-color: $LightBlackColor;
+            input{
+                padding: 15px;
+                width: 100%;
+
+            }
+        }
+    }
+
+    .session_container{
+        width: 100%;
+        margin-top: 15px;
+
+        .session_block_container{
+            margin-top: 15px;
+            width: 100%;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            .session_block{
+                width: 100%;
+                background-color: $LightBlackColor;
+                border: $LightBlackColorOutline $BorderSize solid;
+                box-shadow: $BoxShadow;
+                padding: 15px;
+                border-radius: $BorderRadius;
+                
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                gap: 10px;
+
+                .session_info_bar{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+
+                    background-color: $BlackColor;
+                    border: $BlackColorOutline $BorderSize solid;
+                    border-radius: $BorderRadius;
+                    box-shadow: $BoxShadow;
+
+                    padding: 15px;
+                }
+            }
+        }
+    }
+}

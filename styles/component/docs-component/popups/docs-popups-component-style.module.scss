@@ -1,0 +1,21 @@
+@import '../../../globals/globals-compiler.scss';
+
+.docs_popup_component_root{
+    padding: 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    height: 100%;
+    overflow: auto;
+
+    * {
+        font-size: 15px;
+    }
+
+    p{
+        max-width: 1000px;
+    }
+}

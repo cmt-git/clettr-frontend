@@ -1,0 +1,72 @@
+@import "../../../globals/globals-compiler.scss";
+
+.account_dashboard_popup_root {
+  position: absolute;
+
+  top: 55px;
+  right: 20px;
+  .account_dashboard_main {
+    width: 300px;
+    height: auto;
+    padding: 15px;
+
+    background-color: $BlackColor;
+    border-radius: $BorderRadius;
+    border: $BlackColorOutline $BorderSize solid;
+    box-shadow: $BoxShadow;
+    bottom: 0px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .account_dashboard_logged_in,
+    .account_dashboard_logged_out {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .account_dashboard_logged_in {
+      .profile_img {
+        width: 35px;
+        margin-bottom: 10px;
+      }
+
+      .points_div {
+        margin-top: 10px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .light_black_button {
+        img {
+          width: 20px;
+        }
+      }
+    }
+
+    .account_dashboard_logged_out {
+      .profile_img {
+        width: 35px;
+        margin-bottom: 10px;
+      }
+    }
+
+    .account_dashboard_button_container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+
+      .colored_button {
+        margin: 0px;
+      }
+    }
+  }
+}

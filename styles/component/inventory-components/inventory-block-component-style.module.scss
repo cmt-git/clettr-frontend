@@ -1,0 +1,113 @@
+@import '../../globals/globals-compiler.scss';
+
+.marketplace_block_component_root{
+    width: 100%;
+    .grey_info_block{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    } 
+
+    .input_box, select {
+        background-color: $GreyColor;
+        border-color: $GreyColorOutline;
+
+        &:hover{
+            border-color: $GreyColorOutlineHover;
+        }
+    }
+
+    .filter_container{ 
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+
+        .filter_block{
+            width: 100%;
+        }
+    }
+
+    .mbc_item_card_container{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .wrapper{
+        display: flex;
+        gap: 10px;
+    }
+
+    .select_box_responsive{
+        height: 50px;
+        width: 50%;
+        select{
+            -webkit-appearance: none;
+        }
+    }
+}
+
+@media (max-width: 1000px){
+    .marketplace_block_component_root{
+        width: 100%;
+        .grey_info_block{
+            display: block; 
+            float: none; 
+            width: 100%;
+        } 
+    
+        .input_box, select {
+            background-color: $GreyColor;
+            border-color: $GreyColorOutline;
+            margin-top: 20px;
+
+            &:hover{
+                border-color: $GreyColorOutlineHover;
+            }
+        }
+        
+        .filter_container{ 
+            margin-top: 10px;
+            display: block; 
+            float: none; 
+            width: 100%;
+            gap: 10px;
+    
+            .filter_block{
+                width: 100%;
+            }
+        }
+    
+        .mbc_item_card_container{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .wrapper{
+            display: block;
+            gap: 100px;
+        }
+
+        .select_box_responsive{
+            height: 50px;
+            width: 100%;
+            select{
+                -webkit-appearance: none;
+            }
+            svg{
+                float: right;
+                top: 10px;
+            }
+        }
+    }
+}
+
+//? MEDIA TAG HERE <------
+@media screen {
+    
+}

@@ -1,0 +1,89 @@
+@import '../../globals/globals-compiler.scss';
+
+$dashboard_width: 300px;
+
+.docs_block_component_root{
+    display: flex;
+    justify-content: flex-start;
+
+    width: 100%;
+    height: calc(100vh - 60px);
+
+    .docs_dashboard{
+        background-color: $GreyColor;
+
+        width: $dashboard_width;
+        height: 100%;
+
+        border-right: rgba(255, 255, 255, 0.3) 2px solid;
+        box-shadow: 5px 0px 5px rgba(black, 0.3);
+        
+        .dbc_logo_container{
+            padding: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: -15px;
+            .dbc_logo{
+                width: 35px;
+                margin-bottom: -2.5px;
+            }
+    
+            p{
+                font-weight: 700;
+                font-size: 20px;
+                margin-left: -5px;
+            }
+        }
+
+        .dbc_buttob_container{
+            padding: 25px;
+            .docs_button, .docs_button_selected{
+                display: flex;
+                align-items: center;
+
+                transition: background-color $TransitionSettings;
+                div{
+                    width: 0px;
+                    height: 50px;
+                    background-color: white;
+    
+                    margin-right: 10px;
+    
+                    transition: width $TransitionSettings;
+                }
+    
+                p{
+                    font-size: 14px;
+                }
+    
+                &:hover{
+                    cursor: pointer;
+                    div{
+                        width: 6px;
+                    }
+    
+                    background-color: rgba(rgb(36, 36, 44), 0.3);
+                }
+            }
+    
+            .docs_button_selected{
+                div{
+                    width: 6px;
+                }
+    
+                background-color: rgba(rgb(36, 36, 44), 0.5);
+    
+                &:hover{
+                    cursor: default;
+                }
+            }
+        }
+    }
+
+    .docs_main{
+        width: calc(100vw - $dashboard_width);
+        
+    }
+}

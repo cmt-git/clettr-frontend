@@ -1,0 +1,51 @@
+//* light theme variables ⤵
+$light_theme_text_color: white;
+//* light theme variables ⤴
+
+//#region Misc
+$TransitionSettings: 0.3s ease;
+$BoxShadow: 0px 3px 5px rgba(black, 0.3);
+$BorderRadius: 6px;
+$BorderSize: 1.5px;
+//#endregion
+
+//#region Colors
+$GreyColor: rgb(62, 62, 81);
+$GreyColorOutline: rgb(86, 90, 111);
+$GreyColorHover: rgb(79, 79, 101);
+$GreyColorOutlineHover: rgb(110, 115, 137);
+
+$LightGreyColor: rgb(88, 88, 110);
+$LightGreyColorOutline: rgb(119, 122, 151);
+$LightGreyColorHover: rgb(103, 103, 125);
+$LightGreyColorOutlineHover: rgb(132, 136, 165);
+
+$BlackColor: rgb(47, 45, 58);
+$BlackColorOutline: rgb(71, 69, 91);
+$BlackColorHover: rgb(59, 57, 72);
+$BlackColorOutlineHover: rgb(91, 89, 111);
+
+$DarkBlackColor: rgb(26, 24, 32);
+$DarkBlackColorHover: rgb(37, 35, 45);
+$DarkBlackColorOutline: rgb(56, 54, 68);
+$DarkBlackColorOutlineHover: rgb(76, 74, 91);
+
+$LightBlackColor: rgb(56, 54, 71);
+$LightBlackColorOutline: rgb(87, 87, 107);
+$LightBlackColorHover: rgb(71, 69, 90);
+$LightBlackColorOutlineHover: rgb(110, 110, 129);
+
+$RedColor: #e22c5a;
+$RedColorOutline: #ff7a92;
+$RedColorHover: #f44f78;
+$RedColorOutlineHover: #ffa4b5;
+$DarkRedColor: #a81f41;
+
+$GreenColor: #95c21a;
+$GreenColorOutline: #d2f178;
+$GreenColorHover: #a9d62d;
+$GreenColorOutlineHover: #eaffac;
+$DarkGreenColor: #779b15;
+
+$YellowColor: #ffc42d;
+//#endregion Color

@@ -1,0 +1,149 @@
+@import "../globals/globals-compiler.scss";
+
+.item_component_main {
+  max-width: 250px;
+  padding: 25px 25px;
+
+  background-color: $LightBlackColor;
+  border: $LightBlackColorOutline $BorderSize solid;
+  border-radius: $BorderRadius;
+  box-shadow: $BoxShadow;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .ibc_header {
+    color: $YellowColor;
+    padding: 15px;
+
+    top: 0px;
+    position: absolute;
+
+    background-color: $BlackColor;
+    border-bottom: $LightBlackColorOutline $BorderSize solid;
+
+    border-top-left-radius: $BorderRadius;
+    border-top-right-radius: $BorderRadius;
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ibc_title_block {
+    width: 100%;
+    margin-top: 40px;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .ibc_error {
+      width: 17px;
+      height: 17px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin-right: 5px;
+      background-color: $RedColor;
+      border-radius: 99px;
+
+      left: 10px;
+
+      transition: transform $TransitionSettings;
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .ibc_star_container {
+    margin: -15px 0px;
+    svg {
+      margin: 1px;
+      width: 10px;
+    }
+  }
+
+  .item_container {
+    margin: 40px;
+
+    width: 100px;
+    height: 100px;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 125px;
+      position: absolute;
+    }
+  }
+
+  .ibc_hash_box {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 10px;
+    background-color: $GreyColor;
+    border: $GreyColorOutline $BorderSize solid;
+    border-radius: $BorderRadius;
+    box-shadow: $BoxShadow;
+
+    width: 100%;
+  }
+}
+
+.item_component_hover {
+  transition: $TransitionSettings;
+  transition-property: transform border-color;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+    border-color: rgb(167, 167, 181);
+  }
+}
+
+.item_component_border_red {
+  border-color: $RedColor;
+}
+
+.item_component_border_white {
+  border-color: rgba(white, 0.5);
+}
+
+.choose_item_card_root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: $BlackColor;
+  width: 225px;
+  height: 445px;
+
+  svg {
+    opacity: 0.5;
+    transition: $TransitionSettings;
+    transition-property: transform opacity;
+  }
+
+  &:hover {
+    svg {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+}

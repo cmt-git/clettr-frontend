@@ -1,0 +1,63 @@
+@import "../../globals/globals-compiler.scss";
+
+.popup_content_root {
+  border-radius: $BorderRadius;
+  padding: 25px;
+  background-color: $LightBlackColor;
+  border: $LightBlackColorOutline $BorderSize solid;
+  color: white;
+
+  max-height: calc(100vh - 20px);
+  overflow: auto;
+
+  .authentication_box {
+    svg {
+      path {
+        transition: $TransitionSettings fill;
+      }
+    }
+    &:hover {
+      svg {
+        path {
+          fill: $YellowColor;
+        }
+      }
+    }
+  }
+}
+
+//? Used in market popups, don't delete ⤵
+.input_box {
+  img {
+    transition: transform $TransitionSettings;
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.2);
+    }
+  }
+}
+//? Used in market popups, don't delete ⤴
+
+//? used in node item popup ⤵
+.nft_info_popup_root {
+  max-width: 500px;
+  .lipc_ibc_parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .grey_info_block {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+//? used in node item popup ⤴
+
+//? used in forge popup ⤵
+.empty_card {
+  background-color: $BlackColor;
+  border-radius: $BorderRadius;
+  border: $GreyColorOutline $BorderSize solid;
+  box-shadow: $BoxShadow;
+}
+//? used in forge popup ⤴

@@ -1,0 +1,76 @@
+@import '../../globals/globals-compiler.scss';
+
+.message_box_component_root{
+    top: 0;
+    z-index: 101;
+    position: fixed;
+
+    left: 50%;
+    transform: translate(-50%, 0%);
+
+    padding: 15px;
+    border-radius: $BorderRadius;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: auto;
+    margin: 0px 15px;
+    margin-top: 15px;
+
+    transition: $TransitionSettings;
+    transition-property: opacity margin-top;
+
+    font-size: 15px;
+    
+    overflow: hidden;
+    .message_box_component_main{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        svg{
+            width: 12px;
+            margin-right: 10px;
+            filter: brightness(99);
+        }
+
+        p{
+            font-size: 14px;
+        }
+    }
+
+    .bar_main_container{
+        position: absolute;
+        bottom: 0px;
+        height: 5px;
+        width: 100%;
+
+        .bar_time{
+
+            height: inherit;
+            background-color: white;
+
+            transition: width 30s steps(999);
+        }
+    }
+}
+
+.message_box_green{
+    background-color: $GreenColor;
+    border: $GreenColorOutline $BorderSize solid;
+
+    .bar_main_container{
+        background-color: $DarkGreenColor;
+    }
+}
+
+.message_box_red{
+    background-color: $RedColor;
+    border: $RedColorOutline $BorderSize solid;
+
+    .bar_main_container{
+        background-color: $DarkRedColor;
+    }
+}

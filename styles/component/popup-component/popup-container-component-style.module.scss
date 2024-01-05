@@ -1,0 +1,30 @@
+@import '../../globals/globals-compiler.scss';
+
+.popup_container_component_root{
+    
+    z-index: 100;
+    position: fixed;
+    top: 0px;
+    
+    width: 100vw;
+    height: 100vh;
+
+    transition: background-color $TransitionSettings;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .popup_close_button_background{
+        position: absolute;
+        width: inherit;
+        height: inherit;
+    }
+
+    .popup_container_component_main{
+        width: auto;
+        height: auto;
+
+        transition: transform 0.3s ease;
+    }
+}

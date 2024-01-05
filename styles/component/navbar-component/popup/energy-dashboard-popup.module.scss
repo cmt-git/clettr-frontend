@@ -1,0 +1,55 @@
+@import '../../../globals/globals-compiler.scss';
+
+.energy_dashboard_popup_root{
+    position: absolute;
+
+    top: 55px;
+    right: 62px;
+    .energy_dashboard_main{
+    
+        width: 300px;
+        height: auto;
+        padding: 15px;
+    
+        display: inline-block;
+        background-color: $BlackColor;
+        border-radius: $BorderRadius;
+        border: $BlackColorOutline $BorderSize solid;
+        box-shadow: $BoxShadow;
+        bottom: 0px;
+    
+        .energy_container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+    
+            svg{
+                margin-right: 5px;
+            }
+        }
+    
+        .energy_limit_container{
+            margin-top: 10px;
+            .energy_limit_info_container{
+                margin-bottom: 5px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .left_container{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0px;
+                    
+                    svg{
+                        margin-right: 5px;
+                    }
+                }
+    
+                .right_container{
+                    opacity: 0.5;
+                }
+            }
+        }
+    }
+}

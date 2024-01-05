@@ -1,0 +1,40 @@
+@import "../../../globals/globals-compiler.scss",
+  "../../popup-component/popup-content-style.module.scss";
+
+.popup_content_root {
+  .profile_block {
+    padding: 15px;
+    background-color: $BlackColor;
+    border: $BlackColorOutline $BorderSize solid;
+    border-radius: $BorderRadius;
+    box-shadow: $BoxShadow;
+
+    .grey_info_block {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .ppc_data_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      gap: 15px;
+      .light_black_info_block {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .light_black_button {
+        height: 50px;
+        img {
+          width: 25px;
+          margin-right: 5px;
+          border-radius: 99px;
+          box-shadow: $BoxShadow;
+        }
+      }
+    }
+  }
+}

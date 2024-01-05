@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import "./globals/globals-compiler.scss";
+
+html,
+body {
+  background-color: $DarkBlackColor;
+}
+
+* {
+  color: white;
+
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+
+  scrollbar-width: thin;
+  scrollbar-color: $GreyColor $DarkBlackColor;
+
+  &::-moz-selection {
+    /* Code for Firefox */
+    opacity: 1;
+    color: white;
+    background-color: rgba(#38a3ff, 1);
+  }
+
+  &::selection {
+    opacity: 1;
+    color: white;
+    background-color: rgba(#38a3ff, 1);
+  }
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 15px;
+    height: 6px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 1px black;
+    background: $DarkBlackColor;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $GreyColor;
+    border-radius: 99px;
+    border: 0.25em solid $DarkBlackColor;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $GreyColorHover;
+  }
+}

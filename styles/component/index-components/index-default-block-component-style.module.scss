@@ -1,0 +1,93 @@
+@import '../../globals/globals-compiler.scss';
+
+.index_default_block_component_root{
+    .idbc_logo_container{
+        display: flex;
+        justify-content: center;
+        .logo{
+            margin-right: 10px;
+            width: 40px;
+        }
+
+        .word_logo{
+            width: 80px;
+        }
+    }
+
+    .earn_container{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+
+        .info_block_container{
+            width: 100%;
+            gap: 15px;
+            display: flex;
+
+            .grey_info_block{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    }
+
+}
+
+.top_block_container{
+    animation: idbc_tbc_animation_down 1s ease;
+    @keyframes idbc_tbc_animation_down {
+        0%{
+            opacity: 0;
+            transform: translateY(-25px);
+        }
+
+        100%{
+            opacity: 1;
+            transform: translateY(0px);
+        }
+    }
+}
+
+.earn_container{
+    animation: idbc_ec_animation_down 1.5s ease;
+    @keyframes idbc_ec_animation_down {
+        0%{
+            opacity: 0;
+            transform: translateY(-25px);
+        }
+
+        25%{
+            opacity: 0;
+            transform: translateY(-25px);
+        }
+
+        100%{
+            opacity: 1;
+            transform: translateY(0px);
+        }
+    }
+}
+
+.bottom_block_container{
+    animation: idbc_bbc_animation_down 2s ease;
+    @keyframes idbc_bbc_animation_down {
+        0%{
+            opacity: 0;
+            transform: translateY(-25px);
+        }
+
+        50%{
+            opacity: 0;
+            transform: translateY(-25px);
+        }
+
+        100%{
+            opacity: 1;
+            transform: translateY(0px);
+        }
+    }
+}

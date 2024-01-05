@@ -1,0 +1,117 @@
+@import "../../globals/globals-compiler.scss";
+
+.welcome_block_component_main {
+  width: 100%;
+  z-index: 0;
+  background-color: $GreyColor;
+  border: $BorderSize $GreyColorOutline solid;
+  box-shadow: $BoxShadow;
+  border-radius: 6px; // - $BorderRadius for some reason doesn't work here
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: relative;
+
+  .header_container {
+    padding: 20px;
+    z-index: 102;
+
+    width: 100%;
+
+    background-color: $GreyColor;
+    border-bottom: $BorderSize $GreyColorOutline solid;
+    box-shadow: $BoxShadow;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .info_container {
+      width: auto;
+
+      h1 {
+        font-size: 15px;
+        font-weight: 600;
+        z-index: 102;
+
+        span {
+          font-size: inherit;
+        }
+      }
+
+      .info_div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+
+        svg {
+          width: 25px;
+          transform: scale(1.5);
+          -webkit-filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.7));
+        }
+      }
+    }
+  }
+
+  .token_price_container {
+    padding: 25px;
+    background-color: $BlackColor;
+
+    width: 100%;
+    height: 300px;
+
+    svg {
+      path {
+        &:hover {
+          stroke: lime;
+        }
+      }
+    }
+  }
+
+  .bottom_container {
+    padding: 0px;
+    z-index: 102;
+
+    width: 100%;
+
+    background-color: rgba($DarkBlackColor, 0.6);
+    border-top: $BorderSize $GreyColorOutline solid;
+    box-shadow: $BoxShadow;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .arrow {
+      width: 10px;
+      opacity: 0.3;
+
+      transition: opacity $TransitionSettings;
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .welcome_block_component_main {
+    padding: 20px;
+    .overlay_container {
+      padding: 0px;
+      flex-direction: column;
+    }
+
+    .gem_container {
+      margin-left: -20px;
+    }
+  }
+}

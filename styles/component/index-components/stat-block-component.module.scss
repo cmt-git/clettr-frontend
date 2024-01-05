@@ -1,0 +1,150 @@
+@import "../../globals/globals-compiler.scss";
+
+.stat_block_root {
+  width: 100%;
+  .stat_block_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    background-color: $GreyColor;
+    border: $BorderSize $GreyColorOutline solid;
+    margin-bottom: calc(($BorderSize + 1px) * -1);
+    padding: 15px;
+    border-top-left-radius: $BorderRadius;
+    border-top-right-radius: $BorderRadius;
+  }
+
+  .stat_block_main {
+    width: 100%;
+
+    background-color: $LightBlackColor;
+    border: $LightBlackColorOutline solid $BorderSize;
+    border-radius: $BorderRadius;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    box-shadow: 0px 2px 5px rgba(black, 0.3);
+
+    padding: 20px 20px;
+    padding-top: 0px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+
+    font-size: 13px;
+
+    .data_block {
+      width: 100%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+
+      background-color: $GreyColor;
+      border: $BorderSize $GreyColorOutline solid;
+      border-radius: $BorderRadius;
+      box-shadow: $BoxShadow;
+
+      p {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        color: rgba(white, 0.5);
+      }
+    }
+
+    .stat_bar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+
+      .positive_bar {
+        cursor: pointer;
+
+        width: 15px;
+        min-height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        color: white;
+
+        background-color: $GreenColor;
+
+        border: $GreenColorOutline 2px solid;
+        border-radius: $BorderRadius;
+        box-shadow: 0px 2px 5px rgba(black, 0.2);
+
+        margin-right: 10px;
+
+        transition: 0.1s;
+        &:hover {
+          background-color: $GreenColorHover;
+          border-color: $GreenColorOutlineHover;
+        }
+      }
+
+      .no_activity {
+        width: 15px;
+        min-height: 20px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        color: white;
+
+        background-color: $BlackColor;
+
+        border: $BlackColorOutline 2px solid;
+        border-radius: $BorderRadius;
+        box-shadow: 0px 2px 5px rgba(black, 0.2);
+
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .stat_block_root {
+    .stat_block_main {
+      .data_block {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+.shake {
+  animation: stat_block_shake 1s steps(999);
+  @keyframes stat_block_shake {
+    0% {
+      transform: translateY(5px);
+    }
+
+    25% {
+      transform: translateY(-8px);
+    }
+
+    50% {
+      transform: translateY(3px);
+    }
+
+    75% {
+      transform: translateY(-2px);
+    }
+
+    100% {
+      transform: translateY(0px);
+    }
+  }
+}
