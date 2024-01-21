@@ -15,12 +15,16 @@ const PlayHistoryComponent = (props: any) => {
     return state.queryState.value;
   });
 
+  const colorThemeState = useSelector((state: RootState) => {
+    return state.colorThemeState.value;
+  });
+
   const PlayHistoryBlock = (props: any) => {
     return (
       <div className={style.play_history_block}>
         <div className={style.phb_info_block}>
           <p>
-            <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>Time</span>{" "}
+            <span className={style.transparent_text}>Time</span>{" "}
             {timeConverter(
               Number(
                 queryState.user_play_history_query.user_play_history[
@@ -30,14 +34,14 @@ const PlayHistoryComponent = (props: any) => {
             )}
           </p>
           <p>
-            <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>Node</span> #
+            <span className={style.transparent_text}>Node</span> #
             {
               queryState.user_play_history_query.user_play_history[props.index]
                 .match_nfts[0].id
             }
           </p>
           <p>
-            <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>Inventory</span>{" "}
+            <span className={style.transparent_text}>Inventory</span>{" "}
             {(() => {
               let letters: string = "";
 
@@ -62,7 +66,7 @@ const PlayHistoryComponent = (props: any) => {
             })()}
           </p>
           <div className={style.phb_earnings_block}>
-            <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Earnings</p>
+            <p className={style.transparent_text}>Earnings</p>
             <img
               src={"./images/svgs/clettr-token.svg"}
               alt="clettr-token"
@@ -128,7 +132,7 @@ const PlayHistoryComponent = (props: any) => {
               justifyContent: "space-between",
             }}
           >
-            <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Set Hash</p>
+            <p className={style.transparent_text}>Set Hash</p>
             <div>
               {(() => {
                 let hash: string = "";
@@ -160,7 +164,7 @@ const PlayHistoryComponent = (props: any) => {
               justifyContent: "space-between",
             }}
           >
-            <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Node Hash</p>
+            <p className={style.transparent_text}>Node Hash</p>
             <div>
               {
                 queryState.user_play_history_query.user_play_history[
@@ -177,7 +181,7 @@ const PlayHistoryComponent = (props: any) => {
               justifyContent: "space-between",
             }}
           >
-            <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Total Boost</p>
+            <p className={style.transparent_text}>Total Boost</p>
             <p className={style.yellow_text}>
               {`x${
                 queryState.user_play_history_query.user_play_history[
@@ -196,7 +200,7 @@ const PlayHistoryComponent = (props: any) => {
               justifyContent: "space-between",
             }}
           >
-            <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Total Rounds</p>
+            <p className={style.transparent_text}>Total Rounds</p>
             <div>
               {
                 queryState.user_play_history_query.user_play_history[
@@ -213,7 +217,7 @@ const PlayHistoryComponent = (props: any) => {
               justifyContent: "space-between",
             }}
           >
-            <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Words Cracked</p>
+            <p className={style.transparent_text}>Words Cracked</p>
             <div>
               {queryState.user_play_history_query.user_play_history[
                 props.index
@@ -228,9 +232,7 @@ const PlayHistoryComponent = (props: any) => {
               justifyContent: "space-between",
             }}
           >
-            <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>
-              Final Difficulty
-            </p>
+            <p className={style.transparent_text}>Final Difficulty</p>
             <p>
               {
                 queryState.user_play_history_query.user_play_history[
@@ -283,11 +285,21 @@ const PlayHistoryComponent = (props: any) => {
           Shows your play history from 30 days ago
         </p>
         <div className={style.description_stat_container}>
-          <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>
-            Gains <span style={{ color: "white" }}>1,234</span>
+          <p className={style.transparent_text}>
+            Gains{" "}
+            <span
+              style={{ color: colorThemeState == "dark" ? "white" : "black" }}
+            >
+              1,234
+            </span>
           </p>
-          <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>
-            Rounds <span style={{ color: "white" }}>482</span>
+          <p className={style.transparent_text}>
+            Rounds{" "}
+            <span
+              style={{ color: colorThemeState == "dark" ? "white" : "black" }}
+            >
+              482
+            </span>
           </p>
         </div>
       </div>

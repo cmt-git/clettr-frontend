@@ -79,14 +79,15 @@ const TokenChartComponent = (props: any) => {
                       (currentCurrencyState == "php" ? phpPrice : 1)
                   )}
               <span
-                style={{ color: "rgba(255, 255, 255, 0.5)", marginLeft: "5px" }}
+                className={style.transparent_text}
+                style={{ marginLeft: "5px" }}
               >
                 {currentCurrencyState != null
                   ? currentCurrencyState.toUpperCase()
                   : null}
               </span>
             </p>
-            <p style={{ fontSize: "13px", color: "rgba(255, 255, 255, 0.7)" }}>
+            <p className={style.transparent_text} style={{ fontSize: "13px" }}>
               {`${currentTime == null ? "---" : timeConverter(currentTime)}`}
             </p>
           </div>

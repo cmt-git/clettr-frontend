@@ -20,6 +20,10 @@ const StatBlock = (props: any) => {
     return state.queryState.value;
   });
 
+  const colorThemeState = useSelector((state: RootState) => {
+    return state.colorThemeState.value;
+  });
+
   const Bars = (props: any) => {
     const height =
       props.data != null
@@ -130,7 +134,7 @@ const StatBlock = (props: any) => {
               alt="clettr-token"
               style={{ width: "20px", margin: "00px 5px" }}
             />
-            <p style={{ color: "white" }}>
+            <p style={{ color: colorThemeState == "dark" ? "white" : "black" }}>
               {earningsState != null
                 ? decimalFormatter(earningsState.reward)
                 : "---"}
@@ -173,15 +177,17 @@ const StatBlock = (props: any) => {
           }}
         >
           <p
+            className={style.transparent_text}
             style={{
               width: "100%",
               marginBottom: _width > 800 ? "0px" : "10px",
               textAlign: _width > 1000 ? "left" : "center",
-              color: "rgba(255, 255, 255, 0.5)",
             }}
           >
             Total Accumulated Ettr&nbsp;
-            <span style={{ color: "white" }}>
+            <span
+              style={{ color: colorThemeState == "dark" ? "white" : "black" }}
+            >
               {queryState != null
                 ? (() => {
                     let all_rewards: number = 0;
@@ -200,15 +206,17 @@ const StatBlock = (props: any) => {
             </span>
           </p>
           <p
+            className={style.transparent_text}
             style={{
               width: "100%",
               marginBottom: _width > 800 ? "0px" : "10px",
               textAlign: "center",
-              color: "rgba(255, 255, 255, 0.5)",
             }}
           >
             Earnings Last 60 Days&nbsp;
-            <span style={{ color: "white" }}>
+            <span
+              style={{ color: colorThemeState == "dark" ? "white" : "black" }}
+            >
               {queryState != null
                 ? (() => {
                     let all_rewards: number = 0;
@@ -227,14 +235,16 @@ const StatBlock = (props: any) => {
             </span>
           </p>
           <p
+            className={style.transparent_text}
             style={{
               width: "100%",
               textAlign: _width > 1000 ? "right" : "center",
-              color: "rgba(255, 255, 255, 0.5)",
             }}
           >
             Earnings Today&nbsp;
-            <span style={{ color: "white" }}>
+            <span
+              style={{ color: colorThemeState == "dark" ? "white" : "black" }}
+            >
               {queryState != null &&
               queryState.user_earnings_query != null &&
               queryState.user_earnings_query.user_earnings[0] != null

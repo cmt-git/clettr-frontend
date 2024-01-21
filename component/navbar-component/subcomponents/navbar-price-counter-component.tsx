@@ -72,7 +72,7 @@ const NavbarPriceCounterComponent = (props: any) => {
               : 0
           )}
         </span>
-        <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+        <span className={style.transparent_text}>
           {store.getState().currentCurrencyState.value?.toUpperCase()}
         </span>
       </p>

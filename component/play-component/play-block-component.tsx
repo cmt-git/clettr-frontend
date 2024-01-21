@@ -79,21 +79,21 @@ const PlayBlockComponent = (props: any) => {
               className={style.light_black_info_block}
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Set Hash</p>
+              <p className={style.transparent_text}>Set Hash</p>
               <p>{playState.set_hash}</p>
             </div>
             <div
               className={style.light_black_info_block}
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Node Hash</p>
+              <p className={style.transparent_text}>Node Hash</p>
               <p>{playState.node.nft_hash}</p>
             </div>
             <div
               className={style.light_black_info_block}
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Total Boost</p>
+              <p className={style.transparent_text}>Total Boost</p>
               <p className={style.yellow_text}>{`x${playState.boost} Boost`}</p>
             </div>
           </div>
@@ -120,16 +120,14 @@ const PlayBlockComponent = (props: any) => {
               className={style.light_black_info_block}
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Rounds</p>
+              <p className={style.transparent_text}>Rounds</p>
               <p>{playResult.rounds}</p>
             </div>
             <div
               className={style.light_black_info_block}
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>
-                Final Difficulty
-              </p>
+              <p className={style.transparent_text}>Final Difficulty</p>
               <p>{playResult.final_difficulty}</p>
             </div>
             <div
@@ -144,11 +142,11 @@ const PlayBlockComponent = (props: any) => {
                   alt="clettr-logo"
                   style={{ width: "15px", transform: "scale(1.5)" }}
                 />
-                <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Rewards</p>
+                <p className={style.transparent_text}>Rewards</p>
               </div>
               <p style={{ display: "flex", gap: "5px" }}>
                 {decimalFormatter(playResult.total_reward)}
-                <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+                <span className={style.transparent_text}>
                   {decimalFormatter(
                     store.getState().tickerPriceState.value != null
                       ? Number(store.getState().tickerPriceState.value) *
@@ -156,7 +154,7 @@ const PlayBlockComponent = (props: any) => {
                       : 0
                   )}
                 </span>
-                <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+                <span className={style.transparent_text}>
                   {store.getState().currentCurrencyState.value.toUpperCase()}
                 </span>
               </p>

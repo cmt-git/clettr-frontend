@@ -12,23 +12,22 @@ import { RootState } from "../../../scripts/redux/rootReducer";
 import { store } from "../../../pages/_app";
 import { useEffect, useState } from "react";
 import Web3 from "web3";
+import { formatTokenBalance } from "../../../scripts/misc/contractManager";
+import { link_messageBoxShow } from "../../messagebox-component/messagebox-component";
+
+const cltrnft_json = require("../../../abis/CLTRNFT.json");
+const ettr_json = require("../../../abis/Ettr.json");
+const susdc_json = require("../../../abis/SUSDC.json");
+const web3 = new Web3("ws://localhost:7545");
 
 const MintMarketPopupComponent = () => {
   const [inputValue, setInputValue]: any = useState(null);
   const [CLTRNFTContract, setCLTRNFTContract]: any = useState(null);
-  const [account, setAccount]: any = useState(null);
+
   useEffect(() => {
     (async () => {
-      const cltrnft_json = require("../../../abis/CLTRNFT.json");
-      const web3 = new Web3("ws://localhost:7545");
-
       const networkId = await web3.eth.net.getId();
       const networkData = cltrnft_json.networks[networkId];
-
-      const accounts = await web3.eth.getAccounts();
-      setAccount(
-        accounts[store.getState().currentWalletAccountIndexState.value]
-      );
 
       if (networkData) {
         const cltrnft_abi = cltrnft_json.abi;
@@ -46,11 +45,11 @@ const MintMarketPopupComponent = () => {
       <div>
         <div className={style.grey_info_block} style={{ marginBottom: "15px" }}>
           <p
+            className={style.transparent_text}
             style={{
               display: "flex",
               width: "100%",
               justifyContent: "center",
-              color: "rgba(255, 255, 255, 0.5)",
             }}
           >
             Type{" "}
@@ -67,21 +66,72 @@ const MintMarketPopupComponent = () => {
             justifyContent: "center",
             height: "50px",
           }}
-          onClick={() => {
-            let long_id: string = generateLongId();
-            CLTRNFTContract.methods
-              .cltrnft_mint(
-                long_id,
-                props.type == "passive" ? 5 : 50,
-                store.getState().currentEttrContractAddressState.value
-              )
-              .send({ from: account, gas: 3000000 })
-              .on("transactionHash", (hash: any) => {
-                (async () => {
-                  await mintNFT({ type: props.type, long_id: long_id });
-                  window.location.reload();
-                })();
-              });
+          onClick={async () => {
+            let token_uri: string = generateLongId();
+
+            // Connect to the ERC-20 token contract using its ABI and address
+            const tokenContract =
+              props.type == "passive"
+                ? new web3.eth.Contract(
+                    susdc_json.abi,
+                    store.getState().currentSUSDCContractAddressState.value
+                  )
+                : new web3.eth.Contract(
+                    ettr_json.abi,
+                    store.getState().currentEttrContractAddressState.value
+                  );
+
+            // Call the balanceOf function on the ERC-20 token contract
+            const tokenBalance = formatTokenBalance(
+              await tokenContract.methods
+                //@ts-ignore
+                .balanceOf(store.getState().currentWalletAccountState.value)
+                .call(),
+              18
+            );
+
+            let nft_amount: number = props.type == "passive" ? 5.0 : 50.0;
+            if (tokenBalance >= nft_amount) {
+              CLTRNFTContract.methods
+                .cltrnft_mint(
+                  token_uri,
+                  nft_amount,
+                  store.getState().currentEttrContractAddressState.value,
+                  store.getState().currentSUSDCContractAddressState.value,
+                  props.type == "passive" ? 1 : 0
+                )
+                .send({
+                  //@ts-ignore
+                  from: store.getState().currentWalletAccountState.value,
+                  gas: 6721975,
+                })
+                .on("transactionHash", (hash: any) => {})
+                .on("receipt", (receipt: any) => {
+                  if (receipt.events && receipt.events.TokenMinted) {
+                    const event = receipt.events.TokenMinted;
+                    const sender = event.returnValues.sender; // Change "sender" to the correct parameter name in the event
+                    const tokenId = event.returnValues.tokenId; // Change "tokenId" to the correct parameter name in the event
+
+                    (async () => {
+                      await mintNFT({
+                        type: props.type,
+                        token_id: tokenId,
+                        token_uri: token_uri,
+                      });
+                      //window.location.reload();
+                    })();
+
+                    // Use the values as needed
+                  }
+                });
+            } else {
+              link_messageBoxShow(
+                `Your ${
+                  props.type == "passive" ? "SUSDC" : "ETTR"
+                } balance is not sufficient enough!`,
+                false
+              );
+            }
           }}
         >
           <img
@@ -95,24 +145,25 @@ const MintMarketPopupComponent = () => {
           />
           {props.type == "passive" ? (
             <p>
-              4.99{" "}
-              <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>
-                {decimalFormatter(4.99 * phpPrice)} PHP
+              5.00
+              <span className={style.transparent_text}>
+                {decimalFormatter(5.0 * phpPrice)} PHP
               </span>
             </p>
           ) : (
             <p>
-              49.99{" "}
+              50.00{" "}
               <span
-                style={{ margin: "0px 5px", color: "rgba(255, 255, 255, 0.5)" }}
+                className={style.transparent_text}
+                style={{ margin: "0px 5px" }}
               >
                 {decimalFormatter(
                   store.getState().tickerPriceState.value != null
-                    ? 19.99 * store.getState().tickerPriceState.value
+                    ? 50.0 * store.getState().tickerPriceState.value
                     : 0
                 )}
               </span>
-              <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+              <span className={style.transparent_text}>
                 {store.getState().currentCurrencyState.value != null
                   ? store.getState().currentCurrencyState.value.toUpperCase()
                   : null}

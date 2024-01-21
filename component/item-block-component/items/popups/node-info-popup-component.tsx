@@ -42,7 +42,7 @@ const NodeInfoPopupComponent = (props: any) => {
           justifyContent: "center",
         }}
       >
-        <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+        <p className={style.transparent_text}>
           Owner <span>{props.data.current_owner}</span>
         </p>
       </div>
@@ -59,7 +59,11 @@ const NodeInfoPopupComponent = (props: any) => {
         }}
       >
         <div className={style.grey_info_block}>
-          <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Date Acquired</p>
+          <p className={style.transparent_text}>Token Id</p>
+          <p>{props.data.nft_token_id}</p>
+        </div>
+        <div className={style.grey_info_block}>
+          <p className={style.transparent_text}>Date Acquired</p>
           <p>
             {(() => {
               const current_date = props.data.creation_date.split(" ");
@@ -69,18 +73,18 @@ const NodeInfoPopupComponent = (props: any) => {
           </p>
         </div>
         <div className={style.grey_info_block}>
-          <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Original Owner</p>
+          <p className={style.transparent_text}>Original Owner</p>
           <p>{props.data.original_owner}</p>
         </div>
         <div className={style.grey_info_block}>
-          <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Color</p>
+          <p className={style.transparent_text}>Color</p>
           <p>
             {props.data.nft_traits[0].toUpperCase() +
               props.data.nft_traits.substring(1, props.data.nft_traits.length)}
           </p>
         </div>
         <div className={style.grey_info_block}>
-          <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Stars</p>
+          <p className={style.transparent_text}>Stars</p>
           <p>{props.data.nft_stars}</p>
         </div>
         <div className={style.requirement_box}>
@@ -91,7 +95,7 @@ const NodeInfoPopupComponent = (props: any) => {
               borderBottomRightRadius: "0px",
             }}
           >
-            <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Requirements</p>
+            <p className={style.transparent_text}>Requirements</p>
             <p>
               {`${props.data.nft_requirement.split("-").length} ${
                 props.data.nft_requirement.split("-").length > 1
@@ -111,7 +115,7 @@ const NodeInfoPopupComponent = (props: any) => {
               for (let i = 0; i < requirements.length; i++) {
                 block_arr.push(
                   <div className={style.light_black_info_block}>
-                    <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+                    <p className={style.transparent_text}>
                       {[
                         "pink",
                         "purple",
@@ -150,10 +154,10 @@ const NodeInfoPopupComponent = (props: any) => {
           </div>
         </div>
         <p
+          className={style.transparent_text}
           style={{
             width: "100%",
             textAlign: "center",
-            color: "rgba(255, 255, 255, 0.5)",
           }}
         >
           Confused on what this means? Check out{" "}

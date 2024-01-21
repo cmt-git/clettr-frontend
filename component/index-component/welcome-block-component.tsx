@@ -15,6 +15,10 @@ const WelcomeBlockComponent = (props: any) => {
     return state.queryState.value;
   });
 
+  const colorThemeState = useSelector((state: RootState) => {
+    return state.colorThemeState.value;
+  });
+
   return (
     <div
       className={style.welcome_block_component_main}
@@ -27,8 +31,8 @@ const WelcomeBlockComponent = (props: any) => {
               Hello, <span>{queryState.user.username}</span>
             </h1>
             <p
+              className={style.transparent_text}
               style={{
-                color: "rgba(255, 255, 255, 0.5)",
                 wordWrap: "break-word",
                 width: "100%",
                 marginTop: "0px",
@@ -59,7 +63,12 @@ const WelcomeBlockComponent = (props: any) => {
               >
                 <circle cx="2.5" cy="2.5" r="2.5" fill="#A0D951" />
               </svg>
-              <p style={{ color: "white", margin: "0px 5px" }}>
+              <p
+                style={{
+                  color: colorThemeState == "dark" ? "white" : "black",
+                  margin: "0px 5px",
+                }}
+              >
                 1,233,222
                 {queryState.user_info != undefined &&
                 queryState.user_info.total_gains !== undefined
@@ -68,7 +77,13 @@ const WelcomeBlockComponent = (props: any) => {
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : null}
               </p>
-              <p style={{ color: "#EBF2C2" }}>Gains Today</p>
+              <p
+                style={{
+                  color: colorThemeState == "dark" ? "#EBF2C2" : "#6d7d48",
+                }}
+              >
+                Gains Today
+              </p>
             </div>
             <div className={style.info_div}>
               <svg
@@ -79,7 +94,12 @@ const WelcomeBlockComponent = (props: any) => {
               >
                 <circle cx="2.5" cy="2.5" r="2.5" fill="#FFE781" />
               </svg>
-              <p style={{ color: "white", margin: "0px 5px" }}>
+              <p
+                style={{
+                  color: colorThemeState == "dark" ? "white" : "black",
+                  margin: "0px 5px",
+                }}
+              >
                 1,233,222
                 {queryState.user_info != undefined &&
                 queryState.user_info.total_gains !== undefined
@@ -88,7 +108,13 @@ const WelcomeBlockComponent = (props: any) => {
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : null}
               </p>
-              <p style={{ color: "#FFF7D5" }}>Gains Yesterday</p>
+              <p
+                style={{
+                  color: colorThemeState == "dark" ? "#FFF7D5" : "#786f36",
+                }}
+              >
+                Gains Yesterday
+              </p>
             </div>
           </div>
         </div>
