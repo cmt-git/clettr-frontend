@@ -96,6 +96,7 @@ const MarketInfoPopupComponent = (props: any) => {
             className={`${style.red_button} ${style.colored_button}`}
             style={{ marginTop: "15px", padding: "15px" }}
             onClick={() => {
+              console.log(props.data.nft_token_id);
               if (currentAmount > 0 && Number.isInteger(currentAmount)) {
                 CLTRNFTContract.methods
                   .cltrnft_market_sell(props.data.nft_token_id)
@@ -145,7 +146,21 @@ const MarketInfoPopupComponent = (props: any) => {
         <div
           className={`${style.red_button} ${style.colored_button}`}
           style={{ marginTop: "15px", padding: "15px" }}
-          onClick={() => marketRevokeNFT({ nft_id: props.data.id })}
+          onClick={() => {
+            CLTRNFTContract.methods
+              .cltrnft_market_revoke_approval(props.data.nft_token_id)
+              .send({
+                //@ts-ignore
+                from: store.getState().currentWalletAccountState.value,
+                gas: 6721975,
+              })
+              .on("transactionHash", (hash: any) => {
+                (async () => {
+                  await marketRevokeNFT({ nft_id: props.data.id });
+                  //window.location.reload();
+                })();
+              });
+          }}
         >
           Remove from Market
         </div>

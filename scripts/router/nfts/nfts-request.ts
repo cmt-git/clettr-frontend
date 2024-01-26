@@ -91,3 +91,18 @@ export const marketBuyNFT = async (json: any) => {
       }
     });
 };
+
+export const simulatorMint = async (json: { amount: number }) => {
+  await axiosInstance
+    .post("/simulation/mint", {
+      json,
+    })
+    .then((res) => {
+      link_messageBoxShow(res.data["message"], res.data["success"]);
+
+      if (res.data.success == true) {
+        closePopup();
+        window.location.reload();
+      }
+    });
+};

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Web3 from "web3";
 import { link_messageBoxShow } from "../messagebox-component/messagebox-component";
 import { store } from "../../pages/_app";
+import { simulatorMint } from "../../scripts/router/nfts/nfts-request";
 
 const ettr_json = require("../../abis/Ettr.json");
 const susdc_json = require("../../abis/SUSDC.json");
@@ -83,7 +84,12 @@ export default function LoadComponent(_props: any) {
             })
             .on("transactionHash", (hash: any) => {
               link_messageBoxShow("Loaded 50 Ettr", true);
-              window.location.reload();
+              // (async () => {
+              //   await simulatorMint({
+              //     amount: 50,
+              //   });
+              //   window.location.reload();
+              // })();
             });
         }}
       >

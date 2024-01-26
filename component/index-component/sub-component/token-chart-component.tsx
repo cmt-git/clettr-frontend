@@ -17,6 +17,7 @@ export let link_setCurrentTime: any = null;
 
 const TokenChartComponent = (props: any) => {
   const [sliderState, setSliderState] = useState(0);
+  const [dataLength, setDataLength] = useState(2);
   const _width = getScreenWidth();
 
   const ref: any = useRef();
@@ -33,22 +34,22 @@ const TokenChartComponent = (props: any) => {
   const changePrices: any = (offset: String) => {
     const dummy_historical_data = dummyHistoricalData();
     let totaloffSet = priceOffset; //? used as priceOffset needs to be rerendered to be updated
-    if (offset == "increase" && priceOffset - 100 > 0) {
-      totaloffSet -= 100;
+    if (offset == "increase" && priceOffset - dataLength > 0) {
+      totaloffSet -= dataLength;
     }
 
     if (
       offset == "decrease" &&
-      priceOffset + 100 < dummy_historical_data.length &&
-      dummy_historical_data.length - (priceOffset + 100) >= 100
+      priceOffset + dataLength < dummy_historical_data.length &&
+      dummy_historical_data.length - (priceOffset + dataLength) >= dataLength
     ) {
-      totaloffSet += 100;
+      totaloffSet += dataLength;
     }
 
     setPriceOffset(totaloffSet);
 
     let price_set: any = [];
-    for (let i = 100; i > 0; i--) {
+    for (let i = dataLength; i > 0; i--) {
       price_set.push(
         dummy_historical_data[dummy_historical_data.length - totaloffSet - i]
       );
@@ -100,24 +101,26 @@ const TokenChartComponent = (props: any) => {
           justifyContent: props.priceonly == true ? "flex-start" : "center",
         }}
       >
-        {prices != null
+        {prices != null && prices[0] != null
           ? (() => {
               let highest = Number(prices[0]["open"]);
               let lowest = Number(prices[0]["open"]);
 
               for (let i = 0; i < prices.length; i++) {
-                if (highest < Number(prices[i]["open"])) {
-                  highest = Number(prices[i]["open"]);
-                }
+                if (prices[i] != undefined) {
+                  if (highest < Number(prices[i]["open"])) {
+                    highest = Number(prices[i]["open"]);
+                  }
 
-                if (lowest > Number(prices[i]["open"])) {
-                  lowest = Number(prices[i]["open"]);
+                  if (lowest > Number(prices[i]["open"])) {
+                    lowest = Number(prices[i]["open"]);
+                  }
                 }
               }
 
               let arr_tcc_bar: any = [];
 
-              for (let i = 0; i < 100; i++) {
+              for (let i = 0; i < dataLength; i++) {
                 arr_tcc_bar.push(
                   <TccBar
                     highest={highest}
@@ -142,7 +145,7 @@ const TokenChartComponent = (props: any) => {
           onChange={(e) => {
             setSliderState(parseInt(e.currentTarget.value));
             ref.current.style.transform = `translateX(${
-              (parseInt(e.currentTarget.value) / 100) *
+              (parseInt(e.currentTarget.value) / dataLength) *
               -(1500 - ref.current.getBoundingClientRect().width)
             }px)`;
           }}

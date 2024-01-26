@@ -11,6 +11,11 @@ import { link_messageBoxShow } from "../messagebox-component/messagebox-componen
 import PageBlockComponent from "../pageblock-component";
 import { openPopup } from "../popup-component/popup-container-component";
 import MintMarketPopupComponent from "./popups/mint-market-popup-component";
+import { formatTokenBalance } from "../../scripts/misc/contractManager";
+
+const ettr_json = require("../../abis/Ettr.json");
+const susdc_json = require("../../abis/SUSDC.json");
+const web3 = new Web3("ws://localhost:7545");
 
 const MarketplaceBlockComponent = (props: any) => {
   const [searchBy, setSearchBy]: any = useState("Search by Hash");
@@ -79,7 +84,7 @@ const MarketplaceBlockComponent = (props: any) => {
                   justifyContent: "center",
                   height: "50px",
                 }}
-                onClick={() => {
+                onClick={async () => {
                   if (
                     (store.getState().queryState.value.user != null &&
                       props.data.current_owner ==
@@ -95,28 +100,68 @@ const MarketplaceBlockComponent = (props: any) => {
                       link_messageBoxShow("Cannot buy your own NFT.", false);
                     }
                   } else {
-                    CLTRNFTContract.methods
-                      .cltrnft_market_buy(
+                    const currency =
+                      props.data.market_info.split("-")[0] == "ettr"
+                        ? "ettr"
+                        : "susdc";
+
+                    // Connect to the ERC-20 token contract using its ABI and address
+                    const tokenContract =
+                      currency == "ettr"
+                        ? new web3.eth.Contract(
+                            ettr_json.abi,
+                            store.getState().currentEttrContractAddressState.value
+                          )
+                        : new web3.eth.Contract(
+                            susdc_json.abi,
+                            store.getState().currentSUSDCContractAddressState.value
+                          );
+
+                    // Call the balanceOf function on the ERC-20 token contract
+                    const tokenBalance = formatTokenBalance(
+                      await tokenContract.methods
                         //@ts-ignore
-                        store.getState().currentWalletAccountState.value,
-                        props.data.nft_token_id,
-                        Number(props.data.market_info.split("-")[1]),
-                        store.getState().currentEttrContractAddressState.value
-                      )
-                      .send({
-                        //@ts-ignore
-                        from: store.getState().currentWalletAccountState.value,
-                        gas: 6721975,
-                      })
-                      .on("transactionHash", (hash: any) => {
-                        (async () => {
-                          await marketBuyNFT({
-                            nft_id: props.data.id,
-                          });
-                          window.location.reload();
-                        })();
-                      });
-                    // -> buy here
+                        .balanceOf(
+                          store.getState().currentWalletAccountState.value
+                        )
+                        .call(),
+                      18
+                    );
+
+                    if (
+                      tokenBalance >=
+                      Number(props.data.market_info.split("-")[1])
+                    ) {
+                      CLTRNFTContract.methods
+                        .cltrnft_market_buy(
+                          props.data.nft_token_id,
+                          Number(props.data.market_info.split("-")[1]),
+                          store.getState().currentEttrContractAddressState
+                            .value,
+                          store.getState().currentSUSDCContractAddressState
+                            .value,
+                          currency == "ettr" ? 0 : 1
+                        )
+                        .send({
+                          //@ts-ignore
+                          from: store.getState().currentWalletAccountState
+                            .value,
+                          gas: 6721975,
+                        })
+                        .on("transactionHash", (hash: any) => {
+                          (async () => {
+                            await marketBuyNFT({
+                              nft_id: props.data.id,
+                            });
+                            window.location.reload();
+                          })();
+                        });
+                    } else {
+                      link_messageBoxShow(
+                        "You do not have sufficient amount",
+                        false
+                      );
+                    }
                   }
                 }}
               >

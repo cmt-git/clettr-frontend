@@ -69,7 +69,7 @@ const WelcomeBlockComponent = (props: any) => {
                   margin: "0px 5px",
                 }}
               >
-                1,233,222
+                ---
                 {queryState.user_info != undefined &&
                 queryState.user_info.total_gains !== undefined
                   ? queryState.user_info.total_gains
@@ -100,7 +100,7 @@ const WelcomeBlockComponent = (props: any) => {
                   margin: "0px 5px",
                 }}
               >
-                1,233,222
+                ---
                 {queryState.user_info != undefined &&
                 queryState.user_info.total_gains !== undefined
                   ? queryState.user_info.total_gains
