@@ -5,6 +5,8 @@ import style from "./transactions-block-component-style.module.scss";
 import { REPORTS_QUERY } from "../../scripts/graphql/reports-query/reports-query";
 import { useEffect, useRef, useState } from "react";
 import { link_messageBoxShow } from "../messagebox-component/messagebox-component";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
 
 function convertToCSV(objArray: any) {
   var array = typeof objArray != "object" ? JSON.parse(objArray) : objArray;
@@ -69,6 +71,15 @@ const TransactionsBlockComponent = () => {
       setDownloadCSV(false);
     }
   }, [data, downloadCSVState]);
+
+  const dateInputRef: any = useRef(null);
+
+  useEffect(() => {
+    flatpickr(dateInputRef.current, {
+      dateFormat: "Y-m-d",
+      enableTime: false,
+    });
+  }, []);
 
   return (
     <div className={style.transactions_block_component}>
@@ -155,6 +166,15 @@ const TransactionsBlockComponent = () => {
           Download CSV
         </div>
       </div>
+      <label htmlFor="dateInput">Select a Date:</label>
+      <input
+        type="text"
+        id="dateInput"
+        placeholder="Click to select date"
+        ref={dateInputRef}
+        style={{ background: "rgb(0, 0, 0)" }}
+      />
+
       {data?.user_transactions && data?.user_transactions.length > 0 ? (
         data?.user_transactions.map((value: any, key: number) => (
           <TransactionBlock key={key} data={value} />

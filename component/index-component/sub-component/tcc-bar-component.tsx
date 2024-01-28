@@ -7,6 +7,10 @@ import {
 const TccBar = (props: any) => {
   const currentPrice = props.current_price;
 
+  if (currentPrice == null) {
+    return null;
+  }
+
   const higherPrice =
     Number(currentPrice["open"]) > Number(currentPrice["close"])
       ? Number(currentPrice["open"])
@@ -25,12 +29,13 @@ const TccBar = (props: any) => {
     <div
       className={style.tcc_bar}
       onMouseEnter={() => {
+        console.log(currentPrice);
         link_setCurrentPrice(
           currentPrice["open"] < currentPrice["close"]
-            ? currentPrice["high"]
-            : currentPrice["low"]
+            ? currentPrice["open"]
+            : currentPrice["close"]
         );
-        link_setCurrentTime(currentPrice["time"]);
+        link_setCurrentTime(currentPrice["date"]);
       }}
     >
       <div

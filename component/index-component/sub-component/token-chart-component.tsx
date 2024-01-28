@@ -17,7 +17,7 @@ export let link_setCurrentTime: any = null;
 
 const TokenChartComponent = (props: any) => {
   const [sliderState, setSliderState] = useState(0);
-  const [dataLength, setDataLength] = useState(2);
+  const [dataLength, setDataLength] = useState(0);
   const _width = getScreenWidth();
 
   const ref: any = useRef();
@@ -29,42 +29,71 @@ const TokenChartComponent = (props: any) => {
 
   const [prices, setPrices]: any = useState(null);
 
-  const [priceOffset, setPriceOffset]: any = useState(0);
+  const [pricePage, setPricePage]: any = useState(0);
 
-  const changePrices: any = (offset: String) => {
-    const dummy_historical_data = dummyHistoricalData();
-    let totaloffSet = priceOffset; //? used as priceOffset needs to be rerendered to be updated
-    if (offset == "increase" && priceOffset - dataLength > 0) {
-      totaloffSet -= dataLength;
+  const changePrices: any = async (offset: string) => {
+    let _pricePage = pricePage;
+    if (offset == "increase") {
+      _pricePage += 1;
+    } else if (offset == "decrease" && pricePage - 1 >= 0) {
+      _pricePage -= 1;
     }
 
-    if (
-      offset == "decrease" &&
-      priceOffset + dataLength < dummy_historical_data.length &&
-      dummy_historical_data.length - (priceOffset + dataLength) >= dataLength
-    ) {
-      totaloffSet += dataLength;
+    console.log(_pricePage, offset, pricePage, offset == "increase");
+    const dummy_historical_data = await dummyHistoricalData(_pricePage);
+    console.log(dummy_historical_data);
+    if (dummy_historical_data.length > 0) {
+      setDataLength(dummy_historical_data.length);
+      setPrices(dummy_historical_data);
+    } else {
+      _pricePage -= 1;
     }
 
-    setPriceOffset(totaloffSet);
+    setPricePage(_pricePage);
 
-    let price_set: any = [];
-    for (let i = dataLength; i > 0; i--) {
-      price_set.push(
-        dummy_historical_data[dummy_historical_data.length - totaloffSet - i]
-      );
-    }
-    setPrices(price_set);
+    //console.log(dummy_historical_data, dummy_historical_data.length);
+    //let totaloffSet = priceOffset; //? used as priceOffset needs to be rerendered to be updated
+    // if (offset == "increase" && priceOffset - dataLength > 0) {
+    //   totaloffSet -= dataLength;
+    // }
+
+    // if (
+    //   offset == "decrease" &&
+    //   priceOffset + dataLength < dummy_historical_data.length &&
+    //   dummy_historical_data.length - (priceOffset + dataLength) >= dataLength
+    // ) {
+    //   totaloffSet += dataLength;
+    // }
+
+    //setPriceOffset(totaloffSet);
+
+    // let price_set: any = [];
+    // for (let i = dataLength; i > 0; i--) {
+    //   price_set.push(
+    //     dummy_historical_data[dummy_historical_data.length - totaloffSet - i]
+    //   );
+    // }
   };
   link_changePrices = changePrices;
 
   useEffect(() => {
-    changePrices("default");
+    (async () => {
+      //await new Promise((resolve) => setTimeout(resolve, 1000));
+      changePrices("default");
+    })();
   }, []);
+
+  // useEffect(() => {
+  //   console.log(dataLength);
+  // }, [dataLength]);
 
   const currentCurrencyState = useSelector((state: RootState) => {
     return state.currentCurrencyState.value;
   });
+
+  useEffect(() => {
+    console.log(currentPrice);
+  }, [currentPrice]);
 
   return (
     <div className={style.token_chart_component_root}>

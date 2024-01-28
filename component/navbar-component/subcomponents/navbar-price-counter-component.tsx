@@ -6,30 +6,31 @@ import { decimalFormatter } from "../../../scripts/misc/stringFormatter";
 import style from "../../../styles/component/navbar-component/navbar-component-style.module.scss";
 import { openPopup } from "../../popup-component/popup-container-component";
 import SwitchCurrencyPopupComponent from "../popups/switch-currency-popup-component";
+import io from "socket.io-client";
 
 export const phpPrice = 49.56;
 const NavbarPriceCounterComponent = (props: any) => {
   const dispatch = useDispatch();
 
   const [pastPrice, setPastPrice]: any = useState("0-up-0");
-
   useEffect(() => {
     dispatch({
       type: "edit/currentCurrencyReducer/SET",
       value: localStorage.getItem("selected-currency"),
     });
-  }, []);
 
-  useEffect(() => {
-    const getNewPrice = () => {
+    const socket = io("http://localhost:3001");
+
+    socket.on("connect", () => {
+      console.log("Connected to Socket.IO");
+    });
+
+    // Add your Socket.IO client event handlers here
+    socket.on("price", (msg) => {
+      console.log("Received message:", msg);
       const currentIndex = Number(pastPrice.split("-")[2]);
       const oldPrice = Number(pastPrice.split("-")[0]);
-      const currentPrice =
-        store.getState().currentCurrencyState.value == "php"
-          ? Number(
-              (Number(DummyLiveData()[currentIndex]) * phpPrice).toFixed(2)
-            )
-          : Number(DummyLiveData()[currentIndex]);
+      const currentPrice = Number(msg);
 
       dispatch({ type: "edit/tickerPriceReducer/SET", value: currentPrice });
       setPastPrice(
@@ -37,18 +38,13 @@ const NavbarPriceCounterComponent = (props: any) => {
           currentIndex + 1 == DummyLiveData().length ? 0 : currentIndex + 1
         }`
       );
-    };
+    });
 
-    (async () => {
-      await new Promise((resolve) =>
-        setTimeout(
-          resolve,
-          pastPrice == "0-0" ? 0 : Math.random() * (0.5 - 0.1) * 1000
-        )
-      );
-      getNewPrice();
-    })();
-  }, [pastPrice]);
+    return () => {
+      // Clean up event handlers when the component unmounts
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <div

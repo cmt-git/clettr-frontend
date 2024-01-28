@@ -84,12 +84,12 @@ export default function LoadComponent(_props: any) {
             })
             .on("transactionHash", (hash: any) => {
               link_messageBoxShow("Loaded 50 Ettr", true);
-              // (async () => {
-              //   await simulatorMint({
-              //     amount: 50,
-              //   });
-              //   window.location.reload();
-              // })();
+              (async () => {
+                await simulatorMint({
+                  amount: 50,
+                });
+                window.location.reload();
+              })();
             });
         }}
       >

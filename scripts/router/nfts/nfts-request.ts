@@ -93,16 +93,25 @@ export const marketBuyNFT = async (json: any) => {
 };
 
 export const simulatorMint = async (json: { amount: number }) => {
-  await axiosInstance
-    .post("/simulation/mint", {
-      json,
-    })
-    .then((res) => {
-      link_messageBoxShow(res.data["message"], res.data["success"]);
+  await axiosInstance.post("/simulation/modify", json).then((res) => {
+    link_messageBoxShow(res.data["message"], res.data["success"]);
 
-      if (res.data.success == true) {
-        closePopup();
-        window.location.reload();
-      }
+    if (res.data.success == true) {
+      closePopup();
+      window.location.reload();
+    }
+  });
+};
+
+export const simulatorPrice = async (_page: number) => {
+  return await axiosInstance
+    .post("/simulation/price", { page: _page })
+    .then((res) => {
+      return res.data;
+      // link_messageBoxShow(res.data["message"], res.data["success"]);
+      // if (res.data.success == true) {
+      //   closePopup();
+      //   window.location.reload();
+      // }
     });
 };
