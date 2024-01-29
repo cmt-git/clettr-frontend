@@ -7,6 +7,7 @@ import style from "../../../styles/component/navbar-component/navbar-component-s
 import { openPopup } from "../../popup-component/popup-container-component";
 import SwitchCurrencyPopupComponent from "../popups/switch-currency-popup-component";
 import io from "socket.io-client";
+import { axiosInstance } from "../../../scripts/router/axios-instance";
 
 export const phpPrice = 49.56;
 const NavbarPriceCounterComponent = (props: any) => {
@@ -21,16 +22,14 @@ const NavbarPriceCounterComponent = (props: any) => {
 
     const socket = io("http://localhost:3001");
 
-    socket.on("connect", () => {
-      console.log("Connected to Socket.IO");
-    });
+    // socket.on("connect", () => {
+    //   console.log("Connected to Socket.IO");
+    // });
 
-    // Add your Socket.IO client event handlers here
-    socket.on("price", (msg) => {
-      console.log("Received message:", msg);
+    function changePrice(_amount: string) {
       const currentIndex = Number(pastPrice.split("-")[2]);
       const oldPrice = Number(pastPrice.split("-")[0]);
-      const currentPrice = Number(msg);
+      const currentPrice = Number(_amount);
 
       dispatch({ type: "edit/tickerPriceReducer/SET", value: currentPrice });
       setPastPrice(
@@ -38,7 +37,20 @@ const NavbarPriceCounterComponent = (props: any) => {
           currentIndex + 1 == DummyLiveData().length ? 0 : currentIndex + 1
         }`
       );
+    }
+
+    // Add your Socket.IO client event handlers here
+    socket.on("price", (msg) => {
+      changePrice(msg);
     });
+
+    (async () => {
+      await axiosInstance.get("/simulation/currentprice").then((res) => {
+        if (res?.data?.data?.open != null) {
+          changePrice(res.data.data.open);
+        }
+      });
+    })();
 
     return () => {
       // Clean up event handlers when the component unmounts

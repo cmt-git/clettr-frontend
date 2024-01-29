@@ -72,21 +72,11 @@ const TransactionsBlockComponent = () => {
     }
   }, [data, downloadCSVState]);
 
-  const dateInputRef: any = useRef(null);
-
-  useEffect(() => {
-    flatpickr(dateInputRef.current, {
-      dateFormat: "Y-m-d",
-      enableTime: false,
-    });
-  }, []);
-
   return (
     <div className={style.transactions_block_component}>
       <div className={style.grey_info_block} style={{ textAlign: "center" }}>
         Transactions
       </div>
-      <div className={style.line} />
       <p style={{ marginBottom: "-5px" }}>
         Downloading your data is only limited to 100 transactions, please enter
         a page number if you want to see older transactions. You have max of{" "}
@@ -166,15 +156,6 @@ const TransactionsBlockComponent = () => {
           Download CSV
         </div>
       </div>
-      <label htmlFor="dateInput">Select a Date:</label>
-      <input
-        type="text"
-        id="dateInput"
-        placeholder="Click to select date"
-        ref={dateInputRef}
-        style={{ background: "rgb(0, 0, 0)" }}
-      />
-
       {data?.user_transactions && data?.user_transactions.length > 0 ? (
         data?.user_transactions.map((value: any, key: number) => (
           <TransactionBlock key={key} data={value} />
