@@ -169,7 +169,7 @@ const TransactionsBlockComponent = () => {
         </div>
       )}
 
-      <PageBlockComponent query={reportsQuery} />
+      <PageBlockComponent query={reportsQuery} cut={"settings"} />
     </div>
   );
 };

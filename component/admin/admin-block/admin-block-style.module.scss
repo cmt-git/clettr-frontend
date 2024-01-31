@@ -1,0 +1,18 @@
+// @import "../../styles/globals/globals-compiler.scss";
+@import "../../../styles/globals/globals-compiler.scss";
+
+.admin_block_root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .admin_block_component_main {
+    width: 100%;
+    max-width: 750px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
