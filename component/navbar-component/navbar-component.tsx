@@ -15,6 +15,7 @@ import NavbarPriceCounterComponent from "./subcomponents/navbar-price-counter-co
 import { store } from "../../pages/_app";
 import { link_messageBoxShow } from "../messagebox-component/messagebox-component";
 import { getFormattedTime } from "../../scripts/misc/stringFormatter";
+import { SetContracts } from "../../scripts/misc/contractManager";
 
 const NavbarComponent = () => {
   const router = useRouter();
@@ -31,6 +32,14 @@ const NavbarComponent = () => {
   const loggedState = useSelector((state: RootState) => {
     return state.loggedState.value;
   });
+
+  const colorThemeState = useSelector((state: RootState) => {
+    return state.colorThemeState.value;
+  });
+
+  useEffect(() => {
+    SetContracts();
+  }, []);
 
   useEffect(() => {
     const checkIfClickedOutside = (e: any) => {
@@ -88,10 +97,12 @@ const NavbarComponent = () => {
               className={style.logo_container}
               onClick={() => router.push("/")}
             >
-              <img src="./images/svgs/clettr-logo.svg" alt="clettr-logo" />
               <img
-                className={style.logo_blur}
-                src="./images/svgs/clettr-logo.svg"
+                src={
+                  colorThemeState == "dark"
+                    ? "/images/svgs/clettr-logo.svg"
+                    : "/images/svgs/clettr-dark-logo.svg"
+                }
                 alt="clettr-logo"
               />
             </div>
@@ -99,7 +110,13 @@ const NavbarComponent = () => {
               className={style.p_hover}
               style={
                 router.asPath.toString().split("/play")[1] == ""
-                  ? { color: "rgba(255, 255, 255, 1)", cursor: "default" }
+                  ? {
+                      color:
+                        colorThemeState == "dark"
+                          ? "rgba(255, 255, 255, 1)"
+                          : "rgba(0, 0, 0, 1)",
+                      cursor: "default",
+                    }
                   : {}
               }
               onClick={() => {
@@ -122,7 +139,13 @@ const NavbarComponent = () => {
               className={style.p_hover}
               style={
                 router.asPath.toString().split("/inventory")[1] == ""
-                  ? { color: "rgba(255, 255, 255, 1)", cursor: "default" }
+                  ? {
+                      color:
+                        colorThemeState == "dark"
+                          ? "rgba(255, 255, 255, 1)"
+                          : "rgba(0, 0, 0, 1)",
+                      cursor: "default",
+                    }
                   : {}
               }
               onClick={() => router.push("/inventory")}
@@ -133,7 +156,13 @@ const NavbarComponent = () => {
               className={style.p_hover}
               style={
                 router.asPath.toString().split("/marketplace")[1] == ""
-                  ? { color: "rgba(255, 255, 255, 1)", cursor: "default" }
+                  ? {
+                      color:
+                        colorThemeState == "dark"
+                          ? "rgba(255, 255, 255, 1)"
+                          : "rgba(0, 0, 0, 1)",
+                      cursor: "default",
+                    }
                   : {}
               }
               onClick={() => router.push("/marketplace")}
@@ -152,7 +181,13 @@ const NavbarComponent = () => {
               className={style.p_hover}
               style={
                 router.asPath.toString().split("/docs")[1] == ""
-                  ? { color: "rgba(255, 255, 255, 1)", cursor: "default" }
+                  ? {
+                      color:
+                        colorThemeState == "dark"
+                          ? "rgba(255, 255, 255, 1)"
+                          : "rgba(0, 0, 0, 1)",
+                      cursor: "default",
+                    }
                   : {}
               }
               onClick={() => router.push("/docs")}
@@ -219,11 +254,6 @@ const NavbarComponent = () => {
               onClick={() => router.push("/")}
             >
               <img src="./images/svgs/clettr-logo.svg" alt="clettr-logo" />
-              <img
-                className={style.logo_blur}
-                src="./images/svgs/clettr-logo.svg"
-                alt="clettr-logo"
-              />
             </div>
             <p
               className={style.p_hover}

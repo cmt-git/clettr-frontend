@@ -11,6 +11,11 @@ import { link_messageBoxShow } from "../messagebox-component/messagebox-componen
 import PageBlockComponent from "../pageblock-component";
 import { openPopup } from "../popup-component/popup-container-component";
 import MintMarketPopupComponent from "./popups/mint-market-popup-component";
+import { formatTokenBalance } from "../../scripts/misc/contractManager";
+
+const ettr_json = require("../../abis/Ettr.json");
+const susdc_json = require("../../abis/SUSDC.json");
+const web3 = new Web3("ws://localhost:7545");
 
 const MarketplaceBlockComponent = (props: any) => {
   const [searchBy, setSearchBy]: any = useState("Search by Hash");
@@ -22,7 +27,7 @@ const MarketplaceBlockComponent = (props: any) => {
 
   const [inputValue, setInputValue]: any = useState(null);
   const [CLTRNFTContract, setCLTRNFTContract]: any = useState(null);
-  const [account, setAccount]: any = useState(null);
+
   useEffect(() => {
     (async () => {
       const cltrnft_json = require("../../abis/CLTRNFT.json");
@@ -30,11 +35,6 @@ const MarketplaceBlockComponent = (props: any) => {
 
       const networkId = await web3.eth.net.getId();
       const networkData = cltrnft_json.networks[networkId];
-
-      const accounts = await web3.eth.getAccounts();
-      setAccount(
-        accounts[store.getState().currentWalletAccountIndexState.value]
-      );
 
       if (networkData) {
         const cltrnft_abi = cltrnft_json.abi;
@@ -67,22 +67,24 @@ const MarketplaceBlockComponent = (props: any) => {
                   display: "flex",
                   justifyContent: "center",
                 }}
+                key={0}
               >
-                <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+                <p className={style.transparent_text}>
                   Owner <span>{props.data.current_owner}</span>
                 </p>
               </div>,
-              <div className={style.market_item_card}>
+              <div className={style.market_item_card} key={1}>
                 <ItemBlockComponent data={props.data} />
               </div>,
               <div
+                key={2}
                 className={`${style.colored_button} ${style.grey_button}`}
                 style={{
                   marginTop: "15px",
                   justifyContent: "center",
                   height: "50px",
                 }}
-                onClick={() => {
+                onClick={async () => {
                   if (
                     (store.getState().queryState.value.user != null &&
                       props.data.current_owner ==
@@ -98,23 +100,68 @@ const MarketplaceBlockComponent = (props: any) => {
                       link_messageBoxShow("Cannot buy your own NFT.", false);
                     }
                   } else {
-                    CLTRNFTContract.methods
-                      .cltrnft_market_buy(
-                        "0xBdD70D430592D9846D372337362fB939f7Cf5d4D",
-                        props.data.nft_long_id,
-                        Number(props.data.market_info.split("-")[1]),
-                        store.getState().currentEttrContractAddressState.value
-                      )
-                      .send({ from: account, gas: 3000000 })
-                      .on("transactionHash", (hash: any) => {
-                        (async () => {
-                          await marketBuyNFT({
-                            nft_id: props.data.id,
-                          });
-                          window.location.reload();
-                        })();
-                      });
-                    // -> buy here
+                    const currency =
+                      props.data.market_info.split("-")[0] == "ettr"
+                        ? "ettr"
+                        : "susdc";
+
+                    // Connect to the ERC-20 token contract using its ABI and address
+                    const tokenContract =
+                      currency == "ettr"
+                        ? new web3.eth.Contract(
+                            ettr_json.abi,
+                            store.getState().currentEttrContractAddressState.value
+                          )
+                        : new web3.eth.Contract(
+                            susdc_json.abi,
+                            store.getState().currentSUSDCContractAddressState.value
+                          );
+
+                    // Call the balanceOf function on the ERC-20 token contract
+                    const tokenBalance = formatTokenBalance(
+                      await tokenContract.methods
+                        //@ts-ignore
+                        .balanceOf(
+                          store.getState().currentWalletAccountState.value
+                        )
+                        .call(),
+                      18
+                    );
+
+                    if (
+                      tokenBalance >=
+                      Number(props.data.market_info.split("-")[1])
+                    ) {
+                      CLTRNFTContract.methods
+                        .cltrnft_market_buy(
+                          props.data.nft_token_id,
+                          Number(props.data.market_info.split("-")[1]),
+                          store.getState().currentEttrContractAddressState
+                            .value,
+                          store.getState().currentSUSDCContractAddressState
+                            .value,
+                          currency == "ettr" ? 0 : 1
+                        )
+                        .send({
+                          //@ts-ignore
+                          from: store.getState().currentWalletAccountState
+                            .value,
+                          gas: 6721975,
+                        })
+                        .on("transactionHash", (hash: any) => {
+                          (async () => {
+                            await marketBuyNFT({
+                              nft_id: props.data.id,
+                            });
+                            window.location.reload();
+                          })();
+                        });
+                    } else {
+                      link_messageBoxShow(
+                        "You do not have sufficient amount",
+                        false
+                      );
+                    }
                   }
                 }}
               >
@@ -133,14 +180,14 @@ const MarketplaceBlockComponent = (props: any) => {
                 )}
                 <p style={{ display: "flex", gap: "5px" }}>
                   {props.data.market_info.split("-")[1]}
-                  <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+                  <span className={style.transparent_text}>
                     {decimalFormatter(
                       store.getState().tickerPriceState.value != null
                         ? store.getState().tickerPriceState.value
                         : 0
                     )}
                   </span>
-                  <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+                  <span className={style.transparent_text}>
                     {store.getState().currentCurrencyState.value.toUpperCase()}
                   </span>
                 </p>
@@ -163,9 +210,7 @@ const MarketplaceBlockComponent = (props: any) => {
               queryState.market_nfts.active_nft != null
                 ? decimalFormatter(queryState.market_nfts.active_nfts)
                 : 0}{" "}
-              <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>
-                Active NFTs
-              </span>
+              <span className={style.transparent_text}>Active NFTs</span>
             </p>
             <p>
               {queryState != null &&
@@ -173,9 +218,7 @@ const MarketplaceBlockComponent = (props: any) => {
               queryState.market_nfts.passive_nfts != null
                 ? decimalFormatter(queryState.market_nfts.passive_nfts)
                 : 0}{" "}
-              <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>
-                Passive NFTs
-              </span>
+              <span className={style.transparent_text}>Passive NFTs</span>
             </p>
           </div>
         </div>
@@ -242,7 +285,7 @@ const MarketplaceBlockComponent = (props: any) => {
               <path
                 d="M33.379-14.481A22.323,22.323,0,0,1,22.44-11.635,22.451,22.451,0,0,1,0-34.075a22.451,22.451,0,0,1,22.44-22.44,22.451,22.451,0,0,1,22.44,22.44,22.323,22.323,0,0,1-2.846,10.939L54.723-10.448A6.12,6.12,0,0,1,56.515-6.12a6.12,6.12,0,0,1-1.792,4.327h0A6.12,6.12,0,0,1,50.4,0a6.12,6.12,0,0,1-4.327-1.793ZM22.44-48.11A14.041,14.041,0,0,1,36.474-34.075,14.041,14.041,0,0,1,22.44-20.041,14.041,14.041,0,0,1,8.406-34.075,14.041,14.041,0,0,1,22.44-48.11Z"
                 fill="#fff"
-                fill-rule="evenodd"
+                fillRule="evenodd"
               />
             </g>
           </svg>

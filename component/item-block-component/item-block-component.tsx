@@ -183,7 +183,7 @@ const ItemBlockComponent = (props: any) => {
             return stars;
           })()}
         </div>
-        <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+        <p className={style.transparent_text}>
           {props.data.nft_type == "passive" ? "Passive NFT" : "Active NFT"}
         </p>
         <div className={style.item_container}>
@@ -221,7 +221,7 @@ const ItemBlockComponent = (props: any) => {
           </div>
         )}
         <div className={style.line} />
-        <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Hash</p>
+        <p className={style.transparent_text}>Hash</p>
         <div className={style.ibc_hash_box} style={{ fontSize: "15px" }}>
           {props.data != null && props.data.nft_hash != null
             ? props.data.nft_hash
@@ -277,7 +277,7 @@ const ItemBlockComponent = (props: any) => {
             return stars;
           })()}
         </div>
-        <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+        <p className={style.transparent_text}>
           {props.type == "passive" ? "Passive NFT" : "Active NFT"}
         </p>
         <div className={style.item_container}>
@@ -289,7 +289,7 @@ const ItemBlockComponent = (props: any) => {
         </div>
         <div>{props.type == "passive" ? "- Requirements" : "--- --- ---"}</div>
         <div className={style.line} />
-        <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Hash</p>
+        <p className={style.transparent_text}>Hash</p>
         <div className={style.ibc_hash_box} style={{ fontSize: "15px" }}>
           --
         </div>

@@ -3,11 +3,11 @@
 
 html,
 body {
-  background-color: $DarkBlackColor;
+  background-color: $BackgroundColor;
 }
 
 * {
-  color: white;
+  color: $fontColor;
 
   font-family: "Montserrat", sans-serif;
   font-size: 13px;

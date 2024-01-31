@@ -1,3 +1,12 @@
+export const colorThemeReducer = (state = { value: "dark" }, action: any) => {
+  switch (action.type) {
+    case "colorThemeReducer/SET":
+      return { value: action.value };
+    default:
+      return state;
+  }
+};
+
 export const queryStateReducer = (state = { value: "" }, action: any) => {
   switch (action.type) {
     case "queryStateReducer/SET":
@@ -75,12 +84,9 @@ export const playStateReducer = (state = { value: null }, action: any) => {
   }
 };
 
-export const currentWalletAccountIndexReducer = (
-  state = { value: 2 },
-  action: any
-) => {
+export const currentWalletAccountReducer = (state = null, action: any) => {
   switch (action.type) {
-    case "edit/currentWalletAccountIndexReducer/SET":
+    case "edit/currentWalletAccountReducer/SET":
       return { value: action.value };
     default:
       return state;
@@ -88,11 +94,23 @@ export const currentWalletAccountIndexReducer = (
 };
 
 export const currentEttrContractAddressReducer = (
-  state = { value: "0x5d61FbD4b4314C997C1f353f3A5174493656acE1" },
+  state = { value: "" },
   action: any
 ) => {
   switch (action.type) {
     case "edit/currentEttrContractAddressReducer/SET":
+      return { value: action.value };
+    default:
+      return state;
+  }
+};
+
+export const currentSUSDCContractAddressReducer = (
+  state = { value: "" },
+  action: any
+) => {
+  switch (action.type) {
+    case "edit/currentSUSDCContractAddressReducer/SET":
       return { value: action.value };
     default:
       return state;

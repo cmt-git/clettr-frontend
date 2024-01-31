@@ -1,0 +1,27 @@
+@import "../../../styles/globals/globals-compiler.scss";
+
+.transaction_block_root {
+  width: 100%;
+  display: flex;
+  gap: 15px;
+
+  background-color: $GreyColor;
+  border-radius: $BorderRadius;
+  border: $GreyColorOutline $BorderSize solid;
+  box-shadow: $BoxShadow;
+  padding: 15px;
+
+  div {
+    width: 100%;
+
+    h1 {
+      color: rgba($fontColor, 0.5);
+      margin-bottom: 5px;
+      font-size: 13px;
+    }
+
+    p {
+      font-size: 13px;
+    }
+  }
+}

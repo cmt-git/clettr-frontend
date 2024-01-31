@@ -17,6 +17,7 @@ export let link_setCurrentTime: any = null;
 
 const TokenChartComponent = (props: any) => {
   const [sliderState, setSliderState] = useState(0);
+  const [dataLength, setDataLength] = useState(0);
   const _width = getScreenWidth();
 
   const ref: any = useRef();
@@ -28,42 +29,71 @@ const TokenChartComponent = (props: any) => {
 
   const [prices, setPrices]: any = useState(null);
 
-  const [priceOffset, setPriceOffset]: any = useState(0);
+  const [pricePage, setPricePage]: any = useState(0);
 
-  const changePrices: any = (offset: String) => {
-    const dummy_historical_data = dummyHistoricalData();
-    let totaloffSet = priceOffset; //? used as priceOffset needs to be rerendered to be updated
-    if (offset == "increase" && priceOffset - 100 > 0) {
-      totaloffSet -= 100;
+  const changePrices: any = async (offset: string) => {
+    let _pricePage = pricePage;
+    if (offset == "increase") {
+      _pricePage += 1;
+    } else if (offset == "decrease" && pricePage - 1 >= 0) {
+      _pricePage -= 1;
     }
 
-    if (
-      offset == "decrease" &&
-      priceOffset + 100 < dummy_historical_data.length &&
-      dummy_historical_data.length - (priceOffset + 100) >= 100
-    ) {
-      totaloffSet += 100;
+    console.log(_pricePage, offset, pricePage, offset == "increase");
+    const dummy_historical_data = await dummyHistoricalData(_pricePage);
+    console.log(dummy_historical_data);
+    if (dummy_historical_data.length > 0) {
+      setDataLength(dummy_historical_data.length);
+      setPrices(dummy_historical_data);
+    } else {
+      _pricePage -= 1;
     }
 
-    setPriceOffset(totaloffSet);
+    setPricePage(_pricePage);
 
-    let price_set: any = [];
-    for (let i = 100; i > 0; i--) {
-      price_set.push(
-        dummy_historical_data[dummy_historical_data.length - totaloffSet - i]
-      );
-    }
-    setPrices(price_set);
+    //console.log(dummy_historical_data, dummy_historical_data.length);
+    //let totaloffSet = priceOffset; //? used as priceOffset needs to be rerendered to be updated
+    // if (offset == "increase" && priceOffset - dataLength > 0) {
+    //   totaloffSet -= dataLength;
+    // }
+
+    // if (
+    //   offset == "decrease" &&
+    //   priceOffset + dataLength < dummy_historical_data.length &&
+    //   dummy_historical_data.length - (priceOffset + dataLength) >= dataLength
+    // ) {
+    //   totaloffSet += dataLength;
+    // }
+
+    //setPriceOffset(totaloffSet);
+
+    // let price_set: any = [];
+    // for (let i = dataLength; i > 0; i--) {
+    //   price_set.push(
+    //     dummy_historical_data[dummy_historical_data.length - totaloffSet - i]
+    //   );
+    // }
   };
   link_changePrices = changePrices;
 
   useEffect(() => {
-    changePrices("default");
+    (async () => {
+      //await new Promise((resolve) => setTimeout(resolve, 1000));
+      changePrices("default");
+    })();
   }, []);
+
+  // useEffect(() => {
+  //   console.log(dataLength);
+  // }, [dataLength]);
 
   const currentCurrencyState = useSelector((state: RootState) => {
     return state.currentCurrencyState.value;
   });
+
+  useEffect(() => {
+    console.log(currentPrice);
+  }, [currentPrice]);
 
   return (
     <div className={style.token_chart_component_root}>
@@ -79,14 +109,15 @@ const TokenChartComponent = (props: any) => {
                       (currentCurrencyState == "php" ? phpPrice : 1)
                   )}
               <span
-                style={{ color: "rgba(255, 255, 255, 0.5)", marginLeft: "5px" }}
+                className={style.transparent_text}
+                style={{ marginLeft: "5px" }}
               >
                 {currentCurrencyState != null
                   ? currentCurrencyState.toUpperCase()
                   : null}
               </span>
             </p>
-            <p style={{ fontSize: "13px", color: "rgba(255, 255, 255, 0.7)" }}>
+            <p className={style.transparent_text} style={{ fontSize: "13px" }}>
               {`${currentTime == null ? "---" : timeConverter(currentTime)}`}
             </p>
           </div>
@@ -99,24 +130,26 @@ const TokenChartComponent = (props: any) => {
           justifyContent: props.priceonly == true ? "flex-start" : "center",
         }}
       >
-        {prices != null
+        {prices != null && prices[0] != null
           ? (() => {
               let highest = Number(prices[0]["open"]);
               let lowest = Number(prices[0]["open"]);
 
               for (let i = 0; i < prices.length; i++) {
-                if (highest < Number(prices[i]["open"])) {
-                  highest = Number(prices[i]["open"]);
-                }
+                if (prices[i] != undefined) {
+                  if (highest < Number(prices[i]["open"])) {
+                    highest = Number(prices[i]["open"]);
+                  }
 
-                if (lowest > Number(prices[i]["open"])) {
-                  lowest = Number(prices[i]["open"]);
+                  if (lowest > Number(prices[i]["open"])) {
+                    lowest = Number(prices[i]["open"]);
+                  }
                 }
               }
 
               let arr_tcc_bar: any = [];
 
-              for (let i = 0; i < 100; i++) {
+              for (let i = 0; i < dataLength; i++) {
                 arr_tcc_bar.push(
                   <TccBar
                     highest={highest}
@@ -141,7 +174,7 @@ const TokenChartComponent = (props: any) => {
           onChange={(e) => {
             setSliderState(parseInt(e.currentTarget.value));
             ref.current.style.transform = `translateX(${
-              (parseInt(e.currentTarget.value) / 100) *
+              (parseInt(e.currentTarget.value) / dataLength) *
               -(1500 - ref.current.getBoundingClientRect().width)
             }px)`;
           }}

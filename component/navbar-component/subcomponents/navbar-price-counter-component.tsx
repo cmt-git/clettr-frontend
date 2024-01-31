@@ -6,30 +6,30 @@ import { decimalFormatter } from "../../../scripts/misc/stringFormatter";
 import style from "../../../styles/component/navbar-component/navbar-component-style.module.scss";
 import { openPopup } from "../../popup-component/popup-container-component";
 import SwitchCurrencyPopupComponent from "../popups/switch-currency-popup-component";
+import io from "socket.io-client";
+import { axiosInstance } from "../../../scripts/router/axios-instance";
 
 export const phpPrice = 49.56;
 const NavbarPriceCounterComponent = (props: any) => {
   const dispatch = useDispatch();
 
   const [pastPrice, setPastPrice]: any = useState("0-up-0");
-
   useEffect(() => {
     dispatch({
       type: "edit/currentCurrencyReducer/SET",
       value: localStorage.getItem("selected-currency"),
     });
-  }, []);
 
-  useEffect(() => {
-    const getNewPrice = () => {
+    const socket = io("http://localhost:3001");
+
+    // socket.on("connect", () => {
+    //   console.log("Connected to Socket.IO");
+    // });
+
+    function changePrice(_amount: string) {
       const currentIndex = Number(pastPrice.split("-")[2]);
       const oldPrice = Number(pastPrice.split("-")[0]);
-      const currentPrice =
-        store.getState().currentCurrencyState.value == "php"
-          ? Number(
-              (Number(DummyLiveData()[currentIndex]) * phpPrice).toFixed(2)
-            )
-          : Number(DummyLiveData()[currentIndex]);
+      const currentPrice = Number(_amount);
 
       dispatch({ type: "edit/tickerPriceReducer/SET", value: currentPrice });
       setPastPrice(
@@ -37,18 +37,26 @@ const NavbarPriceCounterComponent = (props: any) => {
           currentIndex + 1 == DummyLiveData().length ? 0 : currentIndex + 1
         }`
       );
-    };
+    }
+
+    // Add your Socket.IO client event handlers here
+    socket.on("price", (msg) => {
+      changePrice(msg);
+    });
 
     (async () => {
-      await new Promise((resolve) =>
-        setTimeout(
-          resolve,
-          pastPrice == "0-0" ? 0 : Math.random() * (0.5 - 0.1) * 1000
-        )
-      );
-      getNewPrice();
+      await axiosInstance.get("/simulation/currentprice").then((res) => {
+        if (res?.data?.data?.open != null) {
+          changePrice(res.data.data.open);
+        }
+      });
     })();
-  }, [pastPrice]);
+
+    return () => {
+      // Clean up event handlers when the component unmounts
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <div
@@ -72,7 +80,7 @@ const NavbarPriceCounterComponent = (props: any) => {
               : 0
           )}
         </span>
-        <span style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+        <span className={style.transparent_text}>
           {store.getState().currentCurrencyState.value?.toUpperCase()}
         </span>
       </p>

@@ -52,14 +52,26 @@
 
 .p_hover {
   margin-left: 15px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba($fontColor, 0.3);
 
   transition: color $TransitionSettings;
 
   &:hover {
     cursor: pointer;
-    color: rgba(255, 255, 255, 1);
+    color: rgba($fontColor, 1);
   }
+}
+
+.transparent_text {
+  color: rgba($fontColor, 0.5);
+}
+
+.red_text {
+  color: $RedColor;
+}
+
+.green_text {
+  color: rgb(182, 238, 43);
 }
 
 .yellow_text {
@@ -170,7 +182,7 @@
 .token_live_price_container_no_hover {
   width: 180px;
   height: 100%;
-  background-color: rgb(42, 39, 52);
+  background-color: $BackgroundColor;
 
   margin-left: -20px;
   margin-top: -2px;
@@ -413,7 +425,7 @@
   input,
   textarea {
     padding: 10px;
-    color: white;
+    color: $fontColor;
     background-color: inherit;
     width: 100%;
     height: 100%;

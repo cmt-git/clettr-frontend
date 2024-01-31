@@ -1,0 +1,35 @@
+@import "../../styles/globals/globals-compiler.scss";
+
+.transactions_block_component {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 15px;
+
+  .tbc_dual_div_container {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .tbc_date_picker {
+    width: 100%;
+    background-color: $BlackColor;
+    border: $BlackColorOutline $BorderSize solid;
+    border-radius: $BorderRadius;
+    padding: 15px;
+    outline: none;
+    box-shadow: $BoxShadow;
+  }
+
+  .tbc_dual_div_mono_container {
+    width: 100%;
+    p {
+      margin-bottom: 10px;
+    }
+  }
+}

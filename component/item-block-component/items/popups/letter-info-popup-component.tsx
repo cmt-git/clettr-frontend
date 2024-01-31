@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { store } from "../../../../pages/_app";
 import style from "../../../../styles/component/popup-component/popup-content-style.module.scss";
@@ -36,7 +38,7 @@ const LetterInfoPopupComponent = (props: any) => {
         className={style.grey_info_block}
         style={{ marginBottom: "15px", display: "flex" }}
       >
-        <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>
+        <p className={style.transparent_text}>
           Owner <span>{props.data.current_owner}</span>
         </p>
       </div>
@@ -53,7 +55,11 @@ const LetterInfoPopupComponent = (props: any) => {
         }}
       >
         <div className={style.grey_info_block}>
-          <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Date Acquired</p>
+          <p className={style.transparent_text}>Token Id</p>
+          <p>{props.data.nft_token_id}</p>
+        </div>
+        <div className={style.grey_info_block}>
+          <p className={style.transparent_text}>Date Acquired</p>
           <p>
             {(() => {
               const current_date = props.data.creation_date.split(" ");
@@ -63,11 +69,11 @@ const LetterInfoPopupComponent = (props: any) => {
           </p>
         </div>
         <div className={style.grey_info_block}>
-          <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Original Owner</p>
+          <p className={style.transparent_text}>Original Owner</p>
           <p>{props.data.original_owner}</p>
         </div>
         <div className={style.grey_info_block}>
-          <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Color</p>
+          <p className={style.transparent_text}>Color</p>
           <p>
             {props.data.nft_traits.split("-")[1][0].toUpperCase() +
               props.data.nft_traits
@@ -76,14 +82,14 @@ const LetterInfoPopupComponent = (props: any) => {
           </p>
         </div>
         <div className={style.grey_info_block}>
-          <p style={{ color: "rgba(255, 255, 255, 0.5)" }}>Stars</p>
+          <p className={style.transparent_text}>Stars</p>
           <p>{props.data.nft_stars}</p>
         </div>
         <p
+          className={style.transparent_text}
           style={{
             width: "100%",
             textAlign: "center",
-            color: "rgba(255, 255, 255, 0.5)",
           }}
         >
           Confused on what this means? Check out <a href="/docs?active">Docs</a>
