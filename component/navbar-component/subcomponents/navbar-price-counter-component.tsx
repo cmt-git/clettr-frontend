@@ -8,6 +8,7 @@ import { openPopup } from "../../popup-component/popup-container-component";
 import SwitchCurrencyPopupComponent from "../popups/switch-currency-popup-component";
 import io from "socket.io-client";
 import { axiosInstance } from "../../../scripts/router/axios-instance";
+import settings from "../../../settings.json";
 
 export const phpPrice = 49.56;
 const NavbarPriceCounterComponent = (props: any) => {
@@ -20,7 +21,11 @@ const NavbarPriceCounterComponent = (props: any) => {
       value: localStorage.getItem("selected-currency"),
     });
 
-    const socket = io("http://localhost:3001");
+    const socket = io(
+      `http://${
+        settings.environment == "development" ? "localhost" : "159.223.39.105"
+      }:3001`
+    );
 
     // socket.on("connect", () => {
     //   console.log("Connected to Socket.IO");

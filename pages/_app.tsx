@@ -1,36 +1,47 @@
-import '../styles/globals.scss'
-import type { AppProps } from 'next/app'
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import rootReducers from '../scripts/redux/rootReducer';
-import { ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache } from '@apollo/client';
-import { onError } from "@apollo/client/link/error"
+import "../styles/globals.scss";
+import type { AppProps } from "next/app";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import rootReducers from "../scripts/redux/rootReducer";
+import {
+  ApolloClient,
+  ApolloProvider,
+  from,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+import settings from "../settings.json";
 
 export const store = createStore(rootReducers);
 
-const errorLink = onError(({ graphQLErrors, networkError}) => {
-  if (graphQLErrors){
-    graphQLErrors.map(({message, locations, path}) => {
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    graphQLErrors.map(({ message, locations, path }) => {
       console.log(`GraphQL error: ${message}`);
-    })
+    });
   }
 });
 
 const link = from([
   errorLink,
   new HttpLink({
-    uri: "http://localhost:8878/graphql",
-    credentials: 'include'
-  })
+    uri: `http://${
+      settings.environment == "development"
+        ? "localhost:8878"
+        : "159.223.39.105:8878"
+    }/graphql`,
+    credentials: "include",
+  }),
 ]);
 
 const client = new ApolloClient({
-  credentials: 'include',
+  credentials: "include",
   cache: new InMemoryCache({
-    addTypename: false
+    addTypename: false,
   }),
   link: link,
-})
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -39,7 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </Provider>
     </ApolloProvider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

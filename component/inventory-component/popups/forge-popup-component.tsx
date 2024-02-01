@@ -14,9 +14,14 @@ import ItemBlockComponent from "../../item-block-component/item-block-component"
 import { closePopup } from "../../popup-component/popup-container-component";
 import { formatTokenBalance } from "../../../scripts/misc/contractManager";
 import { link_messageBoxShow } from "../../messagebox-component/messagebox-component";
+import settings from "../../../settings.json";
 
 const ettr_json = require("../../../abis/Ettr.json");
-const web3 = new Web3("ws://localhost:7545");
+const web3 = new Web3(
+  `ws://${
+    settings.environment == "development" ? "localhost" : "159.223.39.105"
+  }:7545`
+);
 
 const ForgePopupComponent = () => {
   const addItemsLength = 3;
@@ -78,7 +83,11 @@ const ForgePopupComponent = () => {
   useEffect(() => {
     (async () => {
       const cltrnft_json = require("../../../abis/CLTRNFT.json");
-      const web3 = new Web3("ws://localhost:7545");
+      const web3 = new Web3(
+        `ws://${
+          settings.environment == "development" ? "localhost" : "159.223.39.105"
+        }:7545`
+      );
 
       const networkId = await web3.eth.net.getId();
       const networkData = cltrnft_json.networks[networkId];
