@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Web3 from "web3";
 import { ettrSubtract } from "../../../scripts/router/user/user-request";
 import { link_messageBoxShow } from "../../messagebox-component/messagebox-component";
+import settings from "../../../settings.json";
 
 const WithdrawPopupComponent = () => {
   const _width = getScreenWidth();
@@ -27,7 +28,11 @@ const WithdrawPopupComponent = () => {
   useEffect(() => {
     (async () => {
       const ettr_json = require("../../../abis/Ettr.json");
-      const web3 = new Web3("ws://localhost:7545");
+      const web3 = new Web3(
+        `ws://${
+          settings.environment == "development" ? "localhost" : "159.223.39.105"
+        }:7545`
+      );
 
       const networkId = await web3.eth.net.getId();
       const networkData = ettr_json.networks[networkId];

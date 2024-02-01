@@ -8,6 +8,7 @@ import {
 } from "../../../../scripts/router/nfts/nfts-request";
 import style from "../../../../styles/component/popup-component/popup-content-style.module.scss";
 import { link_messageBoxShow } from "../../../messagebox-component/messagebox-component";
+import settings from "../../../../settings.json";
 
 const MarketInfoPopupComponent = (props: any) => {
   const [marketState, setMarketState]: any = useState("sell");
@@ -20,7 +21,11 @@ const MarketInfoPopupComponent = (props: any) => {
   useEffect(() => {
     (async () => {
       const cltrnft_json = require("../../../../abis/CLTRNFT.json");
-      const web3 = new Web3("ws://localhost:7545");
+      const web3 = new Web3(
+        `ws://${
+          settings.environment == "development" ? "localhost" : "159.223.39.105"
+        }:7545`
+      );
 
       const networkId = await web3.eth.net.getId();
       const networkData = cltrnft_json.networks[networkId];
