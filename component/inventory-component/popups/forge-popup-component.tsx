@@ -18,7 +18,7 @@ import settings from "../../../settings.json";
 
 const ettr_json = require("../../../abis/Ettr.json");
 const web3 = new Web3(
-  `ws://${
+  `wss://${
     settings.environment == "development" ? "localhost" : "159.223.39.105"
   }:7545`
 );
@@ -84,7 +84,7 @@ const ForgePopupComponent = () => {
     (async () => {
       const cltrnft_json = require("../../../abis/CLTRNFT.json");
       const web3 = new Web3(
-        `ws://${
+        `wss://${
           settings.environment == "development" ? "localhost" : "159.223.39.105"
         }:7545`
       );
