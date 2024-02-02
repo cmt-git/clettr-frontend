@@ -39,6 +39,10 @@ const NavbarComponent = () => {
 
   useEffect(() => {
     SetContracts();
+
+    if (localStorage.getItem("selected-currency") == null) {
+      localStorage.setItem("selected-currency", "usd");
+    }
   }, []);
 
   useEffect(() => {
@@ -184,7 +188,7 @@ const NavbarComponent = () => {
               }
               onClick={() => router.push("/load")}
             >
-              Marketplace
+              Load
             </p>
             <p
               className={style.p_hover}
