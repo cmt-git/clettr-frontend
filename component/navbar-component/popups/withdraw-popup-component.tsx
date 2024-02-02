@@ -29,7 +29,7 @@ const WithdrawPopupComponent = () => {
     (async () => {
       const ettr_json = require("../../../abis/Ettr.json");
       const web3 = new Web3(
-        `ws://${
+        `wss://${
           settings.environment == "development" ? "localhost" : "159.223.39.105"
         }:7545`
       );
