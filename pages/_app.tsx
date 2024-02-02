@@ -26,8 +26,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 const link = from([
   errorLink,
   new HttpLink({
-    uri: `http://${
-      settings.environment == "development" ? "localhost:8878" : "clettr.com"
+    uri: `${
+      settings.environment == "development"
+        ? "http://localhost:8878"
+        : "https://clettr.com"
     }/api/graphql`,
     credentials: "include",
   }),
