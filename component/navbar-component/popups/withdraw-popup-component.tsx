@@ -193,7 +193,7 @@ const WithdrawPopupComponent = () => {
               .ettr_mint(filtered_iv)
               .send({
                 //@ts-ignore
-                from: store.getState().currentWalletAccountState.value,
+                from: store.getState().currentWalletAccountState,
               })
               .on("transactionHash", (hash: any) => {
                 (async () => {

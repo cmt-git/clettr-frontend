@@ -62,7 +62,7 @@ export default function LoadComponent(_props: any) {
             .susdc_mint(5)
             .send({
               //@ts-ignore
-              from: store.getState().currentWalletAccountState.value,
+              from: store.getState().currentWalletAccountState,
             })
             .on("transactionHash", (hash: any) => {
               link_messageBoxShow("Loaded 5 SUSDC", true);
@@ -85,7 +85,7 @@ export default function LoadComponent(_props: any) {
             .ettr_mint(50)
             .send({
               //@ts-ignore
-              from: store.getState().currentWalletAccountState.value,
+              from: store.getState().currentWalletAccountState,
             })
             .on("transactionHash", (hash: any) => {
               link_messageBoxShow("Loaded 50 Ettr", true);

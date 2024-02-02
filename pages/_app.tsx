@@ -30,7 +30,7 @@ const link = from([
       settings.environment == "development"
         ? "localhost:8878"
         : "159.223.39.105:8878"
-    }/graphql`,
+    }/api/graphql`,
     credentials: "include",
   }),
 ]);

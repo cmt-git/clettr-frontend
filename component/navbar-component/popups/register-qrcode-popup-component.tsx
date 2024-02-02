@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../scripts/redux/rootReducers";
-import { register2FA } from "../../../scripts/router/user/user-request";
 import style from "../../../styles/component/popup-component/popup-content-style.module.scss";
-import { link_messageBoxShow } from "../../messagebox-component/messagebox-component";
+import { RootState } from "../../../scripts/redux/rootReducer";
 import { closePopup } from "../../popup-component/popup-container-component";
+import { register2FA } from "../../../scripts/router/user/user-request";
+import { link_messageBoxShow } from "../../messagebox-component/messagebox-component";
 
 const speakeasy = require("speakeasy");
 const qrcode = require("qrcode");
@@ -117,33 +117,33 @@ const RegisterQRCodePopupComponent = (props: any) => {
       >
         Confirm
       </div>
-      {props.type == 1
-        ? [
-            <p
-              style={{
-                color: "#80808E",
-                marginTop: "30px",
-                marginBottom: "20px",
-                textAlign: "center",
-                fontSize: "13px",
-              }}
-            >
-              ⚠️ Warning skipping this step will make your account least secure!
-            </p>,
-            <div
-              className={`${style.red_button} ${style.colored_button}`}
-              onClick={() => {
-                link_messageBoxShow(
-                  "Account has been registered, Please log in.",
-                  true
-                );
-                closePopup();
-              }}
-            >
-              Skip
-            </div>,
-          ]
-        : null}
+      {props.type == 1 ? (
+        <>
+          <p
+            style={{
+              color: "#80808E",
+              marginTop: "30px",
+              marginBottom: "20px",
+              textAlign: "center",
+              fontSize: "13px",
+            }}
+          >
+            ⚠️ Warning skipping this step will make your account least secure!
+          </p>
+          <div
+            className={`${style.red_button} ${style.colored_button}`}
+            onClick={() => {
+              link_messageBoxShow(
+                "Account has been registered, Please log in.",
+                true
+              );
+              closePopup();
+            }}
+          >
+            Skip
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };

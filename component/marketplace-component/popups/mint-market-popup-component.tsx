@@ -90,7 +90,7 @@ const MintMarketPopupComponent = () => {
             const tokenBalance = formatTokenBalance(
               await tokenContract.methods
                 //@ts-ignore
-                .balanceOf(store.getState().currentWalletAccountState.value)
+                .balanceOf(store.getState().currentWalletAccountState)
                 .call(),
               18
             );
@@ -107,7 +107,7 @@ const MintMarketPopupComponent = () => {
                 )
                 .send({
                   //@ts-ignore
-                  from: store.getState().currentWalletAccountState.value,
+                  from: store.getState().currentWalletAccountState,
                   gas: 6721975,
                 })
                 .on("transactionHash", (hash: any) => {})

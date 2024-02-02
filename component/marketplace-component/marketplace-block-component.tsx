@@ -130,9 +130,7 @@ const MarketplaceBlockComponent = (props: any) => {
                     const tokenBalance = formatTokenBalance(
                       await tokenContract.methods
                         //@ts-ignore
-                        .balanceOf(
-                          store.getState().currentWalletAccountState.value
-                        )
+                        .balanceOf(store.getState().currentWalletAccountState)
                         .call(),
                       18
                     );
