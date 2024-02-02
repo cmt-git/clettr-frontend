@@ -6,27 +6,27 @@ name: Node.js CI
 on:
   push:
     # development here for build testing, main for deployment to production
-    branches: ["main", "development"]
+    branches: ["main"]
 
 jobs:
-  build-development:
-    if: github.ref == 'refs/heads/development'
-    runs-on: ubuntu-latest
+  # build-development:
+  #   if: github.ref == 'refs/heads/development'
+  #   runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [19.x]
+  #   strategy:
+  #     matrix:
+  #       node-version: [21.x]
 
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-      - name: Install pnpm
-        run: npm install -g pnpm@8.10.4 # version here is dependent on runner host machine
-      - name: Check pnpm version
-        run: pnpm --version
-      - run: pnpm i
-      - run: pnpm run build
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v3
+  #     - name: Install pnpm
+  #       run: npm install -g pnpm@8.10.4 # version here is dependent on runner host machine
+  #     - name: Check pnpm version
+  #       run: pnpm --version
+  #     - run: pnpm i
+  #     - run: pnpm run build
 
   build:
     if: github.ref == 'refs/heads/main'
@@ -34,18 +34,18 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [19.x]
+        node-version: [21.x]
 
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "pnpm" # this means run pnpm installed on machine where runner is hosted. If you want to change versions go change versions there
-      - run: pnpm --version
-      - run: pnpm i
-      - run: pnpm run build
+      # - name: Use Node.js ${{ matrix.node-version }}
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
+      #     cache: "pnpm" # this means run pnpm installed on machine where runner is hosted. If you want to change versions go change versions there
+      # - run: pnpm --version
+      # - run: pnpm i
+      # - run: pnpm run build
       - name: Run Command After Success
         run: |
           echo '{"environment": "production"}' > settings.json
