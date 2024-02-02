@@ -171,6 +171,23 @@ const NavbarComponent = () => {
             </p>
             <p
               className={style.p_hover}
+              style={
+                router.asPath.toString().split("/load")[1] == ""
+                  ? {
+                      color:
+                        colorThemeState == "dark"
+                          ? "rgba(255, 255, 255, 1)"
+                          : "rgba(0, 0, 0, 1)",
+                      cursor: "default",
+                    }
+                  : {}
+              }
+              onClick={() => router.push("/load")}
+            >
+              Marketplace
+            </p>
+            <p
+              className={style.p_hover}
               onClick={() => openPopup(<LeaderboardPopupComponent />)}
             >
               Leaderboards
