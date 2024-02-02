@@ -25,7 +25,6 @@ jobs:
         run: npm install -g pnpm@8.10.4 # version here is dependent on runner host machine
       - name: Check pnpm version
         run: pnpm --version
-      - run: node create_settings.ts environment production
       - run: pnpm i
       - run: pnpm run build
 
