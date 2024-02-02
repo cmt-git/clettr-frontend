@@ -18,6 +18,12 @@
     //   "@/*": ["./*"]
     // }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "create_settings.mts",
+    "create_settings.mts"
+  ],
   "exclude": ["node_modules"]
 }

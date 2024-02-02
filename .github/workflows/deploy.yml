@@ -44,12 +44,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm" # this means run pnpm installed on machine where runner is hosted. If you want to change versions go change versions there
-      - run: node create_settings.ts environment production
       - run: pnpm --version
       - run: pnpm i
       - run: pnpm run build
       - name: Run Command After Success
         run: |
+          echo '{"environment": "production"}' > settings.json
           echo "update successfully"
           rm -rf /var/www/html/out
           mv out /var/www/html
