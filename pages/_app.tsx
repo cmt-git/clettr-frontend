@@ -27,9 +27,7 @@ const link = from([
   errorLink,
   new HttpLink({
     uri: `http://${
-      settings.environment == "development"
-        ? "localhost:8878"
-        : "159.223.39.105:8878"
+      settings.environment == "development" ? "localhost:8878" : "clettr.com"
     }/api/graphql`,
     credentials: "include",
   }),
