@@ -22,8 +22,10 @@ const NavbarPriceCounterComponent = (props: any) => {
     });
 
     const socket = io(
-      `http://${
-        settings.environment == "development" ? "localhost" : "clettr.com"
+      `${
+        settings.environment == "development"
+          ? "http://localhost"
+          : "https://clettr.com"
       }:3001`
     );
 
