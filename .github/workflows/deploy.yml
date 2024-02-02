@@ -50,5 +50,4 @@ jobs:
         run: |
           echo '{"environment": "production"}' > settings.json
           echo "update successfully"
-          rm -rf /var/www/html/out
-          mv out /var/www/html
+          rm -rf /var/www/html/out && mv out /var/www/html
