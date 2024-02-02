@@ -1,23 +1,40 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Frontend CI
+name: Node.js CI
 
 on:
   push:
-    branches: ["main"]
+    # development here for build testing, main for deployment to production
+    branches: ["main", "development"]
 
-env:
-  env_var: ${{ vars.prod-env }}
 jobs:
+  build-development:
+    if: github.ref == 'refs/heads/development'
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [19.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+      - name: Install pnpm
+        run: npm install -g pnpm@8.10.4 # version here is dependent on runner host machine
+      - name: Check pnpm version
+        run: pnpm --version
+      - run: pnpm i
+      - run: pnpm run build
+
   build:
     if: github.ref == 'refs/heads/main'
     runs-on: self-hosted
 
     strategy:
       matrix:
-        node-version: [21.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [19.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -25,11 +42,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
-      - name: Install NodeJS packages
+          cache: "pnpm" # this means run pnpm installed on machine where runner is hosted. If you want to change versions go change versions there
+      - run: pnpm --version
+      - run: pnpm i
+      - run: pnpm run build
+      - name: Run Command After Success
         run: |
-          pnpm --version
-          pnpm i
-          node ./create_settings.ts environment production
-
-      - run: pm2 restart frontend
+          echo '{"environment": "production"}' > settings.json
+          echo "update successfully"
+          rm -rf /var/www/html/out
+          mv out /var/www/html

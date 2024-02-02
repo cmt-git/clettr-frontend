@@ -87,7 +87,7 @@ export const playStateReducer = (state = { value: null }, action: any) => {
 export const currentWalletAccountReducer = (state = null, action: any) => {
   switch (action.type) {
     case "edit/currentWalletAccountReducer/SET":
-      return { value: action.value };
+      return action.value;
     default:
       return state;
   }

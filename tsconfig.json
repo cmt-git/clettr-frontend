@@ -13,11 +13,17 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "incremental": true
+    // "paths": {
+    //   "@/*": ["./*"]
+    // }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "create_settings.mts",
+    "create_settings.mts"
+  ],
   "exclude": ["node_modules"]
 }

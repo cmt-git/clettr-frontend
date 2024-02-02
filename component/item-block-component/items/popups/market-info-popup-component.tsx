@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import Web3 from "web3";
 import { store } from "../../../../pages/_app";
-import { decimalFormatter } from "../../../../scripts/misc/stringFormatter";
+import Settings from "../../../../settings.json";
+import style from "../../../../styles/component/marketplace-components/marketplace-block-component-style.module.scss";
+import { link_messageBoxShow } from "../../../messagebox-component/messagebox-component";
 import {
   marketRevokeNFT,
   marketSellNFT,
 } from "../../../../scripts/router/nfts/nfts-request";
-import style from "../../../../styles/component/popup-component/popup-content-style.module.scss";
-import { link_messageBoxShow } from "../../../messagebox-component/messagebox-component";
-import settings from "../../../../settings.json";
+import { decimalFormatter } from "../../../../scripts/misc/stringFormatter";
 
 const MarketInfoPopupComponent = (props: any) => {
   const [marketState, setMarketState]: any = useState("sell");
@@ -23,7 +23,7 @@ const MarketInfoPopupComponent = (props: any) => {
       const cltrnft_json = require("../../../../abis/CLTRNFT.json");
       const web3 = new Web3(
         `ws://${
-          settings.environment == "development" ? "localhost" : "159.223.39.105"
+          Settings.environment == "development" ? "localhost" : "159.223.39.105"
         }:7545`
       );
 
@@ -107,7 +107,7 @@ const MarketInfoPopupComponent = (props: any) => {
                   .cltrnft_market_sell(props.data.nft_token_id)
                   .send({
                     //@ts-ignore
-                    from: store.getState().currentWalletAccountState.value,
+                    from: store.getState().currentWalletAccountState,
                     gas: 6721975,
                   })
                   .on("transactionHash", (hash: any) => {
@@ -156,7 +156,7 @@ const MarketInfoPopupComponent = (props: any) => {
               .cltrnft_market_revoke_approval(props.data.nft_token_id)
               .send({
                 //@ts-ignore
-                from: store.getState().currentWalletAccountState.value,
+                from: store.getState().currentWalletAccountState,
                 gas: 6721975,
               })
               .on("transactionHash", (hash: any) => {
