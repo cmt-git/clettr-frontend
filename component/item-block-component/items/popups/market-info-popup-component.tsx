@@ -22,10 +22,10 @@ const MarketInfoPopupComponent = (props: any) => {
     (async () => {
       const cltrnft_json = require("../../../../abis/CLTRNFT.json");
       const web3 = new Web3(
-        `ws://${
+        `wss://${
           Settings.environment == "development"
             ? "localhost"
-            : "clettr.com/blockchain"
+            : "159.223.39.105:7545"
         }`
       );
 
