@@ -86,7 +86,7 @@ const ForgePopupComponent = () => {
     (async () => {
       const cltrnft_json = require("../../../abis/CLTRNFT.json");
       const web3 = new Web3(
-        `wss://${
+        `ws://${
           settings.environment == "development"
             ? "localhost:7545"
             : "clettr.com/blockchain"
