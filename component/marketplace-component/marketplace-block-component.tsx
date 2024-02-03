@@ -17,7 +17,7 @@ import settings from "../../settings.json";
 const ettr_json = require("../../abis/Ettr.json");
 const susdc_json = require("../../abis/SUSDC.json");
 const web3 = new Web3(
-  `wss://${
+  `ws://${
     settings.environment == "development"
       ? "localhost"
       : "clettr.com/blockchain"
