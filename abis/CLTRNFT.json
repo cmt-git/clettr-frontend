@@ -27907,12 +27907,12 @@
         }
       },
       "links": {},
-      "address": "0xcBc58247B3e2c50f8728b187c42e66bC4A0bC55B",
-      "transactionHash": "0x658a0c9b3d8f6d733ed3ca376ffdf9d6224a7016689329da33b4235ce8dc7109"
+      "address": "0xEd6d6d71d0Fb89E05E7b9D4D6a9d32b1922D78f1",
+      "transactionHash": "0x96001d51fda87ff52b28ba34501e83b5731e3220cd50a77b430470ab1d68b47d"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-02-02T05:47:25.751Z",
+  "updatedAt": "2024-02-03T11:52:24.979Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
