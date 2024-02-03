@@ -24,9 +24,9 @@ const NavbarPriceCounterComponent = (props: any) => {
     const socket = io(
       `${
         settings.environment == "development"
-          ? "http://localhost"
-          : "https://clettr.com"
-      }/socket`
+          ? "http://localhost:3001"
+          : "https://clettr.com/"
+      }`
     );
 
     socket.on("connect", () => {
@@ -35,7 +35,7 @@ const NavbarPriceCounterComponent = (props: any) => {
 
     socket.on("connect_error", (err) => {
       // the reason of the error, for example "xhr poll error"
-      console.log(err.message);
+      console.log(err.message + " - connection error");
 
       // // some additional description, for example the status code of the initial HTTP response
       // console.log(err.description);
