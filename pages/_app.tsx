@@ -44,10 +44,10 @@ const client = new ApolloClient({
   link: link,
 });
 
-export const ganacheProvider = new Web3.providers.HttpProvider(
+export const ganacheProvider = new Web3.providers.WebsocketProvider(
   settings.environment == "development"
-    ? "http://localhost:7545"
-    : "https://clettr.com/blockchain"
+    ? "ws://localhost:7545"
+    : "wss://clettr.com/blockchain"
 );
 
 function MyApp({ Component, pageProps }: AppProps) {
