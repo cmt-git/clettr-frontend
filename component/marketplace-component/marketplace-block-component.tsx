@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Web3 from "web3";
-import { store } from "../../pages/_app";
+import { ganacheProvider, store } from "../../pages/_app";
 import { decimalFormatter } from "../../scripts/misc/stringFormatter";
 import { RootState } from "../../scripts/redux/rootReducer";
 import { marketBuyNFT } from "../../scripts/router/nfts/nfts-request";
@@ -16,13 +16,7 @@ import settings from "../../settings.json";
 
 const ettr_json = require("../../abis/Ettr.json");
 const susdc_json = require("../../abis/SUSDC.json");
-const web3 = new Web3(
-  `wss://${
-    settings.environment == "development"
-      ? "localhost"
-      : "clettr.com/blockchain"
-  }`
-);
+const web3 = new Web3(ganacheProvider);
 
 const MarketplaceBlockComponent = (props: any) => {
   const [searchBy, setSearchBy]: any = useState("Search by Hash");
@@ -38,13 +32,7 @@ const MarketplaceBlockComponent = (props: any) => {
   useEffect(() => {
     (async () => {
       const cltrnft_json = require("../../abis/CLTRNFT.json");
-      const web3 = new Web3(
-        `wss://${
-          settings.environment == "development"
-            ? "localhost:7545"
-            : "clettr.com/blockchain"
-        }`
-      );
+      const web3 = new Web3(ganacheProvider);
 
       const networkId = await web3.eth.net.getId();
       const networkData = cltrnft_json.networks[networkId];

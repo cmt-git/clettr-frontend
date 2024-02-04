@@ -1,19 +1,13 @@
 import { useEffect, useState } from "react";
 import Web3 from "web3";
 import { link_messageBoxShow } from "../messagebox-component/messagebox-component";
-import { store } from "../../pages/_app";
+import { ganacheProvider, store } from "../../pages/_app";
 import { simulatorMint } from "../../scripts/router/nfts/nfts-request";
 import settings from "../../settings.json";
 
 const ettr_json = require("../../abis/Ettr.json");
 const susdc_json = require("../../abis/SUSDC.json");
-const web3 = new Web3(
-  `wss://${
-    settings.environment == "development"
-      ? "localhost"
-      : "clettr.com/blockchain"
-  }`
-);
+const web3 = new Web3(ganacheProvider);
 
 export default function LoadComponent(_props: any) {
   const [SUSDCContract, setSUSDCContract]: any = useState(null);

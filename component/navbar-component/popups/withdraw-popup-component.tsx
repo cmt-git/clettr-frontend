@@ -4,7 +4,7 @@ import { decimalFormatter } from "../../../scripts/misc/stringFormatter";
 import style from "../../../styles/component/popup-component/popup-content-style.module.scss";
 import { closePopup } from "../../popup-component/popup-container-component";
 import { RootState } from "../../../scripts/redux/rootReducer";
-import { store } from "../../../pages/_app";
+import { ganacheProvider, store } from "../../../pages/_app";
 import { useEffect, useState } from "react";
 import Web3 from "web3";
 import { ettrSubtract } from "../../../scripts/router/user/user-request";
@@ -28,13 +28,7 @@ const WithdrawPopupComponent = () => {
   useEffect(() => {
     (async () => {
       const ettr_json = require("../../../abis/Ettr.json");
-      const web3 = new Web3(
-        `wss://${
-          settings.environment == "development"
-            ? "localhost:7545"
-            : "clettr.com/blockchain"
-        }`
-      );
+      const web3 = new Web3(ganacheProvider);
 
       const networkId = await web3.eth.net.getId();
       const networkData = ettr_json.networks[networkId];

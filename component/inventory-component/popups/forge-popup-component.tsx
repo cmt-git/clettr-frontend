@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
-import { store } from "../../../pages/_app";
+import { ganacheProvider, store } from "../../../pages/_app";
 import {
   decimalFormatter,
   generateLongId,
@@ -17,13 +17,8 @@ import { link_messageBoxShow } from "../../messagebox-component/messagebox-compo
 import settings from "../../../settings.json";
 
 const ettr_json = require("../../../abis/Ettr.json");
-const web3 = new Web3(
-  `wss://${
-    settings.environment == "development"
-      ? "localhost:7545"
-      : "clettr.com/blockchain"
-  }`
-);
+
+const web3 = new Web3(ganacheProvider);
 
 const ForgePopupComponent = () => {
   const addItemsLength = 3;
@@ -85,13 +80,7 @@ const ForgePopupComponent = () => {
   useEffect(() => {
     (async () => {
       const cltrnft_json = require("../../../abis/CLTRNFT.json");
-      const web3 = new Web3(
-        `wss://${
-          settings.environment == "development"
-            ? "localhost:7545"
-            : "clettr.com/blockchain"
-        }`
-      );
+      const web3 = new Web3(ganacheProvider);
 
       const networkId = await web3.eth.net.getId();
       const networkData = cltrnft_json.networks[networkId];

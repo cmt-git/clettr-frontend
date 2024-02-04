@@ -12,6 +12,7 @@ import {
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import settings from "../settings.json";
+import Web3 from "web3";
 
 export const store = createStore(rootReducers);
 
@@ -42,6 +43,12 @@ const client = new ApolloClient({
   }),
   link: link,
 });
+
+export const ganacheProvider = new Web3.providers.HttpProvider(
+  settings.environment == "development"
+    ? "localhost:7545"
+    : "clettr.com/blockchain"
+);
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

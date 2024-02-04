@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Web3 from "web3";
-import { store } from "../../../../pages/_app";
+import { ganacheProvider, store } from "../../../../pages/_app";
 import Settings from "../../../../settings.json";
 import style from "../../../../styles/component/marketplace-components/marketplace-block-component-style.module.scss";
 import { link_messageBoxShow } from "../../../messagebox-component/messagebox-component";
@@ -21,13 +21,7 @@ const MarketInfoPopupComponent = (props: any) => {
   useEffect(() => {
     (async () => {
       const cltrnft_json = require("../../../../abis/CLTRNFT.json");
-      const web3 = new Web3(
-        `wss://${
-          Settings.environment == "development"
-            ? "localhost"
-            : "clettr.com/blockchain"
-        }`
-      );
+      const web3 = new Web3(ganacheProvider);
 
       const networkId = await web3.eth.net.getId();
       const networkData = cltrnft_json.networks[networkId];
