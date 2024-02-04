@@ -46,8 +46,8 @@ const client = new ApolloClient({
 
 export const ganacheProvider = new Web3.providers.HttpProvider(
   settings.environment == "development"
-    ? "localhost:7545"
-    : "clettr.com/blockchain"
+    ? "http://localhost:7545"
+    : "http://159.223.39.105:7545/"
 );
 
 function MyApp({ Component, pageProps }: AppProps) {
