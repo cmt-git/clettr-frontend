@@ -30,7 +30,7 @@ const link = from([
     uri: `${
       settings.environment == "development"
         ? "http://localhost:8878"
-        : "https://clettr.com"
+        : "http://159.223.39.105:8878"
     }/api/graphql`,
     credentials: "include",
   }),
@@ -47,7 +47,7 @@ const client = new ApolloClient({
 export const ganacheProvider = new Web3.providers.WebsocketProvider(
   settings.environment == "development"
     ? "ws://localhost:7545"
-    : "wss://clettr.com/blockchain"
+    : "ws://159.223.39.105:7545"
 );
 
 function MyApp({ Component, pageProps }: AppProps) {
