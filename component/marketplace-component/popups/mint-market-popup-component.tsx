@@ -9,7 +9,7 @@ import ItemBlockComponent from "../../item-block-component/item-block-component"
 import { phpPrice } from "../../navbar-component/subcomponents/navbar-price-counter-component";
 import { closePopup } from "../../popup-component/popup-container-component";
 import { RootState } from "../../../scripts/redux/rootReducer";
-import { store } from "../../../pages/_app";
+import { ganacheProvider, store } from "../../../pages/_app";
 import { useEffect, useState } from "react";
 import Web3 from "web3";
 import { formatTokenBalance } from "../../../scripts/misc/contractManager";
@@ -19,13 +19,7 @@ import settings from "../../../settings.json";
 const cltrnft_json = require("../../../abis/CLTRNFT.json");
 const ettr_json = require("../../../abis/Ettr.json");
 const susdc_json = require("../../../abis/SUSDC.json");
-const web3 = new Web3(
-  `wss://${
-    settings.environment == "development"
-      ? "localhost:7545"
-      : "clettr.com/blockchain"
-  }`
-);
+const web3 = new Web3(ganacheProvider);
 
 const MintMarketPopupComponent = () => {
   const [inputValue, setInputValue]: any = useState(null);
