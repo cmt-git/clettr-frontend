@@ -5,6 +5,6 @@ export const axiosInstance = axios.create({
   baseURL:
     settings.environment == "development"
       ? `http://localhost:8878/api/`
-      : `https://clettr.com/api/`,
+      : `http://159.223.39.105:8878/api/`,
   withCredentials: true,
 });

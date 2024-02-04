@@ -25,7 +25,7 @@ const NavbarPriceCounterComponent = (props: any) => {
       `${
         settings.environment == "development"
           ? "http://localhost:3001"
-          : "https://clettr.com/"
+          : "http://159.223.39.105:3001"
       }`
     );
 
