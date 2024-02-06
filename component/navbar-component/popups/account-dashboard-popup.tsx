@@ -60,14 +60,14 @@ const AccountDashboardPopup = () => {
                 </span>
               </p>
             </div>
-            <div
+            {/* <div
               className={`${style.colored_button} ${style.light_black_button}`}
               onClick={() => {
                 openPopup(<ProfilePopupComponent />);
               }}
             >
               Profile
-            </div>
+            </div> */}
             <div
               className={`${style.colored_button} ${style.light_black_button}`}
               onClick={() => router.push("/settings")}
