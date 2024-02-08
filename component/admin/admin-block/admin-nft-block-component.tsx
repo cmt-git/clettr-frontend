@@ -8,15 +8,8 @@ import style from "./admin-block-style.module.scss";
 
 export default function AdminNFTBlockComponent() {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        gap: "15px",
-        flexDirection: "column",
-      }}
-    >
-      <div className={style.input_container}>
+    <div className={style.admin_mini_block} style={{ maxWidth: "750px" }}>
+      <div className={style.input_container} style={{ width: "100%" }}>
         <div className={style.input_container}>
           <div className={style.input_info}>
             <p style={{ marginBottom: "10px" }}>Search for NFT</p>

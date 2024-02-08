@@ -52,16 +52,22 @@ export default function AdminBlockComponent() {
           >
             Registration
           </div>
+          <div
+            className={`${style.colored_button} ${style.black_button}`}
+            onClick={() => setBlockType(3)}
+          >
+            Logs
+          </div>
         </div>
         <div className={style.line} />
-        {blockType == 1 ? (
-          <AdminUsersBlockComponent />
-        ) : blockType == 2 ? (
-          <AdminNFTBlockComponent />
-        ) : (
-          <AdminRegistrationBlockComponent />
-        )}
       </div>
+      {blockType == 1 ? (
+        <AdminUsersBlockComponent />
+      ) : blockType == 2 ? (
+        <AdminNFTBlockComponent />
+      ) : (
+        <AdminRegistrationBlockComponent />
+      )}
     </div>
   );
 }

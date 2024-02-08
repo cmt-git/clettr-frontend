@@ -29,6 +29,7 @@ const InventoryBlockComponent = (props: any) => {
   const [inventoryCustomQuery, { loading, error, data }] = useLazyQuery(
     INVENTORY_CUSTOM_QUERY
   );
+
   useEffect(() => {
     if (addItemFilterState != null) {
       inventoryCustomQuery({
