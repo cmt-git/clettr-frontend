@@ -64,7 +64,7 @@ export const connectWallet = async (changePopup: any, registerPopup: any) => {
   } else {
     if (bsc_address == null && signature == null) {
       link_messageBoxShow("Please install Metamask.", false);
-    } else if ([97, 1337].includes(networkId) == false) {
+    } else if ([97, 5777].includes(networkId) == false) {
       link_messageBoxShow("Please connect to Binance Smart Chain.", false);
     }
   }
