@@ -9,6 +9,7 @@ import { RootState } from "../../scripts/redux/rootReducer";
 import style from "../../styles/component/index-components/play-history-component.module.scss";
 import ItemBlockComponent from "../item-block-component/item-block-component";
 import PageBlockComponent from "../pageblock-component";
+import SelectBoxComponent from "../select-box-component/select-box-component";
 
 const PlayHistoryComponent = (props: any) => {
   const queryState = useSelector((state: RootState) => {
@@ -303,33 +304,16 @@ const PlayHistoryComponent = (props: any) => {
           </p>
         </div>
       </div>
-      <div className={`${style.select_box} ${style.select_box_responsive}`}>
-        <select>
-          <option>Search by Recent Times</option>
-          <option>Search by Earnings</option>
-          <option>Search by Words Cracked</option>
-          <option>Search by Difficulty</option>
-        </select>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="25"
-          height="51"
-          viewBox="0 0 25 51"
-        >
-          <g transform="translate(-1393 -359)">
-            <path
-              d="M12.5,0,25,19H0Z"
-              transform="translate(1393 359)"
-              fill="#fff"
-            />
-            <path
-              d="M12.5,0,25,19H0Z"
-              transform="translate(1418 410) rotate(180)"
-              fill="#fff"
-            />
-          </g>
-        </svg>
-      </div>
+      <SelectBoxComponent
+        style={style}
+        data={[
+          "Search by Recent Times",
+          "Search by Earnings",
+          "Search by Earnings",
+          "Search by Words Cracked",
+          "Search by Difficulty",
+        ]}
+      />
       <div className={style.play_history_block_container}>
         {queryState.user_play_history_query.user_play_history.length > 0 ? (
           (() => {

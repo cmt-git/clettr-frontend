@@ -16,6 +16,8 @@ import { store } from "../../pages/_app";
 import { link_messageBoxShow } from "../messagebox-component/messagebox-component";
 import { getFormattedTime } from "../../scripts/misc/stringFormatter";
 import { SetContracts } from "../../scripts/misc/contractManager";
+import QuestionnairePopupComponent from "./popups/questionnaire-popup-component";
+import IdSubmissionPopupComponent from "./popups/id-submission-popup-component";
 
 const NavbarComponent = () => {
   const router = useRouter();
@@ -173,12 +175,12 @@ const NavbarComponent = () => {
             >
               Marketplace
             </p>
-            <p
+            {/* <p
               className={style.p_hover}
               onClick={() => openPopup(<LeaderboardPopupComponent />)}
             >
               Leaderboards
-            </p>
+            </p> */}
           </div>
           <div className={style.navbar_component_right_container}>
             <p
@@ -198,12 +200,12 @@ const NavbarComponent = () => {
             >
               Docs
             </p>
-            <p
+            {/* <p
               className={style.p_hover}
               onClick={() => openPopup(<SupportPopupComponent />)}
             >
               Support
-            </p>
+            </p> */}
             <div
               className={style.energy_container}
               onClick={() => setPopupIndex(popupIndex != 1 ? 1 : null)}
@@ -270,14 +272,14 @@ const NavbarComponent = () => {
             >
               Marketplace
             </p>
-            <p
+            {/* <p
               className={style.p_hover}
               onClick={() => {
                 openPopup(<LeaderboardPopupComponent />);
               }}
             >
               Leaderboards
-            </p>
+            </p> */}
           </div>
           <div className={style.navbar_component_right_container}>
             <p
@@ -291,17 +293,18 @@ const NavbarComponent = () => {
             >
               Docs
             </p>
-            <p
+            {/* <p
               className={style.p_hover}
               onClick={() => openPopup(<SupportPopupComponent />)}
             >
               Support
-            </p>
+            </p> */}
             <div
               className={`${style.colored_button} ${style.black_button}`}
               style={{ maxWidth: "100px", marginLeft: "10px", padding: "8px" }}
               onClick={() => {
                 openPopup(<LoginPopupComponent />);
+                //openPopup(<IdSubmissionPopupComponent />);
               }}
             >
               Login
