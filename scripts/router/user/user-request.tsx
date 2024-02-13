@@ -11,6 +11,8 @@ import {
   closePopup,
 } from "../../../component/popup-component/popup-container-component";
 import RegisterQRCodePopupComponent from "../../../component/navbar-component/popups/register-qrcode-popup-component";
+import QuestionnairePopupComponent from "../../../component/navbar-component/popups/questionnaire-popup-component";
+import IdSubmissionPopupComponent from "../../../component/navbar-component/popups/id-submission-popup-component";
 
 let networkId: any = null;
 const setNetworkId: any = (value: any) => {
@@ -54,9 +56,18 @@ export const connectWallet = async (changePopup: any, registerPopup: any) => {
         signature: signature,
       })
       .then((res) => {
-        if (res.data["account_created"] == false) {
+        if (
+          res.data["account_created"] == false ||
+          res.data.account_approved == false
+        ) {
+          console.log(bsc_address, signature);
           link_messageBoxShow(res.data["message"], res.data["success"]);
-          changePopup(registerPopup(bsc_address));
+
+          if (res.data.account_created == false) {
+            changePopup(registerPopup(bsc_address));
+          }
+
+          //changePopup(<IdSubmissionPopupComponent />);
         } else {
           window.location.reload();
         }
@@ -193,9 +204,10 @@ export const registerAccount = async (json: any) => {
       link_messageBoxShow(res.data["message"], res.data["success"]);
 
       if (res.data["success"]) {
-        changePopup(
-          <RegisterQRCodePopupComponent username={json["username"]} type={1} />
-        );
+        changePopup(<QuestionnairePopupComponent />);
+        // changePopup(
+        //   <RegisterQRCodePopupComponent username={json["username"]} type={1} />
+        // );
       }
     });
 };
@@ -253,6 +265,46 @@ export const updateSet = async (json: any) => {
     });
 };
 
+export const updateQuestionnaire = async (_data: {
+  question_1: string;
+  question_2: string;
+  question_3: string;
+  question_4: string;
+  question_5: string;
+  question_6: string;
+  question_7: string;
+  question_8: string;
+  question_9: string;
+}) => {
+  if (bsc_address == "") {
+    await getBlockchain(setNetworkId, setAddress, setSignature);
+  }
+
+  if (bsc_address != "") {
+    return await axiosInstance
+      .post("/user/questionnaire", {
+        bsc_address: bsc_address,
+        ..._data,
+      })
+      .then((res) => {
+        link_messageBoxShow(res.data["message"], res.data["success"]);
+
+        return res.data;
+        // if (res.data["success"]) {
+        //   closePopup();
+        // }
+      });
+  } else {
+    link_messageBoxShow("Wallet cannot be loaded.", false);
+    return {
+      success: false,
+      message: "Wallet cannot be loaded.",
+    };
+  }
+
+  return null;
+};
+
 export const transactionSummary = async (json: {
   to_date: string | null;
   from_date: string | null;
@@ -266,5 +318,27 @@ export const transactionSummary = async (json: {
       // if (res.data["success"]) {
       //   closePopup();
       // }
+    });
+};
+
+export const governmentId = async (_data: {
+  image_1: string;
+  image_2: string;
+  image_3: string;
+}) => {
+  const formData = new FormData();
+  formData.append("bsc_address", bsc_address);
+  formData.append("image_1", _data.image_1);
+  formData.append("image_2", _data.image_2);
+  formData.append("image_3", _data.image_3);
+
+  return await axiosInstance
+    .put("/user/government", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      return res.data;
     });
 };

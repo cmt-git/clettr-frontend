@@ -75,4 +75,26 @@
     align-items: center;
     gap: 15px;
   }
+
+  .admins_log_component_root {
+    width: 100%;
+    max-width: 750px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+
+    .admin_log_block {
+      display: flex;
+
+      div {
+        width: 100%;
+
+        h1 {
+          color: rgba(white, 0.5);
+        }
+      }
+    }
+  }
 }
