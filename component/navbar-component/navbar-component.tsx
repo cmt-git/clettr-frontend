@@ -304,6 +304,7 @@ const NavbarComponent = () => {
               style={{ maxWidth: "100px", marginLeft: "10px", padding: "8px" }}
               onClick={() => {
                 openPopup(<LoginPopupComponent />);
+                //openPopup(<QuestionnairePopupComponent />);
                 //openPopup(<IdSubmissionPopupComponent />);
               }}
             >

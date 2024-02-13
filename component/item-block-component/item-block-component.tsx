@@ -33,7 +33,8 @@ const ItemBlockComponent = (props: any) => {
           props.hover !== false ? style.item_component_hover : style.null
         }
                 ${
-                  props.data.status == "market_sell" && props.no_borders == null
+                  props.data?.status == "market_sell" &&
+                  props.no_borders == null
                     ? style.item_component_border_red
                     : style.null
                 }
@@ -48,7 +49,7 @@ const ItemBlockComponent = (props: any) => {
                     ) {
                       if (
                         queryState.user_set.user_set[i] != null &&
-                        queryState.user_set.user_set[i].id == props.data.id
+                        queryState.user_set.user_set[i].id == props.data?.id
                       ) {
                         return true;
                       }
@@ -65,11 +66,12 @@ const ItemBlockComponent = (props: any) => {
           if (
             props.hover !== false &&
             props.add_index == null &&
-            props.inventory_popup !== true
+            props.inventory_popup !== true &&
+            props.no_click !== true
           ) {
             if (props.change_popup) {
               changePopup(
-                props.data.nft_type == "passive" ? (
+                props.data?.nft_type == "passive" ? (
                   <NodeInfoPopupComponent data={props.data} />
                 ) : (
                   <LetterInfoPopupComponent data={props.data} />
@@ -77,7 +79,7 @@ const ItemBlockComponent = (props: any) => {
               );
             } else {
               openPopup(
-                props.data.nft_type == "passive" ? (
+                props.data?.nft_type == "passive" ? (
                   <NodeInfoPopupComponent data={props.data} />
                 ) : (
                   <LetterInfoPopupComponent data={props.data} />
@@ -121,14 +123,14 @@ const ItemBlockComponent = (props: any) => {
         <div className={style.ibc_header}>
           {props.mint === true
             ? "x1 Boost"
-            : props.data.nft_type == "passive"
-            ? "x" + calculatePassiveBoost(props.data.nft_hash) + " Boost"
+            : props.data?.nft_type == "passive"
+            ? "x" + calculatePassiveBoost(props.data?.nft_hash) + " Boost"
             : "--- Boost"}
         </div>
         <div className={style.ibc_title_block}>
           {props.mint !== true &&
           props.result !== true &&
-          props.data.status == "burned" ? (
+          props.data?.status == "burned" ? (
             <div
               className={style.ibc_error}
               onMouseEnter={() => {
@@ -140,17 +142,17 @@ const ItemBlockComponent = (props: any) => {
           ) : null}
           {props.mint === true ? (
             <p>
-              {props.data.nft_type == "passive"
+              {props.data?.nft_type == "passive"
                 ? "Random Node"
                 : "Random Letter"}
             </p>
           ) : (
             <p>
-              {props.data.nft_type == "passive"
-                ? `Node #${props.data.id}`
+              {props.data?.nft_type == "passive"
+                ? `Node #${props.data?.id}`
                 : props.result !== true
-                ? `Letter ${props.data.nft_traits.substring(0, 1)} #${
-                    props.data.id
+                ? `Letter ${props.data?.nft_traits.substring(0, 1)} #${
+                    props.data?.id
                   }`
                 : "Letter A #---"}
             </p>
@@ -160,7 +162,7 @@ const ItemBlockComponent = (props: any) => {
           {(() => {
             let stars: any = [];
 
-            for (let i = 0; i < Number(props.data.nft_stars); i++) {
+            for (let i = 0; i < Number(props.data?.nft_stars); i++) {
               stars.push(
                 <svg
                   className={style.star_svg}
@@ -184,10 +186,10 @@ const ItemBlockComponent = (props: any) => {
           })()}
         </div>
         <p className={style.transparent_text}>
-          {props.data.nft_type == "passive" ? "Passive NFT" : "Active NFT"}
+          {props.data?.nft_type == "passive" ? "Passive NFT" : "Active NFT"}
         </p>
         <div className={style.item_container}>
-          {props.data.nft_type == "passive" ? (
+          {props.data?.nft_type == "passive" ? (
             <NodeItem mint={props.mint} data={props.data} />
           ) : (
             <LetterItem mint={props.mint} data={props.data} />
@@ -195,36 +197,36 @@ const ItemBlockComponent = (props: any) => {
         </div>
         {props.mint === true ? (
           <div>
-            {props.data.nft_type == "passive"
+            {props.data?.nft_type == "passive"
               ? "- Requirements"
               : "--- --- ---"}
           </div>
         ) : (
           <div>
-            {props.data.nft_type == "passive"
-              ? `${props.data.nft_requirement.split("-").length} ${
-                  props.data.nft_requirement.split("-").length > 1
+            {props.data?.nft_type == "passive"
+              ? `${props.data?.nft_requirement.split("-").length} ${
+                  props.data?.nft_requirement.split("-").length > 1
                     ? "Requirements"
                     : "Requirement"
                 }`
               : `${
-                  props.data.nft_traits.split("-")[1][0].toUpperCase() +
-                  props.data.nft_traits
+                  props.data?.nft_traits.split("-")[1][0].toUpperCase() +
+                  props.data?.nft_traits
                     .split("-")[1]
-                    .substring(1, props.data.nft_traits.split("-")[1].length)
+                    .substring(1, props.data?.nft_traits.split("-")[1].length)
                 } ${
-                  props.data.nft_traits.split("-")[2][0].toUpperCase() +
-                  props.data.nft_traits
+                  props.data?.nft_traits.split("-")[2][0].toUpperCase() +
+                  props.data?.nft_traits
                     .split("-")[2]
-                    .substring(1, props.data.nft_traits.split("-")[2].length)
-                } ${props.data.nft_traits.substring(0, 1)}`}
+                    .substring(1, props.data?.nft_traits.split("-")[2].length)
+                } ${props.data?.nft_traits.substring(0, 1)}`}
           </div>
         )}
         <div className={style.line} />
         <p className={style.transparent_text}>Hash</p>
         <div className={style.ibc_hash_box} style={{ fontSize: "15px" }}>
-          {props.data != null && props.data.nft_hash != null
-            ? props.data.nft_hash
+          {props.data != null && props.data?.nft_hash != null
+            ? props.data?.nft_hash
             : "--"}
         </div>
       </div>

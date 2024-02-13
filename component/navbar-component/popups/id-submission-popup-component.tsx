@@ -1,6 +1,12 @@
 import { useState } from "react";
 import style from "../../../styles/component/popup-component/popup-content-style.module.scss";
-import { closePopup } from "../../popup-component/popup-container-component";
+import {
+  changePopup,
+  closePopup,
+} from "../../popup-component/popup-container-component";
+import { governmentId } from "../../../scripts/router/user/user-request";
+import { link_messageBoxShow } from "../../messagebox-component/messagebox-component";
+import RegisterQRCodePopupComponent from "./register-qrcode-popup-component";
 
 export default function IdSubmissionPopupComponent() {
   const [images, setImages]: any = useState(["", "", ""]);
@@ -93,12 +99,31 @@ export default function IdSubmissionPopupComponent() {
         Upload Government Id
       </input> */}
       {images.map((value: any) => {
-        console.log(value, " - value");
         if (value !== "") {
           return <img src={value} className={style.popup_img_container} />;
         }
       })}
-      <div className={`${style.colored_button} ${style.grey_button}`}>
+      <div
+        className={`${style.colored_button} ${style.grey_button}`}
+        onClick={async () => {
+          const government_id = await governmentId({
+            image_1: images[0],
+            image_2: images[1],
+            image_3: images[2],
+          });
+
+          link_messageBoxShow(government_id?.message, government_id?.success);
+
+          if (government_id.success) {
+            changePopup(
+              <RegisterQRCodePopupComponent
+                username={"Clettr Account"}
+                type={1}
+              />
+            );
+          }
+        }}
+      >
         Continue
       </div>
     </div>

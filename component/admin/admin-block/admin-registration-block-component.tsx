@@ -1,6 +1,8 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import style from "./admin-block-style.module.scss";
 import PageBlockComponent from "../../pageblock-component";
+import { useLazyQuery } from "@apollo/client";
+import { ADMIN_USER_QUERY } from "../../../scripts/graphql/admin-query/admin-user-query";
 //import { useLazyQuery } from "@apollo/client";
 // import { useEffect, useRef } from "react";
 // import { INVENTORY_QUERY } from "../../../scripts/graphql/inventory-query/inventory-query";
@@ -9,9 +11,24 @@ import PageBlockComponent from "../../pageblock-component";
 // import NFTEditPopupComponent from "../../navbar-component/popups/nft-edit-popup-component";
 
 export default function AdminRegistrationBlockComponent() {
+  const [adminUserQuery, { loading, error, data }] =
+    useLazyQuery(ADMIN_USER_QUERY);
+
   const usernameRef: any = useRef();
 
-  function UserRegistrationBlock() {
+  useEffect(() => {
+    adminUserQuery({
+      variables: {
+        page: 1,
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  function UserRegistrationBlock(_localprops: any) {
     return (
       <div className={style.ab_user_registration_block}>
         <p>Username</p>
@@ -21,7 +38,7 @@ export default function AdminRegistrationBlockComponent() {
               1. How many years have you been actively involved in the
               cryptocurrency space?
             </h1>
-            <p>1</p>
+            <p>{_localprops?.data?.question_1}</p>
           </div>
           <div>
             <h1>
@@ -107,6 +124,8 @@ export default function AdminRegistrationBlockComponent() {
   return (
     <div
       style={{
+        width: "100%",
+        maxWidth: "750px",
         display: "flex",
         justifyContent: "center",
         gap: "15px",
@@ -114,8 +133,15 @@ export default function AdminRegistrationBlockComponent() {
       }}
     >
       <p>User Registration</p>
-      <UserRegistrationBlock />
-      <PageBlockComponent cut={"settings"} />
+      {data?.user_infos?.length > 0 ? (
+        data?.user_infos.map((value: any) => {
+          return <UserRegistrationBlock key={1} data={value} />;
+        })
+      ) : (
+        <div className={style.grey_info_block}>No Users Found</div>
+      )}
+      {/* <UserRegistrationBlock /> */}
+      <PageBlockComponent cut={"settings"} query={adminUserQuery} />
     </div>
   );
 }

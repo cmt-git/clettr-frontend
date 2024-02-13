@@ -1,4 +1,10 @@
+import { useLazyQuery } from "@apollo/client";
+import { NFT_QUERY } from "../../../scripts/graphql/admin-query/nft-query";
 import style from "./admin-block-style.module.scss";
+import { useRef } from "react";
+import { link_messageBoxShow } from "../../messagebox-component/messagebox-component";
+import { openPopup } from "../../popup-component/popup-container-component";
+import NFTEditPopupComponent from "../../navbar-component/popups/nft-edit-popup-component";
 //import { useLazyQuery } from "@apollo/client";
 // import { useEffect, useRef } from "react";
 // import { INVENTORY_QUERY } from "../../../scripts/graphql/inventory-query/inventory-query";
@@ -7,6 +13,9 @@ import style from "./admin-block-style.module.scss";
 // import NFTEditPopupComponent from "../../navbar-component/popups/nft-edit-popup-component";
 
 export default function AdminNFTBlockComponent() {
+  const nft_ref: any = useRef();
+  const [nft_Query, { loading, error, data }] = useLazyQuery(NFT_QUERY);
+
   return (
     <div className={style.admin_mini_block} style={{ maxWidth: "750px" }}>
       <div className={style.input_container} style={{ width: "100%" }}>
@@ -15,15 +24,43 @@ export default function AdminNFTBlockComponent() {
             <p style={{ marginBottom: "10px" }}>Search for NFT</p>
           </div>
           <div className={style.input_box}>
-            <input placeholder="Enter NFT Id" />
+            <input placeholder="Enter NFT Id" ref={nft_ref} />
           </div>
         </div>
       </div>
-      <div className={`${style.colored_button} ${style.grey_button}`}>
+      <div
+        className={`${style.colored_button} ${style.grey_button}`}
+        onClick={async () => {
+          if (Number.isInteger(parseInt(nft_ref.current.value, 10))) {
+            const nft = await nft_Query({
+              variables: {
+                id: Number.parseInt(nft_ref.current.value),
+              },
+            });
+
+            console.log(nft.data?.nft);
+            if (nft.data?.nft) {
+              openPopup(<NFTEditPopupComponent data={nft.data?.nft} />);
+            } else {
+              link_messageBoxShow(
+                "NFT with that id has not been found.",
+                false
+              );
+            }
+          } else {
+            link_messageBoxShow("Enter a integer.", false);
+          }
+        }}
+      >
         Search NFT
       </div>
       <p style={{ width: "100%", textAlign: "center" }}>or</p>
-      <div className={`${style.colored_button} ${style.green_button}`}>
+      <div
+        className={`${style.colored_button} ${style.green_button}`}
+        onClick={() => {
+          openPopup(<NFTEditPopupComponent data={null} type={"create"} />);
+        }}
+      >
         Create NFT
       </div>
     </div>

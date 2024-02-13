@@ -8,6 +8,7 @@ import NFTEditPopupComponent from "../../navbar-component/popups/nft-edit-popup-
 import AdminNFTBlockComponent from "./admin-nft-block-component";
 import AdminUsersBlockComponent from "./admin-users-block-component";
 import AdminRegistrationBlockComponent from "./admin-registration-block-component";
+import AdminLogsComponent from "./admin-logs-component";
 
 export default function AdminBlockComponent() {
   const [inventoryCustomQuery, { loading, error, data }] = useLazyQuery(
@@ -54,7 +55,7 @@ export default function AdminBlockComponent() {
           </div>
           <div
             className={`${style.colored_button} ${style.black_button}`}
-            onClick={() => setBlockType(3)}
+            onClick={() => setBlockType(4)}
           >
             Logs
           </div>
@@ -65,8 +66,10 @@ export default function AdminBlockComponent() {
         <AdminUsersBlockComponent />
       ) : blockType == 2 ? (
         <AdminNFTBlockComponent />
-      ) : (
+      ) : blockType == 3 ? (
         <AdminRegistrationBlockComponent />
+      ) : (
+        <AdminLogsComponent />
       )}
     </div>
   );

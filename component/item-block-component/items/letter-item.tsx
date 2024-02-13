@@ -46,7 +46,7 @@ const LetterItem = (props: any) => {
   };
 
   const striped_pattern = (_color: string) => {
-    const color = colors[_color]["darker"];
+    const color = colors[_color]?.["darker"];
 
     return (
       <svg
@@ -107,7 +107,7 @@ const LetterItem = (props: any) => {
   };
 
   const spotted_pattern = (_color: string) => {
-    const color = colors[_color]["darker"];
+    const color = colors[_color]?.["darker"];
 
     return (
       <svg
@@ -233,7 +233,7 @@ const LetterItem = (props: any) => {
   };
 
   const zigzag_pattern = (_color: string) => {
-    const color = colors[_color]["darker"];
+    const color = colors[_color]?.["darker"];
 
     return (
       <svg
@@ -279,7 +279,7 @@ const LetterItem = (props: any) => {
   };
 
   const checkered_pattern = (_color: string) => {
-    const color = colors[_color]["darker"];
+    const color = colors[_color]?.["darker"];
 
     return (
       <svg
@@ -356,7 +356,7 @@ const LetterItem = (props: any) => {
   };
 
   const cross_pattern = (_color: string) => {
-    const color = colors[_color]["darker"];
+    const color = colors[_color]?.["darker"];
 
     return (
       <svg
@@ -377,7 +377,7 @@ const LetterItem = (props: any) => {
   };
 
   const sharp_pattern = (_color: string) => {
-    const color = colors[_color]["darker"];
+    const color = colors[_color]?.["darker"];
 
     return (
       <svg
@@ -522,7 +522,7 @@ const LetterItem = (props: any) => {
   };
 
   const question_pattern = (_color: string) => {
-    const color = colors[_color]["darker"];
+    const color = colors[_color]?.["darker"];
 
     return (
       <svg
@@ -685,16 +685,16 @@ const LetterItem = (props: any) => {
             <path
               d="M42.659-37.224a5.434,5.434,0,0,0-5.435-5.435H5.435A5.435,5.435,0,0,0,0-37.224v31.79A5.435,5.435,0,0,0,5.435,0h31.79a5.435,5.435,0,0,0,5.435-5.435Z"
               fill={(() => {
-                let current_color = props.data.nft_traits.split("-")[1];
-                return colors[current_color]["darker"];
+                let current_color = props.data?.nft_traits.split("-")[1];
+                return colors[current_color]?.["darker"];
               })()}
               fill-rule="evenodd"
             />
             <path
               d="M42.842-45.261A5.435,5.435,0,0,0,37.408-50.7H5.618A5.435,5.435,0,0,0,.183-45.261v31.79A5.435,5.435,0,0,0,5.618-8.036h31.79a5.435,5.435,0,0,0,5.435-5.435Z"
               fill={(() => {
-                let current_color = props.data.nft_traits.split("-")[1];
-                return colors[current_color]["lighter"];
+                let current_color = props.data?.nft_traits.split("-")[1];
+                return colors[current_color]?.["lighter"];
               })()}
               fill-rule="evenodd"
             />
@@ -702,8 +702,8 @@ const LetterItem = (props: any) => {
         </svg>
         <div style={{ position: "absolute", top: "0px" }}>
           {(() => {
-            let current_color = props.data.nft_traits.split("-")[1];
-            let current_pattern = props.data.nft_traits.split("-")[2];
+            let current_color = props.data?.nft_traits.split("-")[1];
+            let current_pattern = props.data?.nft_traits.split("-")[2];
 
             return current_pattern == "striped"
               ? striped_pattern(current_color)
@@ -733,7 +733,7 @@ const LetterItem = (props: any) => {
             color: "white",
           }}
         >
-          {props.data.nft_traits.substring(0, 1)}
+          {props.data?.nft_traits.substring(0, 1)}
         </p>
       </div>
     ) : (
@@ -759,14 +759,14 @@ const LetterItem = (props: any) => {
             <path
               d="M42.659-37.224a5.434,5.434,0,0,0-5.435-5.435H5.435A5.435,5.435,0,0,0,0-37.224v31.79A5.435,5.435,0,0,0,5.435,0h31.79a5.435,5.435,0,0,0,5.435-5.435Z"
               fill={(() => {
-                return colors["grey"]["darker"];
+                return colors["grey"]?.["darker"];
               })()}
               fill-rule="evenodd"
             />
             <path
               d="M42.842-45.261A5.435,5.435,0,0,0,37.408-50.7H5.618A5.435,5.435,0,0,0,.183-45.261v31.79A5.435,5.435,0,0,0,5.618-8.036h31.79a5.435,5.435,0,0,0,5.435-5.435Z"
               fill={(() => {
-                return colors["grey"]["lighter"];
+                return colors["grey"]?.["lighter"];
               })()}
               fill-rule="evenodd"
             />

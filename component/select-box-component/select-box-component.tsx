@@ -3,7 +3,11 @@ export default function SelectBoxComponent(_props: any) {
     <div
       className={`${_props.style.select_box} ${_props.style.select_box_responsive}`}
     >
-      <select>
+      <select
+        onChange={(event) => {
+          _props.state(event.currentTarget.value);
+        }}
+      >
         {_props.data.map((value: any) => {
           return <option key={1}>{value}</option>;
         })}

@@ -61,7 +61,7 @@ export default function AdminUsersBlockComponent() {
               className={style.transparent_text}
               style={{ marginBottom: "10px" }}
             >
-              Search for User
+              Search for User | User Id: {data?.user?.value}
             </p>
           </div>
           <div style={{ display: "flex", gap: "15px" }}>
@@ -122,11 +122,18 @@ export default function AdminUsersBlockComponent() {
       <div className={style.admin_mini_block_items}>
         {data?.owned_nfts?.inventory_nfts.map((value: any) => {
           return (
-            <ItemBlockComponent
-              data={value}
+            <div
               key={1}
-              //add_index={props.add_index}
-            />
+              onClick={() => {
+                openPopup(<NFTEditPopupComponent data={value} />);
+              }}
+            >
+              <ItemBlockComponent
+                data={value}
+                hover={true}
+                //add_index={props.add_index}
+              />
+            </div>
           );
         })}
       </div>

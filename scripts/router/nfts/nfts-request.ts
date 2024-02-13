@@ -115,3 +115,29 @@ export const simulatorPrice = async (_page: number) => {
       // }
     });
 };
+
+export const createNFT = async (_data: {
+  nft_type: string;
+  nft_traits: string;
+  nft_hash: string;
+  nft_stars: string;
+  nft_req: string;
+  nft_owner_username: string;
+  nft_token_id: string;
+}) => {
+  return await axiosInstance.post("/nfts/customcreate", _data).then((res) => {
+    return res.data;
+  });
+};
+
+export const updateNFT = async (_data: { nft_token_id: string }) => {
+  return await axiosInstance.post("/nfts/update", _data).then((res) => {
+    return res.data;
+  });
+};
+
+export const enforcementNFT = async (_data: { nft_token_id: string }) => {
+  return await axiosInstance.post("/nfts/enforcement", _data).then((res) => {
+    return res.data;
+  });
+};
