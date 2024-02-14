@@ -342,3 +342,12 @@ export const governmentId = async (_data: {
       return res.data;
     });
 };
+
+export const approvalRequest = async (_data: {
+  approval: boolean;
+  username: string;
+}) => {
+  return await axiosInstance.post("/user/approval", _data).then((res) => {
+    return res.data;
+  });
+};

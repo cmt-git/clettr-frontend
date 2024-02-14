@@ -3,12 +3,33 @@ import style from "./admin-block-style.module.scss";
 import PageBlockComponent from "../../pageblock-component";
 import { useLazyQuery } from "@apollo/client";
 import { ADMIN_USER_QUERY } from "../../../scripts/graphql/admin-query/admin-user-query";
+import { approvalRequest } from "../../../scripts/router/user/user-request";
+import { link_messageBoxShow } from "../../messagebox-component/messagebox-component";
 //import { useLazyQuery } from "@apollo/client";
 // import { useEffect, useRef } from "react";
 // import { INVENTORY_QUERY } from "../../../scripts/graphql/inventory-query/inventory-query";
 // import { INVENTORY_CUSTOM_QUERY } from "../../../scripts/graphql/inventory-query/inventory-custom-query";
 // import { openPopup } from "../../popup-component/popup-container-component";
 // import NFTEditPopupComponent from "../../navbar-component/popups/nft-edit-popup-component";
+
+async function approvalClickHandler(_data: {
+  username: string;
+  approval: boolean;
+}) {
+  const data = await approvalRequest({
+    approval: _data.approval,
+    username: _data.username,
+  });
+
+  if (data.success == true) {
+    link_messageBoxShow(
+      data.message + " Please reload page to update.",
+      data.success
+    );
+  } else {
+    link_messageBoxShow(data.message, data.success);
+  }
+}
 
 export default function AdminRegistrationBlockComponent() {
   const [adminUserQuery, { loading, error, data }] =
@@ -31,7 +52,7 @@ export default function AdminRegistrationBlockComponent() {
   function UserRegistrationBlock(_localprops: any) {
     return (
       <div className={style.ab_user_registration_block}>
-        <p>Username</p>
+        <p>{_localprops?.data?.username}</p>
         <div className={style.ab_ur_question_block}>
           <div>
             <h1>
@@ -45,14 +66,14 @@ export default function AdminRegistrationBlockComponent() {
               2. On a scale of 1 to 10, how would you rate your overall
               knowledge of cryptocurrencies and blockchain technology?
             </h1>
-            <p>2</p>
+            <p>{_localprops?.data?.question_2}</p>
           </div>
           <div>
             <h1>
               3. Have you ever participated in cryptocurrency trading or
               investment activities?
             </h1>
-            <p>3</p>
+            <p>{_localprops?.data?.question_3}</p>
           </div>
         </div>
         <div className={style.ab_ur_question_block}>
@@ -61,7 +82,7 @@ export default function AdminRegistrationBlockComponent() {
               4. Do you understand the concept of private keys and public
               addresses in cryptocurrency transactions?
             </h1>
-            <p>1</p>
+            <p>{_localprops?.data?.question_4}</p>
           </div>
           <div>
             <h1>
@@ -69,7 +90,7 @@ export default function AdminRegistrationBlockComponent() {
               investing in cryptocurrencies, such as market volatility and
               regulatory uncertainties?
             </h1>
-            <p>2</p>
+            <p>{_localprops?.data?.question_5}</p>
           </div>
           <div>
             <h1>
@@ -77,7 +98,7 @@ export default function AdminRegistrationBlockComponent() {
               cryptocurrency portfolio? If comfortable, please share a brief
               example.
             </h1>
-            <p>3</p>
+            <p>{_localprops?.data?.question_6}</p>
           </div>
         </div>
         <div className={style.ab_ur_question_block}>
@@ -86,7 +107,7 @@ export default function AdminRegistrationBlockComponent() {
               7. How often do you stay updated on cryptocurrency market trends,
               news, and developments?
             </h1>
-            <p>1</p>
+            <p>{_localprops?.data?.question_7}</p>
           </div>
           <div>
             <h1>
@@ -94,27 +115,52 @@ export default function AdminRegistrationBlockComponent() {
               for safeguarding your cryptocurrency holdings, such as using
               hardware wallets and implementing two-factor authentication?
             </h1>
-            <p>2</p>
+            <p>{_localprops?.data?.question_8}</p>
           </div>
           <div>
             <h1>
               9. This crypto game does not guarantee 100% profit, and may pose
               some risk to your investment. Do you still wish to continue?
             </h1>
-            <p>3</p>
+            <p>{_localprops?.data?.question_9}</p>
           </div>
         </div>
         <div className={style.line} />
         <p>Government Ids</p>
-        <div className={style.ab_ur_img} />
-        <div className={style.ab_ur_img} />
-        <div className={style.ab_ur_img} />
+        <img
+          src={_localprops?.data?.government_id}
+          className={style.ab_ur_img}
+        />
+        <img
+          src={_localprops?.data?.government_id_1}
+          className={style.ab_ur_img}
+        />
+        <img
+          src={_localprops?.data?.government_id_2}
+          className={style.ab_ur_img}
+        />
         <div style={{ display: "flex", justifyContent: "center", gap: "15px" }}>
-          <div className={`${style.colored_button} ${style.green_button}`}>
+          <div
+            className={`${style.colored_button} ${style.green_button}`}
+            onClick={() => {
+              approvalClickHandler({
+                username: _localprops?.data?.username,
+                approval: true,
+              });
+            }}
+          >
             Approve
           </div>
-          <div className={`${style.colored_button} ${style.red_button}`}>
-            Discard
+          <div
+            className={`${style.colored_button} ${style.red_button}`}
+            onClick={() => {
+              approvalClickHandler({
+                username: _localprops?.data?.username,
+                approval: false,
+              });
+            }}
+          >
+            Reject
           </div>
         </div>
       </div>

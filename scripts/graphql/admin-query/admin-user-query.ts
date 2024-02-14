@@ -15,6 +15,7 @@ export const ADMIN_USER_QUERY = gql`
       government_id
       government_id_1
       government_id_2
+      username
     }
   }
 `;
