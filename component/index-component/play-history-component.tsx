@@ -12,6 +12,7 @@ import PageBlockComponent from "../pageblock-component";
 import SelectBoxComponent from "../select-box-component/select-box-component";
 
 const PlayHistoryComponent = (props: any) => {
+  const [filterState, setFilterState] = useState("");
   const queryState = useSelector((state: RootState) => {
     return state.queryState.value;
   });
@@ -309,10 +310,10 @@ const PlayHistoryComponent = (props: any) => {
         data={[
           "Search by Recent Times",
           "Search by Earnings",
-          "Search by Earnings",
           "Search by Words Cracked",
           "Search by Difficulty",
         ]}
+        state={setFilterState}
       />
       <div className={style.play_history_block_container}>
         {queryState.user_play_history_query.user_play_history.length > 0 ? (

@@ -18,18 +18,20 @@ export default function Page() {
   useEffect(() => {
     indexQuery();
   }, []);
+
   useEffect(() => {
     if (data === undefined) {
       return;
     }
 
     dispatch({ type: "queryStateReducer/SET", value: data });
-    if (data.user != null) {
+    if (data.user != null && data.user.roles == "admin") {
       dispatch({ type: "edit/loggedStateReducer/LOGGED_IN" });
       setNotLoggedIn(false);
     } else {
-      dispatch({ type: "edit/loggedStateReducer/LOGGED_OUT" });
-      setNotLoggedIn(true);
+      window.location.href = "/";
+      //dispatch({ type: "edit/loggedStateReducer/LOGGED_OUT" });
+      //setNotLoggedIn(true);
     }
   }, [data]);
 
