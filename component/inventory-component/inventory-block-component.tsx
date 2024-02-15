@@ -66,7 +66,7 @@ const InventoryBlockComponent = (props: any) => {
             </p>
           </div>
         </div>
-        <div className={`${style.select_box} ${style.select_box_responsive}`}>
+        {/* <div className={`${style.select_box} ${style.select_box_responsive}`}>
           <select onChange={(e: any) => setSpecificSearch(e.target.value)}>
             <option>Search All</option>
             <option>Search Passive NFTs</option>
@@ -93,8 +93,8 @@ const InventoryBlockComponent = (props: any) => {
               />
             </g>
           </svg>
-        </div>
-        <div className={style.input_box} style={{ height: "50px" }}>
+        </div> */}
+        {/* <div className={style.input_box} style={{ height: "50px" }}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="56.515"
@@ -115,7 +115,7 @@ const InventoryBlockComponent = (props: any) => {
             </g>
           </svg>
           <input type="text" placeholder={"Search By Hash"} />
-        </div>
+        </div> */}
       </div>
       {specificSearch == "Search Active NFTs" ? (
         <div className={style.filter_container}>
@@ -319,13 +319,13 @@ const InventoryBlockComponent = (props: any) => {
           >
             Forge
           </div>
-          <div
+          {/* <div
             className={`${style.colored_button} ${style.grey_button}`}
             style={{ height: "44px" }}
             onClick={() => openPopup(<SyncPopupComponent />)}
           >
             Sync
-          </div>
+          </div> */}
         </div>
       ) : null}
       <div className={style.line} />

@@ -282,7 +282,10 @@ const PlayHistoryComponent = (props: any) => {
   return (
     <div className={style.play_history_component_root}>
       <h1 className={style.title}>Play History</h1>
-      <div className={style.description_container}>
+      <div
+        className={style.description_container}
+        style={{ marginBottom: "15px" }}
+      >
         <p className={style.p_description}>
           Shows your play history from 30 days ago
         </p>
@@ -305,7 +308,7 @@ const PlayHistoryComponent = (props: any) => {
           </p>
         </div>
       </div>
-      <SelectBoxComponent
+      {/* <SelectBoxComponent
         style={style}
         data={[
           "Search by Recent Times",
@@ -314,7 +317,7 @@ const PlayHistoryComponent = (props: any) => {
           "Search by Difficulty",
         ]}
         state={setFilterState}
-      />
+      /> */}
       <div className={style.play_history_block_container}>
         {queryState.user_play_history_query.user_play_history.length > 0 ? (
           (() => {
