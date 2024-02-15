@@ -32,9 +32,6 @@ const AccountDashboardPopup = () => {
             <p style={{ fontWeight: 600 }}>
               <span style={{ opacity: 0.5 }}>Rank</span> #1
             </p>
-            <p>
-              8,454,433 <span style={{ opacity: 0.5 }}>Total Gains</span>
-            </p>
           </div>
           <div className={style.line} />
           <div className={style.account_dashboard_button_container}>

@@ -241,8 +241,8 @@ const MarketplaceBlockComponent = (props: any) => {
           />
           <p>Mint Market</p>
         </div>
-        <div className={style.vertical_line} style={{ width: "7px" }} />
-        <div className={`${style.select_box} ${style.select_box_responsive}`}>
+        {/* <div className={style.vertical_line} style={{ width: "7px" }} /> */}
+        {/* <div className={`${style.select_box} ${style.select_box_responsive}`}>
           <select onChange={(e: any) => setSpecificSearch(e.target.value)}>
             <option>Search All</option>
             <option>Search Passive NFTs</option>
@@ -267,8 +267,8 @@ const MarketplaceBlockComponent = (props: any) => {
               />
             </g>
           </svg>
-        </div>
-        <div className={style.input_box} style={{ height: "50px" }}>
+        </div> */}
+        {/* <div className={style.input_box} style={{ height: "50px" }}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="56.515"
@@ -289,8 +289,8 @@ const MarketplaceBlockComponent = (props: any) => {
             </g>
           </svg>
           <input type="text" placeholder={searchBy} />
-        </div>
-        <div className={`${style.select_box} ${style.select_box_responsive2}`}>
+        </div> */}
+        {/* <div className={`${style.select_box} ${style.select_box_responsive2}`}>
           <select onChange={(e: any) => setSearchBy(e.target.value)}>
             <option>Search by Hash</option>
             <option>Search by Player</option>
@@ -314,7 +314,7 @@ const MarketplaceBlockComponent = (props: any) => {
               />
             </g>
           </svg>
-        </div>
+        </div> */}
       </div>
       {specificSearch == "Search Active NFTs" ? (
         <div className={style.filter_container}>
