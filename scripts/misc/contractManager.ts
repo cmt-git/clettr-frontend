@@ -12,7 +12,9 @@ export async function SetContracts() {
     //@ts-ignore
     const currentAccount = window.ethereum.selectedAddress;
 
+    console.log(currentAccount, " - current account");
     if (currentAccount) {
+      console.log(currentAccount, store.getState().currentWalletAccountState);
       if (store.getState().currentWalletAccountState == null) {
         console.log("- loaded wallet!", currentAccount);
         store.dispatch({
