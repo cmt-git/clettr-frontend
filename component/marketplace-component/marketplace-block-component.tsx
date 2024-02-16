@@ -127,6 +127,12 @@ const MarketplaceBlockComponent = (props: any) => {
                       18
                     );
 
+                    if (store.getState().currentWalletAccountState == null) {
+                      console.log(store.getState().currentWalletAccountState);
+                      link_messageBoxShow("Cannot read wallet address.", false);
+                      return;
+                    }
+
                     if (
                       tokenBalance >=
                       Number(props.data.market_info.split("-")[1])
@@ -143,8 +149,7 @@ const MarketplaceBlockComponent = (props: any) => {
                         )
                         .send({
                           //@ts-ignore
-                          from: store.getState().currentWalletAccountState
-                            .value,
+                          from: store.getState().currentWalletAccountState,
                           gas: 6721975,
                         })
                         .on("transactionHash", (hash: any) => {
