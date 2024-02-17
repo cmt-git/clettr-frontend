@@ -35,7 +35,7 @@ const PassiveNFTPopupComponent = () => {
         Passive NFTs are one of the two NFT categories in Clettr along with{" "}
         <a href="">Active NFTs</a>. Passive NFTs are also called Nodes, and is
         the cheaper one between the two NFT categories, its price is at a
-        constant price of <span>4.99 USDC</span>. Passive NFTs from its name
+        constant price of <span>5.00 USDC</span>. Passive NFTs from its name
         will earn its user income passively, as Passive NFTs can be shared with
         the community, allowing it to be used by them once per week. Passive
         NFTs are one of the two requirements to be able to play and earn

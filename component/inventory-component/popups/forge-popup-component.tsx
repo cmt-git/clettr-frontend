@@ -321,13 +321,13 @@ const ForgePopupComponent = () => {
         />
         <p>
           {currentStar == 1
-            ? 99.99
+            ? 100
             : currentStar == 2
-            ? 199.99
+            ? 200
             : currentStar == 3
-            ? 299.99
+            ? 300
             : currentStar == 4
-            ? 499.99
+            ? 500
             : 0}
           <span
             className={style.transparent_text}
@@ -336,13 +336,13 @@ const ForgePopupComponent = () => {
             {decimalFormatter(
               store.getState().tickerPriceState.value != null
                 ? (currentStar == 1
-                    ? 99.99
+                    ? 100
                     : currentStar == 2
-                    ? 199.99
+                    ? 200
                     : currentStar == 3
-                    ? 299.99
+                    ? 300
                     : currentStar == 4
-                    ? 499.99
+                    ? 500
                     : 0) * store.getState().tickerPriceState.value
                 : 0
             )}
