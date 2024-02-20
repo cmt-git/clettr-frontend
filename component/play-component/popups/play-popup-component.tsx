@@ -428,6 +428,7 @@ const PlayPopupComponent = () => {
               },
             });
             closePopup();
+            //window.location.href = "/play";
             router.push("/play");
           } else {
             if (queryState.user_info.current_energy <= 0) {

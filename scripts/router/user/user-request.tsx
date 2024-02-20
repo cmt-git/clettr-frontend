@@ -305,13 +305,26 @@ export const updateQuestionnaire = async (_data: {
   return null;
 };
 
-export const transactionSummary = async (json: {
-  to_date: string | null;
-  from_date: string | null;
-}) => {
+export const transactionSummary = async (
+  json: {
+    to_date: string | null;
+    from_date: string | null;
+    global: boolean;
+    username: string;
+  },
+  show_success: boolean
+) => {
   return await axiosInstance
     .post("/user/transactions/summary", json)
     .then((res) => {
+      if (show_success == true) {
+        if (res.data.success === false) {
+          link_messageBoxShow("Could not find user.", false);
+        } else {
+          link_messageBoxShow("Found User.", true);
+        }
+      }
+
       return res.data;
       // link_messageBoxShow(res.data["message"], res.data["success"]);
 

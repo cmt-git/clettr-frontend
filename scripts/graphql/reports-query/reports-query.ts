@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const REPORTS_QUERY = gql`
-  query ($page: Int) {
-    user_transactions(page: $page) {
+  query ($page: Int, $global: Boolean, $username: String) {
+    user_transactions(page: $page, global: $global, username: $username) {
       id
       transaction_date
       transaction_type
