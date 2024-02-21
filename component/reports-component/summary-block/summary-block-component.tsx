@@ -18,7 +18,7 @@ function downloadCSV(data: string, filename: string): void {
   document.body.removeChild(link);
 }
 
-export default function SummaryBlockComponent() {
+export default function SummaryBlockComponent(props: any) {
   const inputRef: any = useRef();
   const [downloadCSVState, setDownloadCSV]: any = useState(false);
   const [summaryData, setSummaryData]: any = useState(null);
@@ -39,14 +39,19 @@ export default function SummaryBlockComponent() {
     (async () => {
       setSummaryData(
         (
-          await transactionSummary({
-            to_date: null,
-            from_date: null,
-          })
+          await transactionSummary(
+            {
+              to_date: null,
+              from_date: null,
+              global: props.global,
+              username: props.username,
+            },
+            props.show_success
+          )
         )?.data
       );
     })();
-  }, []);
+  }, [props.username]);
 
   return (
     <div className={style.transactions_block_component}>
@@ -85,10 +90,15 @@ export default function SummaryBlockComponent() {
           ) {
             setSummaryData(
               (
-                await transactionSummary({
-                  to_date: toDateInputRef.current.value,
-                  from_date: fromDateInputRef.current.value,
-                })
+                await transactionSummary(
+                  {
+                    to_date: toDateInputRef.current.value,
+                    from_date: fromDateInputRef.current.value,
+                    username: props.username,
+                    global: props.global,
+                  },
+                  props.show_success
+                )
               )?.data
             );
 
@@ -142,23 +152,65 @@ export default function SummaryBlockComponent() {
           </div>
         </div>
         <div className={style.tbc_dual_div_mono_container}>
-          <p>Number Of Market Buys</p>
+          <p>Amount Of Community Earnings</p>
           <div className={style.grey_info_block}>
-            {summaryData?.number_of_market_buys}
+            {summaryData?.number_of_community_earnings}
           </div>
         </div>
       </div>
       <div className={style.tbc_dual_div_container}>
         <div className={style.tbc_dual_div_mono_container}>
-          <p>Number Of Market Sells</p>
+          <p>Number Of Minted Passive NFTs</p>
           <div className={style.grey_info_block}>
-            {summaryData?.number_of_market_sells}
+            {summaryData?.number_of_minted_passive_nfts}
           </div>
         </div>
         <div className={style.tbc_dual_div_mono_container}>
-          <p>Number Of Community Earnings</p>
+          <p>Number Of Minted Active NFTs</p>
           <div className={style.grey_info_block}>
-            {summaryData?.number_of_community_earnings}
+            {summaryData?.number_of_minted_active_nfts}
+          </div>
+        </div>
+      </div>
+      <div className={style.tbc_dual_div_container}>
+        <div className={style.tbc_dual_div_mono_container}>
+          <p>Number Of Market Buys (Passive)</p>
+          <div className={style.grey_info_block}>
+            {summaryData?.number_of_market_buys_passive}
+          </div>
+        </div>
+        <div className={style.tbc_dual_div_mono_container}>
+          <p>Number Of Market Buys (Active)</p>
+          <div className={style.grey_info_block}>
+            {summaryData?.number_of_market_buys_active}
+          </div>
+        </div>
+      </div>
+      <div className={style.tbc_dual_div_container}>
+        <div className={style.tbc_dual_div_mono_container}>
+          <p>Number Of Market Sells (Passive)</p>
+          <div className={style.grey_info_block}>
+            {summaryData?.number_of_market_sells_passive}
+          </div>
+        </div>
+        <div className={style.tbc_dual_div_mono_container}>
+          <p>Number Of Market Sells (Active)</p>
+          <div className={style.grey_info_block}>
+            {summaryData?.number_of_market_sells_active}
+          </div>
+        </div>
+      </div>
+      <div className={style.tbc_dual_div_container}>
+        <div className={style.tbc_dual_div_mono_container}>
+          <p>Number Of Forges (Passive) </p>
+          <div className={style.grey_info_block}>
+            {summaryData?.number_of_forges_passive}
+          </div>
+        </div>
+        <div className={style.tbc_dual_div_mono_container}>
+          <p>Number Of Forges (Active)</p>
+          <div className={style.grey_info_block}>
+            {summaryData?.number_of_forges_active}
           </div>
         </div>
       </div>
@@ -167,12 +219,6 @@ export default function SummaryBlockComponent() {
           <p>Number Of Plays</p>
           <div className={style.grey_info_block}>
             {summaryData?.number_of_plays}
-          </div>
-        </div>
-        <div className={style.tbc_dual_div_mono_container}>
-          <p>Number Of Forges</p>
-          <div className={style.grey_info_block}>
-            {summaryData?.number_of_forges}
           </div>
         </div>
       </div>

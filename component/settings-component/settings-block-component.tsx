@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "../../styles/component/settings-component/settings-block-component.module.scss";
 import AccountSettingsComponent from "./popup/account-settings-component";
 import ActivitySettingsComponent from "./popup/activity-settings-component";
@@ -6,8 +6,14 @@ import EmailSettingsComponent from "./popup/email-settings-component";
 import PassportSettingsComponent from "./popup/password-settings-component";
 import SecuritySettingsComponent from "./popup/security-settings-component";
 import SocialMediaSettingsComponent from "./popup/social-media-settings-component";
+import {
+  logoutAccount,
+  usernameModify,
+} from "../../scripts/router/user/user-request";
+import { store } from "../../pages/_app";
 
 export let link_setSettingsPopupIndex: any = null;
+
 const SettingsBlockComponent = () => {
   const [settingsPopupIndex, setSettingsPopupIndex]: any = useState(1);
   link_setSettingsPopupIndex = setSettingsPopupIndex;
@@ -82,7 +88,10 @@ const SettingsBlockComponent = () => {
             <p>Activity</p>
           </div> */}
           <div className={style.line} />
-          <div className={`${style.colored_button} ${style.red_button}`}>
+          <div
+            className={`${style.colored_button} ${style.red_button}`}
+            onClick={() => logoutAccount()}
+          >
             Logout
           </div>
         </div>

@@ -154,7 +154,9 @@ const NavbarComponent = () => {
                     }
                   : {}
               }
-              onClick={() => router.push("/inventory")}
+              onClick={() => {
+                window.location.href = "/inventory";
+              }}
             >
               Inventory
             </p>
@@ -171,16 +173,22 @@ const NavbarComponent = () => {
                     }
                   : {}
               }
-              onClick={() => router.push("/marketplace")}
+              onClick={() => {
+                window.location.href = "/marketplace";
+              }}
             >
               Marketplace
             </p>
-            {/* <p
-              className={style.p_hover}
-              onClick={() => openPopup(<LeaderboardPopupComponent />)}
-            >
-              Leaderboards
-            </p> */}
+            {store.getState().queryState?.value?.user?.roles == "admin" ? (
+              <p
+                className={style.p_hover}
+                onClick={() => {
+                  window.location.href = "/admin";
+                }}
+              >
+                Admin
+              </p>
+            ) : null}
           </div>
           <div className={style.navbar_component_right_container}>
             <p
@@ -196,7 +204,9 @@ const NavbarComponent = () => {
                     }
                   : {}
               }
-              onClick={() => router.push("/docs")}
+              onClick={() => {
+                window.location.href = "/docs";
+              }}
             >
               Docs
             </p>
@@ -257,7 +267,9 @@ const NavbarComponent = () => {
             <NavbarPriceCounterComponent />
             <div
               className={style.logo_container}
-              onClick={() => router.push("/")}
+              onClick={() => {
+                window.location.href = "/";
+              }}
             >
               <img src="./images/svgs/clettr-logo.svg" alt="clettr-logo" />
             </div>
@@ -268,18 +280,22 @@ const NavbarComponent = () => {
                   ? { color: "rgba(255, 255, 255, 1)", cursor: "default" }
                   : {}
               }
-              onClick={() => router.push("/marketplace")}
+              onClick={() => {
+                window.location.href = "/marketplace";
+              }}
             >
               Marketplace
             </p>
-            {/* <p
-              className={style.p_hover}
-              onClick={() => {
-                openPopup(<LeaderboardPopupComponent />);
-              }}
-            >
-              Leaderboards
-            </p> */}
+            {store.getState().queryState?.value?.user?.roles == "admin" ? (
+              <p
+                className={style.p_hover}
+                onClick={() => {
+                  window.location.href = "/admin";
+                }}
+              >
+                Admin
+              </p>
+            ) : null}
           </div>
           <div className={style.navbar_component_right_container}>
             <p

@@ -6,6 +6,7 @@ export const INDEX_QUERY = gql`
       username
       bsc_address
       roles
+      email
     }
     misc {
       total_players

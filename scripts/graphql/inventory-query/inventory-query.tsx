@@ -5,6 +5,7 @@ export const INVENTORY_QUERY = gql`
     user {
       username
       bsc_address
+      roles
     }
     misc {
       total_players

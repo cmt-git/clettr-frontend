@@ -56,14 +56,24 @@ function downloadCSV(_data: any) {
   link.click();
 }
 
-const TransactionsBlockComponent = () => {
+const TransactionsBlockComponent = (props: any) => {
   const inputRef: any = useRef();
   const [downloadCSVState, setDownloadCSV]: any = useState(false);
   const [reportsQuery, { loading, error, data }] = useLazyQuery(REPORTS_QUERY);
+  const [queryVariables, setQueryVariables] = useState({});
 
   useEffect(() => {
-    reportsQuery();
-  }, []);
+    const queryvariable = {
+      global: props.global,
+      username: props.username,
+    };
+    setQueryVariables(queryvariable);
+    reportsQuery({
+      variables: {
+        ...queryvariable,
+      },
+    });
+  }, [props.username]);
 
   useEffect(() => {
     if (downloadCSVState == true) {
@@ -169,7 +179,11 @@ const TransactionsBlockComponent = () => {
         </div>
       )}
 
-      <PageBlockComponent query={reportsQuery} cut={"settings"} />
+      <PageBlockComponent
+        query={reportsQuery}
+        cut={"settings"}
+        variables={queryVariables}
+      />
     </div>
   );
 };

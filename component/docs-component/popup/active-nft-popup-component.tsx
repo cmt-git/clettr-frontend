@@ -153,7 +153,7 @@ const ActiveNFTPopupComponent = () => {
           }}
         >
           <p className={style.transparent_text}>Set Hash</p>
-          <p>A8HHJ44VBN</p>
+          <p>LKEINKIO22</p>
         </div>
       </div>
     </div>

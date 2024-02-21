@@ -305,13 +305,26 @@ export const updateQuestionnaire = async (_data: {
   return null;
 };
 
-export const transactionSummary = async (json: {
-  to_date: string | null;
-  from_date: string | null;
-}) => {
+export const transactionSummary = async (
+  json: {
+    to_date: string | null;
+    from_date: string | null;
+    global: boolean;
+    username: string;
+  },
+  show_success: boolean
+) => {
   return await axiosInstance
     .post("/user/transactions/summary", json)
     .then((res) => {
+      if (show_success == true) {
+        if (res.data.success === false) {
+          link_messageBoxShow("Could not find user.", false);
+        } else {
+          link_messageBoxShow("Found User.", true);
+        }
+      }
+
       return res.data;
       // link_messageBoxShow(res.data["message"], res.data["success"]);
 
@@ -341,6 +354,47 @@ export const governmentId = async (_data: {
     .then((res) => {
       return res.data;
     });
+};
+
+export const usernameModify = async (_data: {
+  username: string;
+  password: string;
+  bsc_address: string;
+}) => {
+  return await axiosInstance
+    .post("/user/username/modify", _data)
+    .then((res) => {
+      link_messageBoxShow(res.data.message, res.data.output);
+      return res.data;
+    });
+};
+
+export const passwordModify = async (_data: {
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
+  bsc_address: string;
+}) => {
+  return await axiosInstance
+    .post("/user/password/modify", _data)
+    .then((res) => {
+      link_messageBoxShow(res.data.message, res.data.success);
+      return res.data;
+    });
+};
+
+export const emailModify = async (_data: any) => {
+  return await axiosInstance.post("/user/email/modify", _data).then((res) => {
+    link_messageBoxShow(res.data.message, res.data.success);
+    return res.data;
+  });
+};
+
+export const authGenerate = async (_data: { email: string }) => {
+  return await axiosInstance.post("/user/auth/generate", _data).then((res) => {
+    link_messageBoxShow(res.data.message, res.data.success);
+    return res.data;
+  });
 };
 
 export const approvalRequest = async (_data: {

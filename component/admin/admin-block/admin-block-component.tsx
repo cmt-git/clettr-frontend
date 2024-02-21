@@ -9,8 +9,11 @@ import AdminNFTBlockComponent from "./admin-nft-block-component";
 import AdminUsersBlockComponent from "./admin-users-block-component";
 import AdminRegistrationBlockComponent from "./admin-registration-block-component";
 import AdminLogsComponent from "./admin-logs-component";
+import ReportsBlockComponent from "../../reports-component/reports-block-component";
+import { Router, useRouter } from "next/router";
 
 export default function AdminBlockComponent() {
+  const router = useRouter();
   const [inventoryCustomQuery, { loading, error, data }] = useLazyQuery(
     INVENTORY_CUSTOM_QUERY
   );
@@ -18,16 +21,30 @@ export default function AdminBlockComponent() {
   const [blockType, setBlockType]: any = useState(1);
 
   useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    // Get the value of the 'block' parameter
+    const block: string | null = urlParams.get("block");
+
+    if (
+      block != null &&
+      /^\d+$/.test(block) &&
+      Number.parseInt(block) >= 1 &&
+      Number.parseInt(block) <= 6
+    ) {
+      setBlockType(block);
+    }
+
     inventoryCustomQuery({
       variables: {
         not_user: false,
         username: "clettradmin5",
         page: 1,
-        // not_user: true,
-        //filters: addItemFilterState,
       },
     });
   }, []);
+
   return (
     <div className={style.admin_block_root}>
       <div className={style.admin_block_component_main}>
@@ -37,27 +54,41 @@ export default function AdminBlockComponent() {
         <div style={{ display: "flex", gap: "15px" }}>
           <div
             className={`${style.colored_button} ${style.black_button}`}
-            onClick={() => setBlockType(1)}
+            onClick={() => (window.location.href = `/admin?block=${1}`)}
           >
             Users
           </div>
           <div
             className={`${style.colored_button} ${style.black_button}`}
-            onClick={() => setBlockType(2)}
+            onClick={() => (window.location.href = `/admin?block=${2}`)}
           >
             NFT
           </div>
           <div
             className={`${style.colored_button} ${style.black_button}`}
-            onClick={() => setBlockType(3)}
+            onClick={() => (window.location.href = `/admin?block=${3}`)}
           >
             Registration
           </div>
+        </div>
+        <div style={{ display: "flex", gap: "15px" }}>
           <div
             className={`${style.colored_button} ${style.black_button}`}
-            onClick={() => setBlockType(4)}
+            onClick={() => (window.location.href = `/admin?block=${4}`)}
           >
             Logs
+          </div>
+          <div
+            className={`${style.colored_button} ${style.black_button}`}
+            onClick={() => (window.location.href = `/admin?block=${5}`)}
+          >
+            Reports (Global)
+          </div>
+          <div
+            className={`${style.colored_button} ${style.black_button}`}
+            onClick={() => (window.location.href = `/admin?block=${6}`)}
+          >
+            Reports (Users)
           </div>
         </div>
         <div className={style.line} />
@@ -68,9 +99,13 @@ export default function AdminBlockComponent() {
         <AdminNFTBlockComponent />
       ) : blockType == 3 ? (
         <AdminRegistrationBlockComponent />
-      ) : (
+      ) : blockType == 4 ? (
         <AdminLogsComponent />
-      )}
+      ) : blockType == 5 ? (
+        <ReportsBlockComponent global={true} />
+      ) : blockType == 6 ? (
+        <ReportsBlockComponent username={true} show_success={true} />
+      ) : null}
     </div>
   );
 }
