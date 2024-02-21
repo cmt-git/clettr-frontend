@@ -6,7 +6,10 @@ import EmailSettingsComponent from "./popup/email-settings-component";
 import PassportSettingsComponent from "./popup/password-settings-component";
 import SecuritySettingsComponent from "./popup/security-settings-component";
 import SocialMediaSettingsComponent from "./popup/social-media-settings-component";
-import { logoutAccount } from "../../scripts/router/user/user-request";
+import {
+  logoutAccount,
+  usernameModify,
+} from "../../scripts/router/user/user-request";
 import { store } from "../../pages/_app";
 
 export let link_setSettingsPopupIndex: any = null;

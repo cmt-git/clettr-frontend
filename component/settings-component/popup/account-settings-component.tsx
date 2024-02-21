@@ -1,13 +1,35 @@
+import { useSelector } from "react-redux";
 import style from "../../../styles/component/settings-component/popup/settings-popup-component.module.scss";
 import { link_setSettingsPopupIndex } from "../settings-block-component";
+import { RootState } from "../../../scripts/redux/rootReducer";
+import { useRef } from "react";
+import { usernameModify } from "../../../scripts/router/user/user-request";
 
+function handleUpdate(_data: {
+  username: string;
+  password: string;
+  bsc_address: string;
+}) {
+  usernameModify({
+    username: _data.username,
+    password: _data.password,
+    bsc_address: _data.bsc_address,
+  });
+}
 const AccountSettingsComponent = () => {
+  const queryState = useSelector((state: RootState) => {
+    return state.queryState.value;
+  });
+
+  const usernameRef: any = useRef();
+  const passwordRef: any = useRef();
+
   return (
     <div className={style.settings_popup_root}>
       <div className={style.settings_popup_header}>
         <p>Account</p>
         <p className={style.transparent_text}>
-          Username <span>test-</span>
+          Username <span>{queryState?.user?.username}</span>
         </p>
       </div>
       <div className={style.line} />
@@ -22,14 +44,14 @@ const AccountSettingsComponent = () => {
             alt="bsc-chain-logo"
             style={{ width: "20px", marginRight: "5px" }}
           />
-          <p>0xd6077eA337b8c1B3EFd929EAA2c530C05Afd5136</p>
+          <p>{queryState?.user?.bsc_address}</p>
         </div>
       </div>
       <div className={style.line} />
       <div className={style.input_container}>
         <div className={style.input_info}>
           <p className={style.transparent_text}>Email</p>
-          <p>test@test.com</p>
+          <p>{queryState?.user?.email}</p>
         </div>
         <div
           className={`${style.colored_button} ${style.light_grey_button}`}
@@ -56,10 +78,10 @@ const AccountSettingsComponent = () => {
       <div className={style.input_container} style={{ marginTop: "15px" }}>
         <div className={style.input_info}>
           <p className={style.transparent_text}>Username</p>
-          <p>test-</p>
+          <p>{queryState?.user?.username}</p>
         </div>
         <div className={style.input_box}>
-          <input type="text" placeholder="Username" />
+          <input type="text" placeholder="Username" ref={usernameRef} />
         </div>
       </div>
       <div className={style.input_container} style={{ marginTop: "15px" }}>
@@ -68,12 +90,19 @@ const AccountSettingsComponent = () => {
           <p>&nbsp;</p>
         </div>
         <div className={style.input_box}>
-          <input type="password" placeholder="Password" />
+          <input type="password" placeholder="Password" ref={passwordRef} />
         </div>
       </div>
       <div
         className={`${style.colored_button} ${style.light_grey_button}`}
         style={{ marginTop: "15px" }}
+        onClick={() => {
+          handleUpdate({
+            username: usernameRef.current.value,
+            password: passwordRef.current.value,
+            bsc_address: queryState?.user?.bsc_address,
+          });
+        }}
       >
         Update
       </div>
