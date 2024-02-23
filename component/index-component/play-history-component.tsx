@@ -10,9 +10,10 @@ import style from "../../styles/component/index-components/play-history-componen
 import ItemBlockComponent from "../item-block-component/item-block-component";
 import PageBlockComponent from "../pageblock-component";
 import SelectBoxComponent from "../select-box-component/select-box-component";
+import { gql, useLazyQuery } from "@apollo/client";
 
 const PlayHistoryComponent = (props: any) => {
-  const [filterState, setFilterState] = useState("");
+  const [filterState, setFilterState] = useState("Search by Recent Times");
   const queryState = useSelector((state: RootState) => {
     return state.queryState.value;
   });
@@ -20,6 +21,43 @@ const PlayHistoryComponent = (props: any) => {
   const colorThemeState = useSelector((state: RootState) => {
     return state.colorThemeState.value;
   });
+
+  const [playHistoryQuery, { loading, error, data }] = useLazyQuery(gql`
+    query ($page: Int, $filter: String) {
+      user_play_history_query(page: $page, filter: $filter) {
+        user_play_history {
+          match_nfts {
+            id
+            current_owner
+            original_owner
+            creation_date
+            nft_token_id
+            nft_type
+            nft_traits
+            nft_hash
+            nft_stars
+            nft_requirement
+            status
+            market_info
+          }
+          date
+          words_cracked
+          rounds
+          total_boost
+          final_difficulty
+          reward
+        }
+      }
+    }
+  `);
+
+  useEffect(() => {
+    playHistoryQuery({
+      variables: {
+        filter: filterState,
+      },
+    });
+  }, [filterState]);
 
   const PlayHistoryBlock = (props: any) => {
     return (
@@ -29,16 +67,15 @@ const PlayHistoryComponent = (props: any) => {
             <span className={style.transparent_text}>Time</span>{" "}
             {timeConverter(
               Number(
-                queryState.user_play_history_query.user_play_history[
-                  props.index
-                ].date
+                data?.user_play_history_query?.user_play_history[props.index]
+                  .date
               )
             )}
           </p>
           <p>
             <span className={style.transparent_text}>Node</span> #
             {
-              queryState.user_play_history_query.user_play_history[props.index]
+              data?.user_play_history_query?.user_play_history[props.index]
                 .match_nfts[0].id
             }
           </p>
@@ -50,14 +87,13 @@ const PlayHistoryComponent = (props: any) => {
               for (
                 let i = 0;
                 i <
-                queryState.user_play_history_query.user_play_history[
-                  props.index
-                ].match_nfts.length -
+                data?.user_play_history_query?.user_play_history[props.index]
+                  .match_nfts.length -
                   1;
                 i++
               ) {
                 const letter_trait_split =
-                  queryState.user_play_history_query.user_play_history[
+                  data?.user_play_history_query?.user_play_history[
                     props.index
                   ].match_nfts[i + 1].nft_traits.split("-");
 
@@ -76,9 +112,8 @@ const PlayHistoryComponent = (props: any) => {
             />
             <p>
               {decimalFormatter(
-                queryState.user_play_history_query.user_play_history[
-                  props.index
-                ].reward
+                data?.user_play_history_query?.user_play_history[props.index]
+                  .reward
               )}
             </p>
           </div>
@@ -87,9 +122,8 @@ const PlayHistoryComponent = (props: any) => {
           <div className={style.php_left_item_container}>
             <ItemBlockComponent
               data={
-                queryState.user_play_history_query.user_play_history[
-                  props.index
-                ].match_nfts[0]
+                data?.user_play_history_query?.user_play_history[props.index]
+                  .match_nfts[0]
               }
               hover={false}
             />
@@ -102,16 +136,15 @@ const PlayHistoryComponent = (props: any) => {
               for (
                 let i = 0;
                 i <
-                queryState.user_play_history_query.user_play_history[
-                  props.index
-                ].match_nfts.length -
+                data?.user_play_history_query?.user_play_history[props.index]
+                  .match_nfts.length -
                   1;
                 i++
               ) {
                 arr_item_blocks.push(
                   <ItemBlockComponent
                     data={
-                      queryState.user_play_history_query.user_play_history[
+                      data?.user_play_history_query?.user_play_history[
                         props.index
                       ].match_nfts[i + 1]
                     }
@@ -142,14 +175,13 @@ const PlayHistoryComponent = (props: any) => {
                 for (
                   let i = 0;
                   i <
-                  queryState.user_play_history_query.user_play_history[
-                    props.index
-                  ].match_nfts.length -
+                  data?.user_play_history_query?.user_play_history[props.index]
+                    .match_nfts.length -
                     1;
                   i++
                 ) {
                   hash +=
-                    queryState.user_play_history_query.user_play_history[
+                    data?.user_play_history_query?.user_play_history[
                       props.index
                     ].match_nfts[i + 1].nft_hash;
                 }
@@ -169,9 +201,8 @@ const PlayHistoryComponent = (props: any) => {
             <p className={style.transparent_text}>Node Hash</p>
             <div>
               {
-                queryState.user_play_history_query.user_play_history[
-                  props.index
-                ].match_nfts[0].nft_hash
+                data?.user_play_history_query?.user_play_history[props.index]
+                  .match_nfts[0].nft_hash
               }
             </div>
           </div>
@@ -186,9 +217,8 @@ const PlayHistoryComponent = (props: any) => {
             <p className={style.transparent_text}>Total Boost</p>
             <p className={style.yellow_text}>
               {`x${
-                queryState.user_play_history_query.user_play_history[
-                  props.index
-                ].total_boost
+                data?.user_play_history_query?.user_play_history[props.index]
+                  .total_boost
               } Boost`}
             </p>
           </div>
@@ -205,9 +235,8 @@ const PlayHistoryComponent = (props: any) => {
             <p className={style.transparent_text}>Total Rounds</p>
             <div>
               {
-                queryState.user_play_history_query.user_play_history[
-                  props.index
-                ].rounds
+                data?.user_play_history_query?.user_play_history[props.index]
+                  .rounds
               }
             </div>
           </div>
@@ -221,7 +250,7 @@ const PlayHistoryComponent = (props: any) => {
           >
             <p className={style.transparent_text}>Words Cracked</p>
             <div>
-              {queryState.user_play_history_query.user_play_history[
+              {data?.user_play_history_query?.user_play_history[
                 props.index
               ].words_cracked.split("-").length - 1}
             </div>
@@ -237,9 +266,8 @@ const PlayHistoryComponent = (props: any) => {
             <p className={style.transparent_text}>Final Difficulty</p>
             <p>
               {
-                queryState.user_play_history_query.user_play_history[
-                  props.index
-                ].final_difficulty
+                data?.user_play_history_query?.user_play_history[props.index]
+                  .final_difficulty
               }
             </p>
           </div>
@@ -256,7 +284,7 @@ const PlayHistoryComponent = (props: any) => {
           {(() => {
             let words: any = [];
             let cracked_words_split =
-              queryState.user_play_history_query.user_play_history[
+              data?.user_play_history_query?.user_play_history[
                 props.index
               ].words_cracked.split("-");
             for (let i = 0; i < cracked_words_split.length; i++) {
@@ -278,6 +306,8 @@ const PlayHistoryComponent = (props: any) => {
       </div>
     );
   };
+
+  useEffect(() => {}, []);
 
   return (
     <div className={style.play_history_component_root}>
@@ -308,24 +338,24 @@ const PlayHistoryComponent = (props: any) => {
           </p>
         </div>
       </div>
-      {/* <SelectBoxComponent
+      <SelectBoxComponent
         style={style}
         data={[
           "Search by Recent Times",
+          "Search by Oldest Times",
           "Search by Earnings",
-          "Search by Words Cracked",
           "Search by Difficulty",
         ]}
         state={setFilterState}
-      /> */}
+      />
       <div className={style.play_history_block_container}>
-        {queryState.user_play_history_query.user_play_history.length > 0 ? (
+        {data?.user_play_history_query?.user_play_history.length > 0 ? (
           (() => {
             let history_blocks: any = [];
 
             for (
               let i = 0;
-              i < queryState.user_play_history_query.user_play_history.length;
+              i < data?.user_play_history_query?.user_play_history.length;
               i++
             ) {
               history_blocks.push(<PlayHistoryBlock index={i} />);
@@ -342,7 +372,10 @@ const PlayHistoryComponent = (props: any) => {
         )}
       </div>
       <div style={{ marginTop: "-15px" }}>
-        <PageBlockComponent query={props.query} />
+        <PageBlockComponent
+          query={playHistoryQuery}
+          variables={{ filter: filterState }}
+        />
       </div>
     </div>
   );

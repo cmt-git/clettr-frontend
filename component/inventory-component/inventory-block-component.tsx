@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { decimalFormatter } from "../../scripts/misc/stringFormatter";
 import { useSelector } from "react-redux";
 import style from "../../styles/component/inventory-components/inventory-block-component-style.module.scss";
@@ -12,9 +12,31 @@ import { RootState } from "../../scripts/redux/rootReducer";
 import { useLazyQuery } from "@apollo/client";
 import { INVENTORY_CUSTOM_QUERY } from "../../scripts/graphql/inventory-query/inventory-custom-query";
 import { store } from "../../pages/_app";
+import SelectBoxComponent from "../select-box-component/select-box-component";
 
 const InventoryBlockComponent = (props: any) => {
-  const [specificSearch, setSpecificSearch]: any = useState("Search All");
+  const [nftType, setNFTType]: any = useState("Search All");
+  const [nftStar, setNFTStar]: any = useState("Any Star ");
+  const [nftRequirements, setNFTRequirements]: any =
+    useState("Any Requirement");
+  const [nftRequirement1, setNFTRequirements1]: any =
+    useState("Any Requirement");
+  const [nftRequirement2, setNFTRequirements2]: any =
+    useState("Any Requirement");
+  const [nftRequirement3, setNFTRequirements3]: any =
+    useState("Any Requirement");
+  const [nftRequirement4, setNFTRequirements4]: any =
+    useState("Any Requirement");
+  const [nftRequirement5, setNFTRequirements5]: any =
+    useState("Any Requirement");
+  const [nftColor, setNFTColor]: any = useState("Any Color");
+  const [nftPattern, setNFTPattern]: any = useState("Any Pattern");
+  const [nftCurrency, setNFTCurrency]: any = useState("Any Currency");
+  const [nftCurrencyOperator, setNFTCurrencyOperator]: any =
+    useState("No Operator");
+  const hashRef: any = useRef();
+  const costRef: any = useRef();
+
   const [inventoryCustomQueryData, setInventoryCustomQueryData]: any =
     useState(null);
 
@@ -27,28 +49,86 @@ const InventoryBlockComponent = (props: any) => {
   });
 
   const [inventoryCustomQuery, { loading, error, data }] = useLazyQuery(
-    INVENTORY_CUSTOM_QUERY
+    INVENTORY_CUSTOM_QUERY,
+    {
+      fetchPolicy: "network-only",
+    }
   );
 
+  const queryVariables = {
+    nft_type: nftType,
+    nft_star: nftStar,
+    nft_requirements: nftRequirements,
+    nft_requirement_1: nftRequirement1,
+    nft_requirement_2: nftRequirement2,
+    nft_requirement_3: nftRequirement3,
+    nft_requirement_4: nftRequirement4,
+    nft_requirement_5: nftRequirement5,
+    nft_pattern: nftPattern,
+    nft_color: nftColor,
+    nft_hash: hashRef?.current?.value,
+    nft_market_currency: nftCurrency,
+    nft_market_operator: nftCurrencyOperator,
+    nft_market_cost: costRef?.current?.value,
+  };
+
+  function handleFilterClick() {
+    inventoryCustomQuery({
+      variables: {
+        page: 1,
+        not_user: props.not_user === true,
+        filters: addItemFilterState,
+        ...queryVariables,
+      },
+    });
+  }
+
   useEffect(() => {
-    if (addItemFilterState != null) {
-      inventoryCustomQuery({
-        variables: {
-          page: 1,
-          not_user: props.not_user === true,
-          filters: addItemFilterState,
-        },
-      });
-    } else {
-      inventoryCustomQuery({
-        variables: { page: 1, not_user: props.not_user === true },
-      });
-    }
+    inventoryCustomQuery({
+      variables: {
+        page: 1,
+        not_user: props.not_user === true,
+        filters: addItemFilterState,
+        ...queryVariables,
+      },
+    });
+    // if (addItemFilterState != null) {
+    //   inventoryCustomQuery({
+    //     variables: {
+    //       page: 1,
+    //       not_user: props.not_user === true,
+    //       filters: addItemFilterState,
+    //       ...queryVariables,
+    //     },
+    //   });
+    // } else {
+    //   inventoryCustomQuery({
+    //     variables: {
+    //       page: 1,
+    //       not_user: props.not_user === true,
+    //       ...queryVariables,
+    //     },
+    //   });
+    // }
   }, []);
 
   useEffect(() => {
     setInventoryCustomQueryData(data);
   }, [data]);
+
+  useEffect(() => {
+    setNFTStar("Any Star");
+    setNFTRequirements("Any Requirement");
+    setNFTRequirements1("Any Requirement");
+    setNFTRequirements2("Any Requirement");
+    setNFTRequirements3("Any Requirement");
+    setNFTRequirements4("Any Requirement");
+    setNFTRequirements5("Any Requirement");
+    setNFTColor("Any Color");
+    setNFTPattern("Any Pattern");
+    setNFTCurrency("Any Currency");
+    setNFTCurrencyOperator("No Operator");
+  }, [nftType]);
 
   return (
     <div className={style.marketplace_block_component_root}>
@@ -66,35 +146,18 @@ const InventoryBlockComponent = (props: any) => {
             </p>
           </div>
         </div>
-        {/* <div className={`${style.select_box} ${style.select_box_responsive}`}>
-          <select onChange={(e: any) => setSpecificSearch(e.target.value)}>
-            <option>Search All</option>
-            <option>Search Passive NFTs</option>
-            <option>Search Active NFTs</option>
-            <option>Listed Passive NFTs</option>
-            <option>Listed Active NFTs</option>
-          </select>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="25"
-            height="51"
-            viewBox="0 0 25 51"
-          >
-            <g transform="translate(-1393 -359)">
-              <path
-                d="M12.5,0,25,19H0Z"
-                transform="translate(1393 359)"
-                fill="#fff"
-              />
-              <path
-                d="M12.5,0,25,19H0Z"
-                transform="translate(1418 410) rotate(180)"
-                fill="#fff"
-              />
-            </g>
-          </svg>
-        </div> */}
-        {/* <div className={style.input_box} style={{ height: "50px" }}>
+        <SelectBoxComponent
+          style={style}
+          data={[
+            "Search All",
+            "Search Passive NFTs",
+            "Search Active NFTs",
+            "Listed Passive NFTs",
+            "Listed Active NFTs",
+          ]}
+          state={setNFTType}
+        />
+        <div className={style.input_box} style={{ height: "50px" }}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="56.515"
@@ -114,188 +177,228 @@ const InventoryBlockComponent = (props: any) => {
               />
             </g>
           </svg>
-          <input type="text" placeholder={"Search By Hash"} />
-        </div> */}
+          <input type="text" placeholder={"Search By Hash"} ref={hashRef} />
+        </div>
       </div>
-      {specificSearch == "Search Active NFTs" ? (
+      {nftType == "Search Active NFTs" || nftType == "Listed Active NFTs" ? (
         <div className={style.filter_container}>
-          <div
-            className={style.select_box}
-            style={{ height: "50px", width: "100%" }}
-          >
-            <select>
-              <option>1 Star</option>
-              <option>2 Star</option>
-              <option>3 Star</option>
-              <option>4 Star</option>
-              <option>5 Star</option>
-            </select>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="51"
-              viewBox="0 0 25 51"
-            >
-              <g transform="translate(-1393 -359)">
-                <path
-                  d="M12.5,0,25,19H0Z"
-                  transform="translate(1393 359)"
-                  fill="#fff"
-                />
-                <path
-                  d="M12.5,0,25,19H0Z"
-                  transform="translate(1418 410) rotate(180)"
-                  fill="#fff"
-                />
-              </g>
-            </svg>
-          </div>
-          <div
-            className={style.select_box}
-            style={{ height: "50px", width: "100%" }}
-          >
-            <select>
-              <option>Pink</option>
-              <option>Purple</option>
-              <option>Blue</option>
-              <option>Teal</option>
-              <option>Lime</option>
-              <option>Green</option>
-              <option>Yellow</option>
-              <option>Orange</option>
-              <option>Red</option>
-            </select>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="51"
-              viewBox="0 0 25 51"
-            >
-              <g transform="translate(-1393 -359)">
-                <path
-                  d="M12.5,0,25,19H0Z"
-                  transform="translate(1393 359)"
-                  fill="#fff"
-                />
-                <path
-                  d="M12.5,0,25,19H0Z"
-                  transform="translate(1418 410) rotate(180)"
-                  fill="#fff"
-                />
-              </g>
-            </svg>
-          </div>
-          <div
-            className={style.select_box}
-            style={{ height: "50px", width: "100%" }}
-          >
-            <select>
-              <option>Striped</option>
-              <option>Spotted</option>
-              <option>Zigzag</option>
-              <option>Checkered</option>
-              <option>Cross</option>
-              <option>Sharp</option>
-            </select>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="51"
-              viewBox="0 0 25 51"
-            >
-              <g transform="translate(-1393 -359)">
-                <path
-                  d="M12.5,0,25,19H0Z"
-                  transform="translate(1393 359)"
-                  fill="#fff"
-                />
-                <path
-                  d="M12.5,0,25,19H0Z"
-                  transform="translate(1418 410) rotate(180)"
-                  fill="#fff"
-                />
-              </g>
-            </svg>
-          </div>
+          <SelectBoxComponent
+            style={style}
+            data={[
+              "Any Star",
+              "1 Star",
+              "2 Star",
+              "3 Star",
+              "4 Star",
+              "5 Star",
+            ]}
+            state={setNFTStar}
+          />
+          <SelectBoxComponent
+            style={style}
+            data={[
+              "Any Letter",
+              "Pink",
+              "Purple",
+              "Blue",
+              "Teal",
+              "Lime",
+              "Green",
+              "Yellow",
+              "Orange",
+              "Red",
+            ]}
+            state={setNFTColor}
+          />
+          <SelectBoxComponent
+            style={style}
+            data={[
+              "Any Color",
+              "Pink",
+              "Purple",
+              "Blue",
+              "Teal",
+              "Lime",
+              "Green",
+              "Yellow",
+              "Orange",
+              "Red",
+            ]}
+            state={setNFTColor}
+          />
+          <SelectBoxComponent
+            style={style}
+            data={[
+              "Any Pattern",
+              "Striped",
+              "Spotted",
+              "Zigzag",
+              "Checkered",
+              "Cross",
+              "Sharp",
+            ]}
+            state={setNFTColor}
+          />
         </div>
-      ) : specificSearch == "Search Passive NFTs" ? (
+      ) : nftType == "Search Passive NFTs" ||
+        nftType == "Listed Passive NFTs" ? (
         <div className={style.filter_container}>
-          <div
-            className={style.select_box}
-            style={{ height: "50px", width: "100%" }}
-          >
-            <select>
-              <option>Any Star</option>
-              <option>1 Star</option>
-              <option>2 Star</option>
-              <option>3 Star</option>
-              <option>4 Star</option>
-              <option>5 Star</option>
-            </select>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="51"
-              viewBox="0 0 25 51"
-            >
-              <g transform="translate(-1393 -359)">
-                <path
-                  d="M12.5,0,25,19H0Z"
-                  transform="translate(1393 359)"
-                  fill="#fff"
-                />
-                <path
-                  d="M12.5,0,25,19H0Z"
-                  transform="translate(1418 410) rotate(180)"
-                  fill="#fff"
-                />
-              </g>
-            </svg>
-          </div>
-          <div
-            className={style.select_box}
-            style={{ height: "50px", width: "100%" }}
-          >
-            <select>
-              <option>Any Requirement</option>
-              <option>1 Requirement</option>
-              <option>2 Requirements</option>
-              <option>3 Requirements</option>
-              <option>4 Requirements</option>
-              <option>5 Requiremenst</option>
-            </select>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="51"
-              viewBox="0 0 25 51"
-            >
-              <g transform="translate(-1393 -359)">
-                <path
-                  d="M12.5,0,25,19H0Z"
-                  transform="translate(1393 359)"
-                  fill="#fff"
-                />
-                <path
-                  d="M12.5,0,25,19H0Z"
-                  transform="translate(1418 410) rotate(180)"
-                  fill="#fff"
-                />
-              </g>
-            </svg>
+          <SelectBoxComponent
+            style={style}
+            data={[
+              "Any Star",
+              "1 Star",
+              "2 Star",
+              "3 Star",
+              "4 Star",
+              "5 Star",
+            ]}
+            state={setNFTStar}
+          />
+          <SelectBoxComponent
+            style={style}
+            data={[
+              "Any Color",
+              "Pink",
+              "Purple",
+              "Blue",
+              "Teal",
+              "Lime",
+              "Green",
+              "Yellow",
+              "Orange",
+              "Red",
+            ]}
+            state={setNFTColor}
+          />
+          <SelectBoxComponent
+            style={style}
+            data={[
+              "Any Requirement",
+              "1 Requirement",
+              "2 Requirements",
+              "3 Requirements",
+              "4 Requirements",
+              "5 Requirements",
+            ]}
+            state={setNFTRequirements}
+          />
+        </div>
+      ) : null}
+      {nftType == "Listed Passive NFTs" || nftType == "Listed Active NFTs" ? (
+        <div className={style.filter_container}>
+          <SelectBoxComponent
+            style={style}
+            data={["USDC", "ETTR"]}
+            state={setNFTCurrency}
+          />
+          <SelectBoxComponent
+            style={style}
+            data={[
+              "No Operator",
+              "Equals (=)",
+              "Less Than (<)",
+              "Less Than Or Equals (<=)",
+              "Greater Than (>)",
+              "Greater Than Or Equals (>=)",
+            ]}
+            state={setNFTCurrency}
+          />
+          <div className={style.input_box} style={{ height: "50px" }}>
+            <input type="text" placeholder={"Enter Cost"} ref={costRef} />
           </div>
         </div>
       ) : null}
-      {["Search Passive NFTs", "Search Active NFTs"].includes(
-        specificSearch
-      ) ? (
-        <div
-          className={`${style.colored_button} ${style.grey_button}`}
-          style={{ marginTop: "10px", height: "44px" }}
-        >
-          Search by Filter
+      {nftRequirements != "Any Requirement" ? (
+        <div className={style.filter_container}>
+          {(() => {
+            let array: any = [];
+
+            let requirement_limit = Number.parseInt(
+              nftRequirements.split(" ")[0]
+            );
+
+            let data = [
+              "Any Requirement",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "A",
+              "B",
+              "C",
+              "D",
+              "E",
+              "F",
+              "G",
+              "H",
+              "I",
+              "J",
+              "K",
+              "L",
+              "M",
+              "N",
+              "O",
+              "P",
+              "Q",
+              "R",
+              "S",
+              "T",
+              "U",
+              "V",
+              "W",
+              "X",
+              "Y",
+              "Z",
+              "pink",
+              "purple",
+              "blue",
+              "teal",
+              "lime",
+              "green",
+              "yellow",
+              "orange",
+              "red",
+              "striped",
+              "spotted",
+              "zigzag",
+              "checkered",
+              "cross",
+              "sharp",
+            ];
+
+            const req_states = [
+              setNFTRequirements1,
+              setNFTRequirements2,
+              setNFTRequirements3,
+              setNFTRequirements4,
+              setNFTRequirements5,
+            ];
+
+            for (let i = 0; i < requirement_limit; i++) {
+              array.push(
+                <SelectBoxComponent
+                  style={style}
+                  data={data}
+                  state={req_states[i]}
+                />
+              );
+            }
+
+            return array;
+          })()}
         </div>
       ) : null}
+      <div
+        className={`${style.colored_button} ${style.grey_button}`}
+        style={{ marginTop: "10px", height: "44px" }}
+        onClick={() => {
+          handleFilterClick();
+        }}
+      >
+        Search by Filter
+      </div>
       {props.popup !== true ? (
         <div
           style={{
@@ -451,6 +554,7 @@ const InventoryBlockComponent = (props: any) => {
       <PageBlockComponent
         query={props.popup === true ? inventoryCustomQuery : props.query}
         cut={props.popup === true ? "settings" : ""}
+        variables={queryVariables}
       />
     </div>
   );

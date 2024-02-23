@@ -252,17 +252,13 @@ export const revokeSession = async (id: number) => {
 };
 
 export const updateSet = async (json: any) => {
-  await axiosInstance
-    .post("/user/updateset", {
-      set_ids: json.set_ids,
-    })
-    .then((res) => {
-      link_messageBoxShow(res.data["message"], res.data["success"]);
+  await axiosInstance.post("/user/updateset", json).then((res) => {
+    link_messageBoxShow(res.data["message"], res.data["success"]);
 
-      if (res.data["success"]) {
-        closePopup();
-      }
-    });
+    if (res.data["success"]) {
+      closePopup();
+    }
+  });
 };
 
 export const updateQuestionnaire = async (_data: {

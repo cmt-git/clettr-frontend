@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const INDEX_QUERY = gql`
-  query ($page: Int) {
+  query {
     user {
       username
       bsc_address
@@ -37,30 +37,6 @@ export const INDEX_QUERY = gql`
         nft_requirement
         status
         market_info
-      }
-    }
-    user_play_history_query(page: $page) {
-      user_play_history {
-        match_nfts {
-          id
-          current_owner
-          original_owner
-          creation_date
-          nft_token_id
-          nft_type
-          nft_traits
-          nft_hash
-          nft_stars
-          nft_requirement
-          status
-          market_info
-        }
-        date
-        words_cracked
-        rounds
-        total_boost
-        final_difficulty
-        reward
       }
     }
     user_earnings_query {

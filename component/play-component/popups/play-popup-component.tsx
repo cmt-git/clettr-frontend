@@ -19,7 +19,7 @@ import {
   closePopup,
 } from "../../popup-component/popup-container-component";
 
-const PlayPopupComponent = () => {
+const PlayPopupComponent = (props: any) => {
   const [setHash, changeSetHash]: any = useState("----------"); //? keep default value at 10 dash
   const router = useRouter();
 
@@ -32,7 +32,7 @@ const PlayPopupComponent = () => {
   });
 
   const dispatch = useDispatch();
-  //? initialize addItem redux state
+
   useEffect(() => {
     if (
       addItemIndexState == null ||
@@ -49,7 +49,7 @@ const PlayPopupComponent = () => {
     });
     dispatch({ type: "edit/addItemFilterReducer/SET", value: "passive" });
     dispatch({ type: "edit/playStateReducer/SET", value: null });
-  }, []);
+  }, [queryState]);
 
   useEffect(() => {
     let set_hash = "";
@@ -380,37 +380,29 @@ const PlayPopupComponent = () => {
             }
           }
 
-          const node_req = addItemIndexState[0].nft_requirement.split("-");
-          for (let i = 0; i < node_req.length; i++) {
-            for (let x = 0; x < queryState.user_set.user_set.length; x++) {
-              const current_traits =
-                queryState.user_set.user_set[x].nft_traits.split("-");
-              for (let z = 0; z < current_traits.length; z++) {
-                if (node_req[i] == current_traits[z]) {
-                  const index = node_req.indexOf(node_req[i]);
-                  if (index > -1) {
-                    node_req.splice(index, 1); // 2nd parameter means remove one item only
-                  }
-                }
+          let correct_req: number = 0;
+          let current_traits: any = [];
+          for (let x = 0; x < queryState.user_set.user_set.length; x++) {
+            current_traits = [
+              ...current_traits,
+              ...queryState.user_set.user_set[x].nft_traits.split("-"),
+              queryState.user_set.user_set[x].nft_stars.toString(),
+            ];
+          }
+          const node_req = addItemIndexState[0]?.nft_requirement?.split("-");
 
-                if (
-                  node_req[i] ==
-                  Number(queryState.user_set.user_set[x].nft_stars)
-                ) {
-                  const index = node_req.indexOf(node_req[i]);
-                  if (index > -1) {
-                    node_req.splice(index, 1); // 2nd parameter means remove one item only
-                  }
-                }
-              }
-            }
+          if (node_req == null || node_req.length <= 0) {
+            link_messageBoxShow("You need a Passive Node to Play.", false);
+            return;
+          }
 
-            if (node_req.length == 0) {
-              break;
+          for (const requirement of node_req) {
+            if (current_traits.includes(requirement) == true) {
+              correct_req += 1;
             }
           }
 
-          if (node_req.length > 0) {
+          if (correct_req < node_req.length) {
             reason = "Your set does not meet the right node requirements.";
             allow_play = false;
           }
