@@ -51,7 +51,7 @@ const WelcomeBlockComponent = (props: any) => {
               alignItems: "flex-start",
             }}
           >
-            <div
+            {/* <div
               className={style.info_div}
               style={{ marginRight: _width > 960 ? "40px" : "0px" }}
             >
@@ -115,7 +115,7 @@ const WelcomeBlockComponent = (props: any) => {
               >
                 Gains Yesterday
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       ) : null}

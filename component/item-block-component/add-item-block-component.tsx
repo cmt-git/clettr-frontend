@@ -15,6 +15,7 @@ const AddItemBlockComponent = (props: any) => {
             <InventoryPopupComponent
               add_index={props.add_index}
               no_5_stars={props.no_5_stars}
+              set_traits={props.set_traits}
             />
           );
         }
@@ -48,7 +49,8 @@ const AddItemBlockComponent = (props: any) => {
         className={style.transparent_text}
         style={{ marginTop: "15px", fontSize: "15px" }}
       >
-        Choose {props.type == "letter" ? "Letter" : "Node"} Item
+        Choose NFT
+        {/* Choose {props.type == "letter" ? "Letter" : "Node"} Item */}
       </p>
     </div>
   );

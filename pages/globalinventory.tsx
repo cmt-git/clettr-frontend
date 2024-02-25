@@ -50,7 +50,11 @@ const InventoryPage = () => {
       </Head>
       <div className={style.page_main}>
         {doneLoadingAndUserNotLoggedin === false ? (
-          <InventoryBlockComponent query={inventoryQuery} set_show={true} />
+          <InventoryBlockComponent
+            query={inventoryQuery}
+            set_show={true}
+            global={true}
+          />
         ) : (
           <div className={style.loading_circle_container}>
             <img src="./images/svgs/loading-circle.svg" alt="loading-circle" />

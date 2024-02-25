@@ -142,7 +142,7 @@ const PlayBlockComponent = (props: any) => {
                   alt="clettr-logo"
                   style={{ width: "15px", transform: "scale(1.5)" }}
                 />
-                <p className={style.transparent_text}>Rewards</p>
+                <p className={style.transparent_text}>Your Reward</p>
               </div>
               <p style={{ display: "flex", gap: "5px" }}>
                 {decimalFormatter(playResult.total_reward)}
@@ -159,6 +159,39 @@ const PlayBlockComponent = (props: any) => {
                 </span>
               </p>
             </div>
+            {playResult?.community_reward ? (
+              <div
+                className={style.light_black_info_block}
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                >
+                  <img
+                    src="./images/svgs/clettr-token.svg"
+                    alt="clettr-logo"
+                    style={{ width: "15px", transform: "scale(1.5)" }}
+                  />
+                  <p className={style.transparent_text}>
+                    {`${playResult?.sharer_username}'s`} Reward
+                  </p>
+                </div>
+                <p style={{ display: "flex", gap: "5px" }}>
+                  {decimalFormatter(playResult.community_reward)}
+                  <span className={style.transparent_text}>
+                    {decimalFormatter(
+                      store.getState().tickerPriceState.value != null
+                        ? Number(store.getState().tickerPriceState.value) *
+                            Number(playResult.community_reward)
+                        : 0
+                    )}
+                  </span>
+                  <span className={style.transparent_text}>
+                    {store.getState().currentCurrencyState.value.toUpperCase()}
+                  </span>
+                </p>
+              </div>
+            ) : null}
           </div>
           <div className={style.line} />
           <div

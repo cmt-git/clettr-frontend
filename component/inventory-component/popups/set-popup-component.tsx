@@ -119,7 +119,7 @@ const SetPopupComponent = () => {
       <div
         className={`${style.colored_button} ${style.red_button}`}
         style={{ marginTop: "15px" }}
-        onClick={() => {
+        onClick={async () => {
           let init_arr: any = [];
           for (let i = 0; i < addItemsLength; i++) {
             init_arr.push(null);
@@ -137,6 +137,12 @@ const SetPopupComponent = () => {
             type: "edit/addItemFilterReducer/SET",
             value: "active",
           });
+
+          await updateSet({
+            reset: true,
+          });
+
+          window.location.reload();
         }}
       >
         Clear All
@@ -170,7 +176,7 @@ const SetPopupComponent = () => {
       <div
         className={`${style.grey_button} ${style.colored_button}`}
         style={{ marginTop: "15px" }}
-        onClick={() => {
+        onClick={async () => {
           if (
             (() => {
               let not_full: boolean = false;
@@ -188,9 +194,11 @@ const SetPopupComponent = () => {
               ids.push(addItemIndexState[i].id);
             }
 
-            updateSet({
+            await updateSet({
               set_ids: ids,
             });
+
+            window.location.reload();
           }
         }}
       >

@@ -180,14 +180,24 @@ const NavbarComponent = () => {
               Marketplace
             </p>
             {store.getState().queryState?.value?.user?.roles == "admin" ? (
-              <p
-                className={style.p_hover}
-                onClick={() => {
-                  window.location.href = "/admin";
-                }}
-              >
-                Admin
-              </p>
+              <>
+                <p
+                  className={style.p_hover}
+                  onClick={() => {
+                    window.location.href = "/admin";
+                  }}
+                >
+                  Admin
+                </p>
+                <p
+                  className={style.p_hover}
+                  onClick={() => {
+                    window.location.href = "/globalinventory";
+                  }}
+                >
+                  Globalinventory
+                </p>
+              </>
             ) : null}
           </div>
           <div className={style.navbar_component_right_container}>
@@ -287,14 +297,24 @@ const NavbarComponent = () => {
               Marketplace
             </p>
             {store.getState().queryState?.value?.user?.roles == "admin" ? (
-              <p
-                className={style.p_hover}
-                onClick={() => {
-                  window.location.href = "/admin";
-                }}
-              >
-                Admin
-              </p>
+              <>
+                <p
+                  className={style.p_hover}
+                  onClick={() => {
+                    window.location.href = "/admin";
+                  }}
+                >
+                  Admin
+                </p>
+                <p
+                  className={style.p_hover}
+                  onClick={() => {
+                    window.location.href = "/globalinventory";
+                  }}
+                >
+                  GlobalInventory
+                </p>
+              </>
             ) : null}
           </div>
           <div className={style.navbar_component_right_container}>

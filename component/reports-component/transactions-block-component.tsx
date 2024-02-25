@@ -58,22 +58,25 @@ function downloadCSV(_data: any) {
 
 const TransactionsBlockComponent = (props: any) => {
   const inputRef: any = useRef();
+  const [filter, setFilter]: any = useState("");
   const [downloadCSVState, setDownloadCSV]: any = useState(false);
-  const [reportsQuery, { loading, error, data }] = useLazyQuery(REPORTS_QUERY);
-  const [queryVariables, setQueryVariables] = useState({});
+  const [reportsQuery, { loading, error, data }] = useLazyQuery(REPORTS_QUERY, {
+    fetchPolicy: "network-only",
+  });
+
+  const queryVariables = {
+    global: props.global,
+    username: props.username,
+    filter: filter,
+  };
 
   useEffect(() => {
-    const queryvariable = {
-      global: props.global,
-      username: props.username,
-    };
-    setQueryVariables(queryvariable);
     reportsQuery({
       variables: {
-        ...queryvariable,
+        ...queryVariables,
       },
     });
-  }, [props.username]);
+  }, [props.username, filter]);
 
   useEffect(() => {
     if (downloadCSVState == true) {
@@ -97,11 +100,22 @@ const TransactionsBlockComponent = (props: any) => {
           className={`${style.select_box} ${style.select_box_responsive}`}
           style={{ maxWidth: "150px" }}
         >
-          <select>
-            <option>Market Buy</option>
-            <option>Market Sell</option>
+          <select
+            onChange={(e) => {
+              setFilter(e.currentTarget.value);
+            }}
+          >
+            <option>Any</option>
             <option>Play</option>
             <option>Community</option>
+            <option>Forge (Active)</option>
+            <option>Forge (Passive)</option>
+            <option>Mint (Active)</option>
+            <option>Mint (Passive)</option>
+            <option>Market Buy (Passive)</option>
+            <option>Market Buy (Active)</option>
+            <option>Market Sell (Passive)</option>
+            <option>Market Sell (Active)</option>
           </select>
           <svg
             xmlns="http://www.w3.org/2000/svg"
