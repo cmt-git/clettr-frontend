@@ -14,12 +14,15 @@ export const INVENTORY_CUSTOM_QUERY = gql`
     $nft_requirement_3: String
     $nft_requirement_4: String
     $nft_requirement_5: String
+    $nft_letter: String
     $nft_color: String
     $nft_pattern: String
     $nft_hash: String
     $nft_market_currency: String
     $nft_market_operator: String
     $nft_market_cost: String
+    $nft_market_only: Boolean
+    $set_traits: [String]
   ) {
     owned_nfts(
       page: $page
@@ -34,12 +37,15 @@ export const INVENTORY_CUSTOM_QUERY = gql`
       nft_requirement_3: $nft_requirement_3
       nft_requirement_4: $nft_requirement_4
       nft_requirement_5: $nft_requirement_5
+      nft_letter: $nft_letter
       nft_color: $nft_color
       nft_pattern: $nft_pattern
       nft_hash: $nft_hash
       nft_market_currency: $nft_market_currency
       nft_market_operator: $nft_market_operator
       nft_market_cost: $nft_market_cost
+      nft_market_only: $nft_market_only
+      set_traits: $set_traits
     ) {
       inventory_nfts {
         id

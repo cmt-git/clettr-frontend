@@ -13,6 +13,7 @@ import { store } from "./_app";
 import { useLazyQuery } from "@apollo/client";
 import { MARKET_QUERY } from "../scripts/graphql/market-query/market-query";
 import { useRouter } from "next/router";
+import InventoryBlockComponent from "../component/inventory-component/inventory-block-component";
 
 const MarketplacePage = () => {
   const router = useRouter();
@@ -48,7 +49,13 @@ const MarketplacePage = () => {
         <title>Clettr | Marketplace</title>
       </Head>
       <div className={style.page_main}>
-        <MarketplaceBlockComponent query={marketQuery} />
+        <InventoryBlockComponent
+          set_show={true}
+          filters_only={true}
+          market_inventory={true}
+          query={marketQuery}
+        />
+        {/* <MarketplaceBlockComponent query={marketQuery} /> */}
       </div>
       <FooterComponent />
     </div>

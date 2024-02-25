@@ -46,6 +46,8 @@ const PlayHistoryComponent = (props: any) => {
           total_boost
           final_difficulty
           reward
+          sharer_username
+          community_reward
         }
       }
     }
@@ -59,6 +61,9 @@ const PlayHistoryComponent = (props: any) => {
     });
   }, [filterState]);
 
+  useEffect(() => {
+    console.log(data, " 0- data");
+  }, [data]);
   const PlayHistoryBlock = (props: any) => {
     return (
       <div className={style.play_history_block}>
@@ -117,6 +122,32 @@ const PlayHistoryComponent = (props: any) => {
               )}
             </p>
           </div>
+          {data?.user_play_history_query?.user_play_history[props.index]
+            .sharer_username ? (
+            <div className={style.phb_earnings_block}>
+              <p className={style.transparent_text}>
+                {`${
+                  data?.user_play_history_query?.user_play_history[props.index]
+                    .sharer_username
+                }'s`}
+                Earnings
+              </p>
+              <img
+                src={"./images/svgs/clettr-token.svg"}
+                alt="clettr-token"
+                style={{ width: "20px" }}
+              />
+              <p>
+                {decimalFormatter(
+                  Number(
+                    data?.user_play_history_query?.user_play_history[
+                      props.index
+                    ].community_reward
+                  )
+                )}
+              </p>
+            </div>
+          ) : null}
         </div>
         <div className={style.phb_main_item_container}>
           <div className={style.php_left_item_container}>
@@ -319,7 +350,7 @@ const PlayHistoryComponent = (props: any) => {
         <p className={style.p_description}>
           Shows your play history from 30 days ago
         </p>
-        <div className={style.description_stat_container}>
+        {/* <div className={style.description_stat_container}>
           <p className={style.transparent_text}>
             Gains{" "}
             <span
@@ -336,7 +367,7 @@ const PlayHistoryComponent = (props: any) => {
               482
             </span>
           </p>
-        </div>
+        </div> */}
       </div>
       <SelectBoxComponent
         style={style}

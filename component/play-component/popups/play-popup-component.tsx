@@ -19,6 +19,17 @@ import {
   closePopup,
 } from "../../popup-component/popup-container-component";
 
+function getSetTraits(_queryState: any) {
+  const user_traits: string[] = [];
+  for (let i = 0; i < _queryState.user_set.user_set.length; i++) {
+    user_traits.push(
+      ..._queryState?.user_set?.user_set[i]?.nft_traits.split("-")
+    );
+    user_traits.push(_queryState?.user_set?.user_set[i]?.nft_stars?.toString());
+  }
+  return user_traits;
+}
+
 const PlayPopupComponent = (props: any) => {
   const [setHash, changeSetHash]: any = useState("----------"); //? keep default value at 10 dash
   const router = useRouter();
@@ -112,9 +123,14 @@ const PlayPopupComponent = (props: any) => {
                 inventory_popup={true}
                 data={addItemIndexState[0]}
                 add_index={0}
+                set_traits={getSetTraits(queryState)}
               />
             ) : (
-              <AddItemBlockComponent type={"letter"} add_index={0} />
+              <AddItemBlockComponent
+                type={"letter"}
+                add_index={0}
+                set_traits={getSetTraits(queryState)}
+              />
             )}
           </span>
         }
@@ -155,7 +171,11 @@ const PlayPopupComponent = (props: any) => {
             }, 1000);
           };
           changePopup(
-            <InventoryPopupComponent add_index={0} not_user={true} />
+            <InventoryPopupComponent
+              add_index={0}
+              not_user={true}
+              set_traits={getSetTraits(queryState)}
+            />
           );
         }}
       >
@@ -304,7 +324,7 @@ const PlayPopupComponent = (props: any) => {
                 <path
                   d="M25.073-58.389,0-23.127l17.52.188L15.473,0,40.546-35.367H23.025Z"
                   fill="#ffac05"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                 />
               </g>
             </svg>

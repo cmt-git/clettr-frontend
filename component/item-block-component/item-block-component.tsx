@@ -115,8 +115,13 @@ const ItemBlockComponent = (props: any) => {
               <InventoryPopupComponent
                 add_index={props.add_index}
                 no_5_stars={props.no_5_stars}
+                set_traits={props.set_traits}
               />
             );
+          }
+
+          if (props.no_click === true && props.custom_click_function) {
+            props.custom_click_function();
           }
         }}
       >

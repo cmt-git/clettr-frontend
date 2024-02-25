@@ -18,15 +18,7 @@ const ettr_json = require("../../abis/Ettr.json");
 const susdc_json = require("../../abis/SUSDC.json");
 const web3 = new Web3(ganacheProvider);
 
-const MarketplaceBlockComponent = (props: any) => {
-  const [searchBy, setSearchBy]: any = useState("Search by Hash");
-  const [specificSearch, setSpecificSearch]: any = useState("Search All");
-
-  const queryState = useSelector((state: RootState) => {
-    return state.queryState.value;
-  });
-
-  const [inputValue, setInputValue]: any = useState(null);
+export const MarketItemCard = (props: any) => {
   const [CLTRNFTContract, setCLTRNFTContract]: any = useState(null);
 
   useEffect(() => {
@@ -48,159 +40,165 @@ const MarketplaceBlockComponent = (props: any) => {
     })();
   }, []);
 
-  const MarketItemCard = (props: any) => {
-    //! TEMPORARY
-    const [isSRR, setSRR]: any = useState(null);
+  //! TEMPORARY
+  const [isSRR, setSRR]: any = useState(null);
 
-    useEffect(() => {
-      setSRR(true);
-    }, []);
-    //! TEMPORARY
+  useEffect(() => {
+    setSRR(true);
+  }, []);
+  //! TEMPORARY
 
-    return (
-      <div>
-        {isSRR
-          ? [
-              <div
-                className={style.grey_info_block}
-                style={{
-                  marginBottom: "15px",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-                key={0}
-              >
-                <p className={style.transparent_text}>
-                  Owner <span>{props.data.current_owner}</span>
-                </p>
-              </div>,
-              <div className={style.market_item_card} key={1}>
-                <ItemBlockComponent data={props.data} />
-              </div>,
-              <div
-                key={2}
-                className={`${style.colored_button} ${style.grey_button}`}
-                style={{
-                  marginTop: "15px",
-                  justifyContent: "center",
-                  height: "50px",
-                }}
-                onClick={async () => {
-                  if (
-                    (store.getState().queryState.value.user != null &&
-                      props.data.current_owner ==
-                        store.getState().queryState.value.user.username) ||
-                    store.getState().queryState.value.user == null
-                  ) {
-                    if (store.getState().queryState.value.user == null) {
-                      link_messageBoxShow(
-                        "You must be logged in for this action.",
-                        false
-                      );
-                    } else {
-                      link_messageBoxShow("Cannot buy your own NFT.", false);
-                    }
-                  } else {
-                    const currency =
-                      props.data.market_info.split("-")[0] == "ettr"
-                        ? "ettr"
-                        : "susdc";
-
-                    // Connect to the ERC-20 token contract using its ABI and address
-                    const tokenContract =
-                      currency == "ettr"
-                        ? new web3.eth.Contract(
-                            ettr_json.abi,
-                            store.getState().currentEttrContractAddressState.value
-                          )
-                        : new web3.eth.Contract(
-                            susdc_json.abi,
-                            store.getState().currentSUSDCContractAddressState.value
-                          );
-
-                    // Call the balanceOf function on the ERC-20 token contract
-                    const tokenBalance = formatTokenBalance(
-                      await tokenContract.methods
-                        //@ts-ignore
-                        .balanceOf(store.getState().currentWalletAccountState)
-                        .call(),
-                      18
+  return (
+    <div>
+      {isSRR
+        ? [
+            <div
+              className={style.grey_info_block}
+              style={{
+                marginBottom: "15px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+              key={0}
+            >
+              <p className={style.transparent_text}>
+                Owner <span>{props.data.current_owner}</span>
+              </p>
+            </div>,
+            <div className={style.market_item_card} key={1}>
+              <ItemBlockComponent data={props.data} />
+            </div>,
+            <div
+              key={2}
+              className={`${style.colored_button} ${style.grey_button}`}
+              style={{
+                marginTop: "15px",
+                justifyContent: "center",
+                height: "50px",
+              }}
+              onClick={async () => {
+                if (
+                  (store.getState().queryState.value.user != null &&
+                    props.data.current_owner ==
+                      store.getState().queryState.value.user.username) ||
+                  store.getState().queryState.value.user == null
+                ) {
+                  if (store.getState().queryState.value.user == null) {
+                    link_messageBoxShow(
+                      "You must be logged in for this action.",
+                      false
                     );
-
-                    if (store.getState().currentWalletAccountState == null) {
-                      console.log(store.getState().currentWalletAccountState);
-                      link_messageBoxShow("Cannot read wallet address.", false);
-                      return;
-                    }
-
-                    if (
-                      tokenBalance >=
-                      Number(props.data.market_info.split("-")[1])
-                    ) {
-                      CLTRNFTContract.methods
-                        .cltrnft_market_buy(
-                          props.data.nft_token_id,
-                          Number(props.data.market_info.split("-")[1]),
-                          store.getState().currentEttrContractAddressState
-                            .value,
-                          store.getState().currentSUSDCContractAddressState
-                            .value,
-                          currency == "ettr" ? 0 : 1
-                        )
-                        .send({
-                          //@ts-ignore
-                          from: store.getState().currentWalletAccountState,
-                          gas: 6721975,
-                        })
-                        .on("transactionHash", (hash: any) => {
-                          (async () => {
-                            await marketBuyNFT({
-                              nft_id: props.data.id,
-                            });
-                            window.location.reload();
-                          })();
-                        });
-                    } else {
-                      link_messageBoxShow(
-                        "You do not have sufficient amount",
-                        false
-                      );
-                    }
+                  } else {
+                    link_messageBoxShow("Cannot buy your own NFT.", false);
                   }
-                }}
-              >
-                {props.data.market_info.split("-")[0] == "ettr" ? (
-                  <img
-                    src="./images/svgs/clettr-token.svg"
-                    alt="clettr-logo"
-                    style={{ width: "20px", marginRight: "5px" }}
-                  />
-                ) : (
-                  <img
-                    src="./images/svgs/usdc-token.svg"
-                    alt="usdc-logo"
-                    style={{ width: "20px", marginRight: "5px" }}
-                  />
-                )}
-                <p style={{ display: "flex", gap: "5px" }}>
-                  {props.data.market_info.split("-")[1]}
-                  <span className={style.transparent_text}>
-                    {decimalFormatter(
-                      store.getState().tickerPriceState.value != null
-                        ? store.getState().tickerPriceState.value
-                        : 0
-                    )}
-                  </span>
-                  <span className={style.transparent_text}>
-                    {store.getState().currentCurrencyState.value.toUpperCase()}
-                  </span>
-                </p>
-              </div>,
-            ]
-          : null}
-      </div>
-    );
-  };
+                } else {
+                  const currency =
+                    props.data.market_info.split("-")[0] == "ettr"
+                      ? "ettr"
+                      : "susdc";
+
+                  // Connect to the ERC-20 token contract using its ABI and address
+                  const tokenContract =
+                    currency == "ettr"
+                      ? new web3.eth.Contract(
+                          ettr_json.abi,
+                          store.getState().currentEttrContractAddressState.value
+                        )
+                      : new web3.eth.Contract(
+                          susdc_json.abi,
+                          store.getState().currentSUSDCContractAddressState.value
+                        );
+
+                  // Call the balanceOf function on the ERC-20 token contract
+                  const tokenBalance = formatTokenBalance(
+                    await tokenContract.methods
+                      //@ts-ignore
+                      .balanceOf(store.getState().currentWalletAccountState)
+                      .call(),
+                    18
+                  );
+
+                  if (store.getState().currentWalletAccountState == null) {
+                    console.log(store.getState().currentWalletAccountState);
+                    link_messageBoxShow("Cannot read wallet address.", false);
+                    return;
+                  }
+
+                  if (
+                    tokenBalance >= Number(props.data.market_info.split("-")[1])
+                  ) {
+                    CLTRNFTContract.methods
+                      .cltrnft_market_buy(
+                        props.data.nft_token_id,
+                        Number(props.data.market_info.split("-")[1]),
+                        store.getState().currentEttrContractAddressState.value,
+                        store.getState().currentSUSDCContractAddressState.value,
+                        currency == "ettr" ? 0 : 1
+                      )
+                      .send({
+                        //@ts-ignore
+                        from: store.getState().currentWalletAccountState,
+                        gas: 6721975,
+                      })
+                      .on("transactionHash", (hash: any) => {
+                        (async () => {
+                          await marketBuyNFT({
+                            nft_id: props.data.id,
+                          });
+                          window.location.reload();
+                        })();
+                      });
+                  } else {
+                    link_messageBoxShow(
+                      "You do not have sufficient amount",
+                      false
+                    );
+                  }
+                }
+              }}
+            >
+              {props.data.market_info.split("-")[0] == "ettr" ? (
+                <img
+                  src="./images/svgs/clettr-token.svg"
+                  alt="clettr-logo"
+                  style={{ width: "20px", marginRight: "5px" }}
+                />
+              ) : (
+                <img
+                  src="./images/svgs/usdc-token.svg"
+                  alt="usdc-logo"
+                  style={{ width: "20px", marginRight: "5px" }}
+                />
+              )}
+              <p style={{ display: "flex", gap: "5px" }}>
+                {props.data.market_info.split("-")[1]}
+                <span className={style.transparent_text}>
+                  {decimalFormatter(
+                    store.getState().tickerPriceState.value != null
+                      ? store.getState().tickerPriceState.value
+                      : 0
+                  )}
+                </span>
+                <span className={style.transparent_text}>
+                  {store.getState().currentCurrencyState.value.toUpperCase()}
+                </span>
+              </p>
+            </div>,
+          ]
+        : null}
+    </div>
+  );
+};
+
+const MarketplaceBlockComponent = (props: any) => {
+  const [searchBy, setSearchBy]: any = useState("Search by Hash");
+  const [specificSearch, setSpecificSearch]: any = useState("Search All");
+
+  const queryState = useSelector((state: RootState) => {
+    return state.queryState.value;
+  });
+
+  const [inputValue, setInputValue]: any = useState(null);
 
   return (
     <div className={style.marketplace_block_component_root}>

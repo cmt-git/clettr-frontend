@@ -1,10 +1,14 @@
 export const decimalFormatter = (value: Number) => {
-  let parts = value.toString().split(".");
+  let parts = value?.toString().split(".");
 
-  return (
-    parts[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-    (parts[1] ? "." + Number(parts[1]).toString().substring(0, 4) : "")
-  );
+  if (parts) {
+    return (
+      parts[0]?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+      (parts[1] ? "." + Number(parts[1]).toString().substring(0, 4) : "")
+    );
+  } else {
+    return "";
+  }
 };
 
 export const getFormattedTime = (time: any) => {

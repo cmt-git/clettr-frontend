@@ -1,7 +1,7 @@
 import { useLazyQuery } from "@apollo/client";
 import { NFT_QUERY } from "../../../scripts/graphql/admin-query/nft-query";
 import style from "./admin-block-style.module.scss";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { link_messageBoxShow } from "../../messagebox-component/messagebox-component";
 import { openPopup } from "../../popup-component/popup-container-component";
 import NFTEditPopupComponent from "../../navbar-component/popups/nft-edit-popup-component";
@@ -15,6 +15,35 @@ import NFTEditPopupComponent from "../../navbar-component/popups/nft-edit-popup-
 export default function AdminNFTBlockComponent() {
   const nft_ref: any = useRef();
   const [nft_Query, { loading, error, data }] = useLazyQuery(NFT_QUERY);
+
+  async function handleClick() {
+    if (Number.isInteger(parseInt(nft_ref.current.value, 10))) {
+      const nft = await nft_Query({
+        variables: {
+          id: Number.parseInt(nft_ref.current.value),
+        },
+      });
+
+      if (nft.data?.nft) {
+        openPopup(<NFTEditPopupComponent data={nft.data?.nft} />);
+      } else {
+        link_messageBoxShow("NFT with that id has not been found.", false);
+      }
+    } else {
+      link_messageBoxShow("Enter a integer.", false);
+    }
+  }
+
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const nft_id: string | null = urlParams.get("nft_id");
+
+    if (nft_id) {
+      nft_ref.current.value = nft_id;
+      handleClick();
+    }
+  }, []);
 
   return (
     <div className={style.admin_mini_block} style={{ maxWidth: "750px" }}>
@@ -31,25 +60,7 @@ export default function AdminNFTBlockComponent() {
       <div
         className={`${style.colored_button} ${style.grey_button}`}
         onClick={async () => {
-          if (Number.isInteger(parseInt(nft_ref.current.value, 10))) {
-            const nft = await nft_Query({
-              variables: {
-                id: Number.parseInt(nft_ref.current.value),
-              },
-            });
-
-            console.log(nft.data?.nft);
-            if (nft.data?.nft) {
-              openPopup(<NFTEditPopupComponent data={nft.data?.nft} />);
-            } else {
-              link_messageBoxShow(
-                "NFT with that id has not been found.",
-                false
-              );
-            }
-          } else {
-            link_messageBoxShow("Enter a integer.", false);
-          }
+          handleClick();
         }}
       >
         Search NFT
