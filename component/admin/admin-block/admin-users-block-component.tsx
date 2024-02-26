@@ -9,6 +9,7 @@ import ItemBlockComponent from "../../item-block-component/item-block-component"
 import PageBlockComponent from "../../pageblock-component";
 import { ADMIN_INVENTORY_CUSTOM_QUERY } from "../../../scripts/graphql/inventory-query/admin-inventory-custom-query copy";
 import { UserBan } from "../../../scripts/router/user/scripts/userBanHandler";
+import InventoryBlockComponent from "../../inventory-component/inventory-block-component";
 
 export default function AdminUsersBlockComponent() {
   const usernameRef: any = useRef();
@@ -17,29 +18,31 @@ export default function AdminUsersBlockComponent() {
     ADMIN_INVENTORY_CUSTOM_QUERY
   );
 
+  const [currentUsername, setCurrentUsername]: any = useState("");
   const [queryParameters, setQueryParameters]: any = useState(null);
   const [userBanned, setUserBanned] = useState(false);
 
   async function handleClick() {
-    const query_parameters = {
-      not_user: true,
-      username: usernameRef.current.value,
-    };
-    setQueryParameters(query_parameters);
+    setCurrentUsername(usernameRef.current.value);
+    // const query_parameters = {
+    //   not_user: true,
+    //   username: usernameRef.current.value,
+    // };
+    // setQueryParameters(query_parameters);
 
-    const inventory = await inventoryCustomQuery({
-      variables: {
-        page: 1,
-        ...query_parameters,
-      },
-    });
+    // const inventory = await inventoryCustomQuery({
+    //   variables: {
+    //     page: 1,
+    //     ...query_parameters,
+    //   },
+    // });
 
-    if (inventory?.data?.owned_nfts?.inventory_nfts.length > 0) {
-      setUserBanned(inventory?.data?.user?.banned);
-    } else {
-      link_messageBoxShow("User not found.", false);
-    }
-    // console.log(inventory);
+    // if (inventory?.data?.owned_nfts?.inventory_nfts.length > 0) {
+    //   setUserBanned(inventory?.data?.user?.banned);
+    // } else {
+    //   link_messageBoxShow("User not found.", false);
+    // }
+    // // console.log(inventory);
   }
 
   async function userEnforcementClickHandler() {
@@ -119,7 +122,8 @@ export default function AdminUsersBlockComponent() {
           </div>
         </div>
       </div>
-      <div className={style.admin_mini_block_items}>
+      <InventoryBlockComponent filters_only={true} username={currentUsername} />
+      {/* <div className={style.admin_mini_block_items}>
         {data?.owned_nfts?.inventory_nfts.map((value: any) => {
           return (
             <div
@@ -152,7 +156,7 @@ export default function AdminUsersBlockComponent() {
       <PageBlockComponent
         query={inventoryCustomQuery}
         variables={queryParameters}
-      />
+      /> */}
     </div>
   );
 }

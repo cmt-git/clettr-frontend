@@ -62,6 +62,7 @@ const InventoryBlockComponent = (props: any) => {
   const queryVariables = {
     nft_type: nftType,
     nft_star: nftStar,
+    username: props.username,
     nft_requirements: nftRequirements,
     nft_requirement_1: nftRequirement1,
     nft_requirement_2: nftRequirement2,
@@ -84,7 +85,9 @@ const InventoryBlockComponent = (props: any) => {
       variables: {
         page: 1,
         not_user:
-          props.market_inventory === true || props.global === true
+          props.market_inventory === true ||
+          props.global === true ||
+          props.username
             ? true
             : props.not_user === true,
         filters: addItemFilterState,
@@ -94,11 +97,14 @@ const InventoryBlockComponent = (props: any) => {
   }
 
   useEffect(() => {
+    console.log(props.username, " - username12");
     inventoryCustomQuery({
       variables: {
         page: 1,
         not_user:
-          props.market_inventory === true || props.global === true
+          props.market_inventory === true ||
+          props.global === true ||
+          props.username
             ? true
             : props.not_user === true,
         filters: addItemFilterState,
@@ -123,7 +129,7 @@ const InventoryBlockComponent = (props: any) => {
     //     },
     //   });
     // }
-  }, []);
+  }, [props.username]);
 
   useEffect(() => {
     setInventoryCustomQueryData(data);
