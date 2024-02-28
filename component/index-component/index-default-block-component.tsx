@@ -91,7 +91,8 @@ const IndexDefaultBlockComponent = () => {
           </div>
           <div className={style.grey_info_block}>
             <p className={style.transparent_text}>Market Cap</p>
-            <p>4,557,044.09 &nbsp;USD</p>
+            <p>---</p>
+            {/* <p>4,557,044.09 &nbsp;USD</p> */}
           </div>
         </div>
         <div
