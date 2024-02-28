@@ -183,6 +183,11 @@ const NavbarComponent = () => {
               <>
                 <p
                   className={style.p_hover}
+                  style={
+                    router.asPath.toString().split("/admin")[1] == ""
+                      ? { color: "rgba(255, 255, 255, 1)", cursor: "default" }
+                      : {}
+                  }
                   onClick={() => {
                     window.location.href = "/admin";
                   }}
@@ -191,11 +196,16 @@ const NavbarComponent = () => {
                 </p>
                 <p
                   className={style.p_hover}
+                  style={
+                    router.asPath.toString().split("/globalinventory")[1] == ""
+                      ? { color: "rgba(255, 255, 255, 1)", cursor: "default" }
+                      : {}
+                  }
                   onClick={() => {
                     window.location.href = "/globalinventory";
                   }}
                 >
-                  Globalinventory
+                  GlobalInventory
                 </p>
               </>
             ) : null}
@@ -300,6 +310,11 @@ const NavbarComponent = () => {
               <>
                 <p
                   className={style.p_hover}
+                  style={
+                    router.asPath.toString().split("/admin")[1] == ""
+                      ? { color: "rgba(255, 255, 255, 1)", cursor: "default" }
+                      : {}
+                  }
                   onClick={() => {
                     window.location.href = "/admin";
                   }}
@@ -308,6 +323,11 @@ const NavbarComponent = () => {
                 </p>
                 <p
                   className={style.p_hover}
+                  style={
+                    router.asPath.toString().split("/globalinventory")[1] == ""
+                      ? { color: "rgba(255, 255, 255, 1)", cursor: "default" }
+                      : {}
+                  }
                   onClick={() => {
                     window.location.href = "/globalinventory";
                   }}

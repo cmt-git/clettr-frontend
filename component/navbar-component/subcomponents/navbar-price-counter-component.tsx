@@ -9,12 +9,14 @@ import SwitchCurrencyPopupComponent from "../popups/switch-currency-popup-compon
 import io from "socket.io-client";
 import { axiosInstance } from "../../../scripts/router/axios-instance";
 import settings from "../../../settings.json";
+import { RootState } from "../../../scripts/redux/rootReducer";
 
-export const phpPrice = 49.56;
+export const phpPrice = 55.96;
 const NavbarPriceCounterComponent = (props: any) => {
   const dispatch = useDispatch();
 
   const [pastPrice, setPastPrice]: any = useState("0-up-0");
+
   useEffect(() => {
     dispatch({
       type: "edit/currentCurrencyReducer/SET",
@@ -49,7 +51,14 @@ const NavbarPriceCounterComponent = (props: any) => {
       const oldPrice = Number(pastPrice.split("-")[0]);
       const currentPrice = Number(_amount);
 
-      dispatch({ type: "edit/tickerPriceReducer/SET", value: currentPrice });
+      dispatch({
+        type: "edit/tickerPriceReducer/SET",
+        value:
+          currentPrice *
+          (store.getState().currentCurrencyState.value.toLowerCase() == "php"
+            ? phpPrice
+            : 1),
+      });
       setPastPrice(
         `${currentPrice}-${oldPrice > currentPrice ? "down" : "up"}-${
           currentIndex + 1 == DummyLiveData().length ? 0 : currentIndex + 1
